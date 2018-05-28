@@ -45,11 +45,11 @@
                                 </a>
                                 <ul class="dropdown-menu pull-right">
                                     <li>
-                                        <a href="javascript:void(0);" class="waves-effect waves-block" (click)="editUser(user)">
+                                        <a href="javascript:void(0);" class="waves-effect waves-block" (click)="editUser(plan)">
                                             <i class="material-icons">create</i>{{l('Edit')}}</a>
                                     </li>
                                     <li>
-                                        <a href="javascript:void(0);" class="waves-effect waves-block" (click)="delete(user)">
+                                        <a href="javascript:void(0);" class="waves-effect waves-block" (click)="delete(plan)">
                                             <i class="material-icons">delete_sweep</i>{{l('Delete')}}</a>
                                     </li>
                                 </ul>
@@ -75,5 +75,5 @@
     </div>
 </div>
 
-<create-plan-modal #createPlanModal (modalSave)="refresh()"></create-plan-modal>
+<app-plan-modal #createPlanModal (modalSave)="refresh()"></app-plan-modal>
 <app-edit-plan #editPlanModal (modalSave)="refresh()"></app-edit-plan>

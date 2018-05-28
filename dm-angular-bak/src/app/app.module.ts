@@ -34,10 +34,8 @@ import { SideBarFooterComponent } from '@app/layout/sidebar-footer.component';
 import { RightSideBarComponent } from '@app/layout/right-sidebar.component';
 import { MaterialInput } from '@shared/directives/material-input.directive';
 import { PlansComponent } from './plans/plans.component';
-import { PlanprojectsComponent } from './planprojects/planprojects.component';
-import { SubplanprojectsComponent } from './subplanprojects/subplanprojects.component';
 import { CreatePlanComponent } from './plans/create-plan/create-plan.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { EditPlanComponent } from './plans/edit-plan/edit-plan.component';
 
 @NgModule({
     declarations: [
@@ -60,9 +58,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
         SideBarFooterComponent,
         RightSideBarComponent,
         PlansComponent,
-        PlanprojectsComponent,
-        SubplanprojectsComponent,
-        CreatePlanComponent
+        CreatePlanComponent,
+        EditPlanComponent
     
     ],
     imports: [
@@ -75,8 +72,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
         AppRoutingModule,
         ServiceProxyModule,
         SharedModule,
-        NgxPaginationModule,
-        BrowserAnimationsModule
+        NgxPaginationModule
     ],
     providers: [
 
