@@ -1,0 +1,18 @@
+<div bsModal #editUserModal="bs-modal" class="modal fade" (onShown)="onShown()" tabindex="-1" role="dialog" aria-labelledby="editUserModal"
+  aria-hidden="true" [config]="{backdrop: 'static'}">
+  <div class="modal-dialog">
+
+    <div #modalContent class="modal-content">
+      <form action="">
+        <h2>基本信息</h2>
+        <div class="form-group row">
+          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <label for="planName" class="col-sm-2 col-form-label">名称</label>
+            <input type="text" id="planName" name="PlanName" [(ngModel)="plan.planName" required class="validate form-control-plaintext col-sm-10"
+            />
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

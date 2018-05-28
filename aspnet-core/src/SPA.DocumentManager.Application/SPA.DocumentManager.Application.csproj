@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <VersionPrefix>1.0.0.0</VersionPrefix>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <AssetTargetFallback>$(AssetTargetFallback);portable-net45+win8+wp8+wpa81;</AssetTargetFallback>
+    <AssemblyName>SPA.DocumentManager.Application</AssemblyName>
+    <PackageId>SPA.DocumentManager.Application</PackageId>
+    <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
+    <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
+    <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+    <RootNamespace>SPA.DocumentManager</RootNamespace>
+  </PropertyGroup>
+  <PropertyGroup>
+    <DefineConstants>FEATURE_SIGNALR_ASPNETCORE</DefineConstants>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SPA.DocumentManager.Core\SPA.DocumentManager.Core.csproj" />
+  </ItemGroup>
+</Project>
