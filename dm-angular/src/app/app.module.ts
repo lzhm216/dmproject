@@ -36,6 +36,7 @@ import { MaterialInput } from '@shared/directives/material-input.directive';
 import { PlansComponent } from './plans/plans.component';
 import { CreatePlanComponent } from './plans/create-plan/create-plan.component';
 import { EditPlanComponent } from './plans/edit-plan/edit-plan.component';
+import { PlanprojectsComponent } from './planprojects/planprojects.component';
 
 @NgModule({
     declarations: [
@@ -59,7 +60,8 @@ import { EditPlanComponent } from './plans/edit-plan/edit-plan.component';
         RightSideBarComponent,
         PlansComponent,
         CreatePlanComponent,
-        EditPlanComponent
+        EditPlanComponent,
+        PlanprojectsComponent
     
     ],
     imports: [

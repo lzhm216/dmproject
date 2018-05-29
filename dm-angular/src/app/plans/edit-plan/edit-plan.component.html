@@ -16,7 +16,7 @@
             <div class="col-sm-12">
               <div class="form-group form-float">
                 <div class="form-line">
-                  <label for="planName" class="form-label">{{l("planName")}}</label>
+                  <label for="planName" class="form-label">{{l("PlanName")}}</label>
                   <input type="text" id="planName" name="PlanName" [(ngModel)]="plan.planName" required class="validate form-control"/>
                 </div>
               </div>
@@ -26,8 +26,68 @@
             <div class="col-sm-12">
               <div class="form-group form-float">
                 <div class="form-line">
-                  <label for="planYear" class="form-label">{{l("planYear")}}</label>
+                  <label for="planYear" class="form-label">{{l("PlanYear")}}</label>
                   <input type="text" id="planYear" name="PlanYear" [(ngModel)]="plan.planYear" required class="validate form-control">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row clearfix" style="margin-top:10px;">
+            <div class="col-sm-12">
+              <div class="form-group form-float">
+                <div class="form-line">
+                  <label for="fileNo" class="form-label">{{l("FileNo")}}</label>
+                  <input type="text" id="fileNo" name="FileNo" [(ngModel)]="plan.fileNo" required class="validate form-control">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row clearfix" style="margin-top:10px;">
+            <div class="col-sm-12">
+              <div class="form-group form-float">
+                <div class="form-line">
+                  <label for="publishDate" class="form-label">{{l("PublishDate")}}</label>
+                  <input type="text" id="publishDate" name="PublishDate" [(ngModel)]="plan.publishDate" required class="validate form-control">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row clearfix" style="margin-top:10px;">
+            <div class="col-sm-12">
+              <div class="form-group form-float">
+                <div class="form-line">
+                  <label for="compilationBasis" class="form-label">{{l("CompilationBasis")}}</label>
+                  <input type="text" id="compilationBasis" name="CompilationBasis" [(ngModel)]="plan.compilationBasis" class="validate form-control">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row clearfix" style="margin-top:10px;">
+            <div class="col-sm-12">
+              <div class="form-group form-float">
+                <div class="form-line">
+                  <label for="mainContent" class="form-label">{{l("MainContent")}}</label>
+                  <input type="text" id="mainContent" name="MainContent" [(ngModel)]="plan.mainContent" class="validate form-control">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row clearfix" style="margin-top:10px;">
+            <div class="col-sm-12">
+              <div class="form-group form-float">
+                <div class="form-line">
+                  <label for="fundBudget" class="form-label">{{l("FundBudget")}}</label>
+                  <input type="text" id="fundBudget" name="FundBudget" [(ngModel)]="plan.fundBudget" required class="validate form-control">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row clearfix" style="margin-top:10px;">
+            <div class="col-sm-12">
+              <div class="form-group form-float">
+                <div class="form-line">
+                  <label for="financialSource" class="form-label">{{l("FinancialSource")}}</label>
+                  <input type="text" id="financialSource" name="FinancialSource" [(ngModel)]="plan.financialSource" class="validate form-control">
                 </div>
               </div>
             </div>
@@ -37,7 +97,7 @@
             <button [disabled]="saving" type="button" class="btn btn-default waves-effect" (click)="close()">
               {{l("Cancel")}}
             </button>
-            <button [disabled]="!createPlanForm.form.valid || saving" type="submit" class="btn btn-primary waves-effect">
+            <button [disabled]="!editPlanForm.form.valid || saving" type="submit" class="btn btn-primary waves-effect">
               {{l("Save")}}
             </button>
           </div>

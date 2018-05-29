@@ -68,7 +68,7 @@
 
     <text name="RegisterFormUserNameInvalidMessage">请不要在用户名中输入邮箱地址.</text>
 
-
+    //菜单
     <text name="Users" value="用户" />
     <text name="Roles" value="角色" />
     <text name="Plans" value="规划与计划" />
@@ -77,17 +77,23 @@
 
     <text name="TaskBook" value="任务书管理" />
 
+    //测绘规划与计划
+    <text name="CreateNewPlan" value="创建测绘规划与计划" />
+    <text name="EditNewPlan" value="编辑测绘规划与计划" />
+    <text name="PlanDetails" value="测绘规划与计划详情" />
+
     <text name="PlanName" value="规划名称" />
     <text name="PlanYear" value="所属年限" />
     <text name="FileNo" value="文件编号" />
     <text name="PublishDate" value="发布时间" />
     <text name="FundBudget" value="预算经费" />
-    <text name="CreateNewPlan" value="创建测绘规划与计划" />
-    <text name="PlanDetails" value="测绘规划与计划详情" />
     <text name="CompilationBasis" value="编制依据" />
     <text name="MainContent" value="主要内容" />
     <text name="FinancialSource" value="预算来源" />
     
+    //分页
+    <text name="Next" value="下一页" />
+
 
   </texts>
 </localizationDictionary>

@@ -1,7 +1,9 @@
-import { Component, OnInit, Injector, ViewChild, ElementRef } from '@angular/core';
-import { PlanEditDto, PlanServiceProxy } from '@shared/service-proxies/service-proxies';
+import { Component, OnInit, Injector, ViewChild, ElementRef, Output, EventEmitter } from '@angular/core';
+import { PlanEditDto, PlanServiceProxy, CreateOrUpdatePlanInput } from '@shared/service-proxies/service-proxies';
 import { AppComponentBase } from '@shared/app-component-base';
 import { ModalDirective } from 'ngx-bootstrap';
+
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-edit-plan',
@@ -12,9 +14,12 @@ export class EditPlanComponent extends AppComponentBase implements OnInit {
   @ViewChild('editPlanModal') modal: ModalDirective;
   @ViewChild('modalContent') modalContent: ElementRef;
   
+  @Output() modalSave: EventEmitter<any> = new EventEmitter<any>();
+  
   plan: PlanEditDto = new PlanEditDto();
-  active:boolean = false;
-
+  plan_edit: CreateOrUpdatePlanInput = new CreateOrUpdatePlanInput();
+  active: boolean = false;
+  saving: boolean = false;
   constructor(
     injector: Injector,
     private _planService: PlanServiceProxy
@@ -27,7 +32,7 @@ export class EditPlanComponent extends AppComponentBase implements OnInit {
   }
 
   onShown(): void {
-    $.AdminBSB.input.active($(this.modalContent.nativeElement));
+    $.AdminBSB.input.activate($(this.modalContent.nativeElement));
   }
 
   show(id: number): void {
@@ -46,6 +51,15 @@ export class EditPlanComponent extends AppComponentBase implements OnInit {
   }
   
   save(): void {
-
+    this.saving = true;
+    this.plan.publishDate = moment(this.plan.publishDate.toString());
+    this.plan_edit.plan = this.plan;
+    this._planService.createOrUpdatePlan(this.plan_edit).finally(()=>{
+      this.saving = false;
+    }).subscribe(()=>{
+      this.notify.info(this.l('SavedSuccessfully'));
+      this.close();
+      this.modalSave.emit(null);
+    })
   }
 }

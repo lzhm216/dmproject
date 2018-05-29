@@ -91,7 +91,7 @@
                     <button [disabled]="saving" type="button" class="btn btn-default waves-effect" (click)="close()">
                         {{l("Cancel")}}
                     </button>
-                    <button [disabled]="!editUserForm.form.valid" type="submit" class="btn btn-primary waves-effect">
+                    <button [disabled]="!editUserForm.form.valid || saving" type="submit" class="btn btn-primary waves-effect">
                         {{l("Save")}}
                     </button>
                 </div>
