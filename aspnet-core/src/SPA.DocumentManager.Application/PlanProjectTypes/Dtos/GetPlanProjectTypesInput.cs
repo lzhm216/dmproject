@@ -1,9 +1,10 @@
 ﻿using Abp.Runtime.Validation;
 using SPA.DocumentManager.Dto;
+using SPA.DocumentManager.PlanProjectTypes;
 
-namespace SPA.DocumentManager.SubPlanProjects.Dtos
+namespace SPA.DocumentManager.PlanProjectTypes.Dtos
 {
-    public class GetSubPlanProjectsInput : PagedAndSortedInputDto, IShouldNormalize
+    public class GetPlanProjectTypesInput : PagedAndSortedInputDto, IShouldNormalize
     {
         ////BCC/ BEGIN CUSTOM CODE SECTION
         ////ECC/ END CUSTOM CODE SECTION

@@ -12,6 +12,7 @@ using Microsoft.EntityFrameworkCore;
 using SPA.DocumentManager.PlanProjects.Authorization;
 using SPA.DocumentManager.PlanProjects.Dtos;
 using SPA.DocumentManager.PlanProjects.DomainServices;
+using SPA.DocumentManager.PlanProjects;
 
 namespace SPA.DocumentManager.PlanProjects
 {

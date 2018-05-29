@@ -1,4 +1,4 @@
-﻿
+﻿using SPA.DocumentManager.PlanProjectTypes;
 
 /**
  
@@ -46,7 +46,7 @@
 
 ```
   
-  Configuration.Modules.AbpAutoMapper().Configurators.Add(CustomerSubPlanProjectMapper.CreateMappings);
+  Configuration.Modules.AbpAutoMapper().Configurators.Add(CustomerPlanProjectTypeMapper.CreateMappings);
 ```
 
 **配置权限功能**  : 
@@ -55,7 +55,7 @@
 中的 PreInitialize 方法中:
 
 ```
-Configuration.Authorization.Providers.Add<SubPlanProjectAppAuthorizationProvider>();
+Configuration.Authorization.Providers.Add<PlanProjectTypeAppAuthorizationProvider>();
 ```
 
  **路线图**

@@ -4,10 +4,9 @@ using SPA.DocumentManager.Plans.Dtos.LTMAutoMapper;
 
 namespace SPA.DocumentManager.Plans.Dtos
 {
-    public class PlanListDto : FullAuditedEntityDto<int>
+    public class PlanListDto
     {
-        ////BCC/ BEGIN CUSTOM CODE SECTION
-        ////ECC/ END CUSTOM CODE SECTION
+        public int Id { get; set; }
         public string PlanName { get; set; }
         public string PlanYear { get; set; }
         public string FileNo { get; set; }

@@ -1,5 +1,5 @@
 import { Component, OnInit, Injector, ViewChild } from '@angular/core';
-import { PagedResultDtoOfPlanListDto, PlanListDto, PlanServiceProxy } from '@shared/service-proxies/service-proxies';
+import { PagedResultDtoOfPlanListDto, PlanListDto, PlanServiceProxy, PlanEditDto } from '@shared/service-proxies/service-proxies';
 import { PagedListingComponentBase, PagedRequestDto } from '@shared/paged-listing-component-base';
 import { appModuleAnimation } from '@shared/animations/routerTransition';
 import { CreatePlanComponent } from '@app/plans/create-plan/create-plan.component';
@@ -53,7 +53,7 @@ export class PlansComponent extends PagedListingComponentBase<PlanListDto> {
     this.createPlanModal.show();
   }
 
-  editPlan(): void {
-    this.editPlanModal.show();
+  editPlan(plan: PlanEditDto): void {
+    this.editPlanModal.show(plan.id);
   }
 }

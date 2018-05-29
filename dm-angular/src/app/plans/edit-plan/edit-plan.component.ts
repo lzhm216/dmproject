@@ -17,7 +17,7 @@ export class EditPlanComponent extends AppComponentBase implements OnInit {
 
   constructor(
     injector: Injector,
-    _planService: PlanServiceProxy
+    private _planService: PlanServiceProxy
 
   ) {
     super(injector);
@@ -30,9 +30,14 @@ export class EditPlanComponent extends AppComponentBase implements OnInit {
     $.AdminBSB.input.active($(this.modalContent.nativeElement));
   }
 
-  show(): void {
-    this.active = true;
-    this.modal.show();
+  show(id: number): void {
+    this._planService.getPlanByIdAsync(id).finally(()=>{
+
+    }).subscribe((result)=>{
+      this.plan = result;
+      this.active = true;
+      this.modal.show();
+    })
   }
 
   close(): void{

@@ -2,7 +2,8 @@ import { Component, OnInit, Injector, ViewChild, ElementRef, Output, EventEmitte
 import { ModalDirective } from 'ngx-bootstrap';
 import { PlanServiceProxy, PlanEditDto, CreateOrUpdatePlanInput } from '@shared/service-proxies/service-proxies';
 import { AppComponentBase } from '@shared/app-component-base';
-import { moment } from 'ngx-bootstrap/chronos/test/chain';
+
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-plan-modal',
@@ -47,6 +48,7 @@ export class CreatePlanComponent extends AppComponentBase implements OnInit {
 
   save(): void{
     this.saving = true;
+    this.plan.publishDate = moment(this.plan.publishDate.toString());
     this.plan_create.plan = this.plan;
     this._planService.createOrUpdatePlan(this.plan_create).finally(()=>{
       this.saving = false;

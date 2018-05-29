@@ -7,9 +7,9 @@ using SPA.DocumentManager.MultiTenancy;
 using SPA.DocumentManager.PlanProjects;
 using SPA.DocumentManager.Plans;
 using SPA.DocumentManager.SpecialPlans;
-using SPA.DocumentManager.SubPlanProjects;
 using SPA.DocumentManager.SubSpecialPlans;
 using SPA.DocumentManager.TaskBooks;
+using SPA.DocumentManager.PlanProjectTypes;
 
 namespace SPA.DocumentManager.EntityFrameworkCore
 {
@@ -19,7 +19,7 @@ namespace SPA.DocumentManager.EntityFrameworkCore
         public DbSet<Plan> Plans { get; set; }
         public DbSet<PlanProject> PlanProjects { get; set; }
         public DbSet<SpecialPlan> SpecialPlans { get; set; }
-        public DbSet<SubPlanProject> SubPlanProjects { get; set; }
+        public DbSet<PlanProjectType> PlanProjectTypes { get; set; }
         public DbSet<SubSpecialPlan> SubSpecialPlans { get; set; }
         public DbSet<TaskBook> TaskBooks { get; set; }
 
@@ -33,7 +33,7 @@ namespace SPA.DocumentManager.EntityFrameworkCore
         {
             modelBuilder.Entity<Plan>().ToTable("Plan");
             modelBuilder.Entity<PlanProject>().ToTable("PlanProject");
-            modelBuilder.Entity<SubPlanProject>().ToTable("SubPlanProject");
+            modelBuilder.Entity<PlanProjectType>().ToTable("PlanProjectType");
             modelBuilder.Entity<SpecialPlan>().ToTable("SpecialPlan");
             modelBuilder.Entity<SubSpecialPlan>().ToTable("SubSpecialPlan");
             modelBuilder.Entity<TaskBook>().ToTable("TaskBook");

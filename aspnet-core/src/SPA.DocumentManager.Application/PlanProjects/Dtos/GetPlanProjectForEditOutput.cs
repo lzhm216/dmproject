@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Abp.Application.Services.Dto;
+using SPA.DocumentManager.PlanProjects;
 
 namespace SPA.DocumentManager.PlanProjects.Dtos
 {

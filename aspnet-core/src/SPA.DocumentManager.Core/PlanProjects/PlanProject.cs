@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using Abp.Domain.Entities.Auditing;
+using SPA.DocumentManager.PlanProjectTypes;
 using SPA.DocumentManager.Plans;
-using SPA.DocumentManager.SubPlanProjects;
 
 namespace SPA.DocumentManager.PlanProjects
 {
@@ -16,7 +16,26 @@ namespace SPA.DocumentManager.PlanProjects
         /// </summary>
         [Required]
         [MaxLength(DocumentManagerConsts.MaxProjectNameLength)]
-        public string ProjectName { get; set; }
+        public PlanProjectType ProjectName { get; set; }
+
+        /// <summary>
+        /// 综合工序及成果成图
+        /// </summary>
+        [Required]
+        [MaxLength(DocumentManagerConsts.MaxSubProjectNameLength)]
+        public string SubProjectName { get; set; }
+
+        /// <summary>
+        /// 计量单位
+        /// </summary>
+        [Required]
+        public UnitType Unit { get; set; }
+
+        /// <summary>
+        /// 计划工作量
+        /// </summary>
+        [Required]
+        public double PlannedWorkLoad { get; set; }
 
         /// <summary>
         /// 计划总成本
@@ -24,7 +43,11 @@ namespace SPA.DocumentManager.PlanProjects
         [Required]
         public double PlannedCost { get; set; }
 
-        public ICollection<SubPlanProject> SubPlanProjects { get; set; }
+        /// <summary>
+        /// 备注
+        /// </summary>
+        [MaxLength(DocumentManagerConsts.MaxProjectDescriptionLength)]
+        public string Description { get; set; }
 
         public int PlanId { get; set; }
 

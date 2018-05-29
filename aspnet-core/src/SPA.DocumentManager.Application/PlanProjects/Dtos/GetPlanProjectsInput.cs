@@ -1,5 +1,6 @@
 ﻿using Abp.Runtime.Validation;
 using SPA.DocumentManager.Dto;
+using SPA.DocumentManager.PlanProjects;
 
 namespace SPA.DocumentManager.PlanProjects.Dtos
 {

@@ -4251,7 +4251,7 @@ export class PlanListDto implements IPlanListDto {
             this.planName = data["planName"];
             this.planYear = data["planYear"];
             this.fileNo = data["fileNo"];
-            this.publishDate = data["publishDate"] ? moment(data["publishDate"].toString()) : <any>undefined;
+            this.publishDate = data["publishDate"] ? moment(data["publishDate"].toString()).format("YYYY-MM-DD") : <any>undefined;
             this.compilationBasis = data["compilationBasis"];
             this.mainContent = data["mainContent"];
             this.fundBudget = data["fundBudget"];
