@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Abp.Application.Services;
 
-namespace SPACore.PhoneBook.Enums
+namespace SPA.DocumentManager.Enums
 {
     /// <summary>
     /// 枚举信息的服务层

@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using SPA.DocumentManager.Enums.Extensions;
 using SPA.DocumentManager.Plans;
-using SPACore.PhoneBook.Enums;
-using SPACore.PhoneBook.Enums.Extensions;
 
 namespace SPA.DocumentManager.Enums
 {/// <summary>

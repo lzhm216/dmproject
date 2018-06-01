@@ -1,4 +1,4 @@
-﻿namespace SPACore.PhoneBook.Enums
+﻿namespace SPA.DocumentManager.Enums
 {
     public class EnumberCreditType
     { /// <summary>  

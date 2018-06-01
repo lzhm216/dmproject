@@ -16,5 +16,6 @@ namespace SPA.DocumentManager.PlanProjects.Dtos
         public int PlanId { get; set; }
         public string PlanName { get; set; }
         public UnitType Unit { get; set; }
+        public string UnitTypeDescription => Unit.ToDescription();
     }
 }

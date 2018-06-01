@@ -4,7 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 
-namespace SPACore.PhoneBook.Enums.Extensions
+namespace SPA.DocumentManager.Enums.Extensions
 {
     /// <summary>
     ///     类型<see cref="Type" />辅助扩展方法类
