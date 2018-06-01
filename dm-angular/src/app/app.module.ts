@@ -37,6 +37,11 @@ import { PlansComponent } from './plans/plans.component';
 import { CreatePlanComponent } from './plans/create-plan/create-plan.component';
 import { EditPlanComponent } from './plans/edit-plan/edit-plan.component';
 import { PlanprojectsComponent } from './planprojects/planprojects.component';
+import { CreatePlanprojectComponent } from './planprojects/create-planproject/create-planproject.component';
+import { EditPlanprojectComponent } from './planprojects/edit-planproject/edit-planproject.component';
+import { ProjecttypesComponent } from './projecttypes/projecttypes.component';
+import { CreateProjecttypeComponent } from './projecttypes/create-projecttype/create-projecttype.component';
+import { EditProjecttypeComponent } from './projecttypes/edit-projecttype/edit-projecttype.component';
 
 @NgModule({
     declarations: [
@@ -61,7 +66,12 @@ import { PlanprojectsComponent } from './planprojects/planprojects.component';
         PlansComponent,
         CreatePlanComponent,
         EditPlanComponent,
-        PlanprojectsComponent
+        PlanprojectsComponent,
+        CreatePlanprojectComponent,
+        EditPlanprojectComponent,
+        ProjecttypesComponent,
+        CreateProjecttypeComponent,
+        EditProjecttypeComponent
     
     ],
     imports: [

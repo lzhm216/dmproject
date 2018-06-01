@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using Abp.Domain.Entities.Auditing;
-using SPA.DocumentManager.PlanProjectTypes;
 using SPA.DocumentManager.Plans;
 
 namespace SPA.DocumentManager.PlanProjects
@@ -50,6 +49,7 @@ namespace SPA.DocumentManager.PlanProjects
         /// </summary>
         [MaxLength(DocumentManagerConsts.MaxProjectDescriptionLength)]
         public string Description { get; set; }
+
 
         public int PlanId { get; set; }
 

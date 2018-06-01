@@ -12,7 +12,12 @@ namespace SPA.DocumentManager.PlanProjects.Dtos.LTMAutoMapper
         public static void CreateMappings(IMapperConfigurationExpression configuration)
         {
             //    configuration.CreateMap <PlanProject, PlanProjectDto>();
-            configuration.CreateMap<PlanProject, PlanProjectListDto>();
+            configuration.CreateMap<PlanProject, PlanProjectListDto>()
+                .ForMember(dest => dest.ProjectTypeName,
+                    opt => opt.MapFrom(src => src.PlanProjectType.PlanProjectTypeName))
+                .ForMember(dest => dest.PlanName, 
+                    opt => opt.MapFrom(src => src.Plan.PlanName));
+
             configuration.CreateMap<PlanProjectEditDto, PlanProject>();
             // configuration.CreateMap<CreatePlanProjectInput, PlanProject>();
             //        configuration.CreateMap<PlanProject, GetPlanProjectForEditOutput>();

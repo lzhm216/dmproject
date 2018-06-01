@@ -3,7 +3,7 @@
         <div class="card main-content">
             <div class="header">
                 <h2>
-                    {{l('PlanProjects')}}
+                    {{l('PlanProjectTypes')}}
                 </h2>
                 <ul class="header-dropdown m-r--5">
                     <i class="fa fa-spin fa-spinner" *ngIf="isTableLoading"></i>
@@ -24,36 +24,23 @@
                 <table class="table table-hover table-striped">
                     <thead>
                         <tr>
-                            <th>{{l('PlanName')}}</th>
-                            <th>{{l('PlanProjectType')}}</th>
-                            <th>{{l('SubProjectName')}}</th>
-                            <th>{{l('PlannedWorkLoad')}}</th>
-                            <th>{{l('PlannedCost')}}</th>
-                            <th>{{l('Description')}}</th>
-                            <th>{{l('Unit')}}</th>
-                            <th>{{l('Actions')}}</th>
+                            <th>{{l('PlanProjectTypeName')}}</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let planProject of planProjects | paginate: { id: 'server', itemsPerPage: pageSize, currentPage: pageNumber, totalItems: totalItems }">
-                            <td>{{planProject.planName}}</td>
-                            <td>{{planProject.projectTypeName}}</td>
-                            <td>{{planProject.subProjectName}}</td>
-                            <td>{{planProject.plannedWorkLoad}}</td>
-                            <td>{{planProject.plannedCost}} 万元</td>
-                            <td>{{planProject.description}}</td>
-                            <td>{{planProject.unitTypeDescription}} </td>
+                        <tr *ngFor="let projectType of projectTypes | paginate: { id: 'server', itemsPerPage: pageSize, currentPage: pageNumber, totalItems: totalItems }">
+                            <td>{{projectType.planProjectTypeName}}</td>
                             <td class="dropdown">
                                 <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                                     <i class="material-icons">menu</i>
                                 </a>
                                 <ul class="dropdown-menu pull-right">
                                     <li>
-                                        <a href="javascript:void(0);" class="waves-effect waves-block" (click)="editPlan(planProject)">
+                                        <a href="javascript:void(0);" class="waves-effect waves-block" (click)="editProjectType(projectTypes)">
                                             <i class="material-icons">create</i>{{l('Edit')}}</a>
                                     </li>
                                     <li>
-                                        <a href="javascript:void(0);" class="waves-effect waves-block" (click)="delete(planProject)">
+                                        <a href="javascript:void(0);" class="waves-effect waves-block" (click)="delete(projectTypes)">
                                             <i class="material-icons">delete_sweep</i>{{l('Delete')}}</a>
                                     </li>
                                 </ul>
@@ -66,7 +53,7 @@
                     <pagination-controls (pageChange)="getDataPage($event)" id="server"></pagination-controls>
                 </div>
                 <button type="button" data-toggle="modal" class="btn btn-primary btn-circle waves-effect waves-circle waves-float pull-right"
-                    (click)="createPlanProject()">
+                    (click)="createProjectType()">
                     <i class="material-icons">add</i>
                 </button>
             </div>
@@ -74,5 +61,6 @@
 
     </div>
 </div>
-<app-create-planproject  #createPlanProjectModal (modalSave)="refresh()"></app-create-planproject>
-<app-edit-planproject  #editPlanProjectModal (modalSave)="refresh()"></app-edit-planproject>
+
+<app-create-projecttype #createProjectTypeModal (modalSave)="refresh()"></app-create-projecttype>
+<app-create-projecttype #editProjectTypeModal (modalSave)="refresh()"></app-create-projecttype>

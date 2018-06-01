@@ -1,7 +1,9 @@
-import { Component, OnInit, Injector } from '@angular/core';
+import { Component, OnInit, Injector, ViewChild } from '@angular/core';
 import { PlanProjectServiceProxy, PagedResultDtoOfPlanProjectListDto, PlanProjectListDto, EnumServiceProxy } from '@shared/service-proxies/service-proxies';
 import { PagedListingComponentBase, PagedRequestDto } from '@shared/paged-listing-component-base';
 import { appModuleAnimation } from '@shared/animations/routerTransition';
+import { CreatePlanprojectComponent } from '@app/planprojects/create-planproject/create-planproject.component';
+import { EditPlanprojectComponent } from '@app/planprojects/edit-planproject/edit-planproject.component';
 
 @Component({
   selector: 'app-planprojects',
@@ -14,6 +16,9 @@ export class PlanprojectsComponent extends PagedListingComponentBase<PlanProject
   filter: string = "";
   planProjects: PlanProjectListDto[] = [];
   unitType: any = null;
+
+  @ViewChild('createPlanProjectModal') createPlanProjectModal: CreatePlanprojectComponent;
+  @ViewChild('editPlanProjectModal') editPlanProjectModal: EditPlanprojectComponent;
 
   constructor(
     injector: Injector,
@@ -34,11 +39,6 @@ export class PlanprojectsComponent extends PagedListingComponentBase<PlanProject
     this._planProjectService.getPagedPlanProjects(this.filter, 'Id', request.maxResultCount, request.skipCount).finally(() => {
       finishedCallback();
     }).subscribe((result: PagedResultDtoOfPlanProjectListDto) => {
-      result.items.forEach(element => {
-        switch(element.unit) {
-          case 0：element.unit = this.unitType.
-        }
-      });
       this.planProjects = result.items;
       this.showPaging(result, pageNumber);
     })
@@ -46,5 +46,13 @@ export class PlanprojectsComponent extends PagedListingComponentBase<PlanProject
 
   protected delete(entity: PlanProjectListDto): void {
     throw new Error("Method not implemented.");
+  }
+
+  createPlanProject(): void{
+    this.createPlanProjectModal.show();
+  }
+
+  editPlanProject(): void{
+    this.editPlanProjectModal.show();
   }
 }

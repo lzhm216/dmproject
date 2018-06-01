@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using SPA.DocumentManager.PlanProjectTypes;
+using SPA.DocumentManager.PlanProjects;
 
 namespace SPA.DocumentManager.PlanProjectTypes.Dtos
 {

@@ -9,33 +9,31 @@ using Abp.Linq.Extensions;
 
 using System.Linq.Dynamic.Core;
 using Microsoft.EntityFrameworkCore;
-using SPA.DocumentManager.PlanProjectTypes.Authorization;
+
 using SPA.DocumentManager.PlanProjectTypes.Dtos;
-using SPA.DocumentManager.PlanProjectTypes.DomainServices;
-using SPA.DocumentManager.PlanProjectTypes;
+using SPA.DocumentManager.PlanProjects;
 
 namespace SPA.DocumentManager.PlanProjectTypes
 {
     /// <summary>
     /// PlanProjectType应用层服务的接口实现方法
     /// </summary>
-    [AbpAuthorize(PlanProjectTypeAppPermissions.PlanProjectType)]
+
     public class PlanProjectTypeAppService : DocumentManagerAppServiceBase, IPlanProjectTypeAppService
     {
         ////BCC/ BEGIN CUSTOM CODE SECTION
         ////ECC/ END CUSTOM CODE SECTION
         private readonly IRepository<PlanProjectType, int> _planprojecttypeRepository;
-        private readonly IPlanProjectTypeManager _planprojecttypeManager;
 
         /// <summary>
         /// 构造函数
         /// </summary>
         public PlanProjectTypeAppService(IRepository<PlanProjectType, int> planprojecttypeRepository
-      , IPlanProjectTypeManager planprojecttypeManager
-        )
+
+            )
         {
             _planprojecttypeRepository = planprojecttypeRepository;
-            _planprojecttypeManager = planprojecttypeManager;
+
         }
 
         /// <summary>
@@ -134,7 +132,7 @@ namespace SPA.DocumentManager.PlanProjectTypes
         /// <summary>
         /// 新增PlanProjectType
         /// </summary>
-        [AbpAuthorize(PlanProjectTypeAppPermissions.PlanProjectType_CreatePlanProjectType)]
+
         protected virtual async Task<PlanProjectTypeEditDto> CreatePlanProjectTypeAsync(PlanProjectTypeEditDto input)
         {
             //TODO:新增前的逻辑判断，是否允许新增
@@ -147,7 +145,7 @@ namespace SPA.DocumentManager.PlanProjectTypes
         /// <summary>
         /// 编辑PlanProjectType
         /// </summary>
-        [AbpAuthorize(PlanProjectTypeAppPermissions.PlanProjectType_EditPlanProjectType)]
+
         protected virtual async Task UpdatePlanProjectTypeAsync(PlanProjectTypeEditDto input)
         {
             //TODO:更新前的逻辑判断，是否允许更新
@@ -163,7 +161,7 @@ namespace SPA.DocumentManager.PlanProjectTypes
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        [AbpAuthorize(PlanProjectTypeAppPermissions.PlanProjectType_DeletePlanProjectType)]
+
         public async Task DeletePlanProjectType(EntityDto<int> input)
         {
 
@@ -174,7 +172,7 @@ namespace SPA.DocumentManager.PlanProjectTypes
         /// <summary>
         /// 批量删除PlanProjectType的方法
         /// </summary>
-        [AbpAuthorize(PlanProjectTypeAppPermissions.PlanProjectType_BatchDeletePlanProjectTypes)]
+
         public async Task BatchDeletePlanProjectTypesAsync(List<int> input)
         {
             //TODO:批量删除前的逻辑判断，是否允许删除

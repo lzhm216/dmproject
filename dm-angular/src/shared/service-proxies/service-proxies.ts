@@ -1096,14 +1096,6 @@ export class PlanProjectTypeServiceProxy {
             result200 = resultData200 ? PagedResultDtoOfPlanProjectTypeListDto.fromJS(resultData200) : new PagedResultDtoOfPlanProjectTypeListDto();
             return Observable.of(result200);
             });
-        } else if (status === 401) {
-            return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
-            });
-        } else if (status === 403) {
-            return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
-            });
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).flatMap(_responseText => {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
@@ -1158,14 +1150,6 @@ export class PlanProjectTypeServiceProxy {
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
             result200 = resultData200 ? PlanProjectTypeListDto.fromJS(resultData200) : new PlanProjectTypeListDto();
             return Observable.of(result200);
-            });
-        } else if (status === 401) {
-            return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
-            });
-        } else if (status === 403) {
-            return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
             });
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).flatMap(_responseText => {
@@ -1222,14 +1206,6 @@ export class PlanProjectTypeServiceProxy {
             result200 = resultData200 ? GetPlanProjectTypeForEditOutput.fromJS(resultData200) : new GetPlanProjectTypeForEditOutput();
             return Observable.of(result200);
             });
-        } else if (status === 401) {
-            return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
-            });
-        } else if (status === 403) {
-            return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
-            });
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).flatMap(_responseText => {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
@@ -1282,14 +1258,6 @@ export class PlanProjectTypeServiceProxy {
             return blobToText(responseBlob).flatMap(_responseText => {
             return Observable.of<void>(<any>null);
             });
-        } else if (status === 401) {
-            return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
-            });
-        } else if (status === 403) {
-            return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
-            });
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).flatMap(_responseText => {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
@@ -1340,14 +1308,6 @@ export class PlanProjectTypeServiceProxy {
         if (status === 200) {
             return blobToText(responseBlob).flatMap(_responseText => {
             return Observable.of<void>(<any>null);
-            });
-        } else if (status === 401) {
-            return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
-            });
-        } else if (status === 403) {
-            return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
             });
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).flatMap(_responseText => {
@@ -1400,14 +1360,6 @@ export class PlanProjectTypeServiceProxy {
         if (status === 200) {
             return blobToText(responseBlob).flatMap(_responseText => {
             return Observable.of<void>(<any>null);
-            });
-        } else if (status === 401) {
-            return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
-            });
-        } else if (status === 403) {
-            return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
             });
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).flatMap(_responseText => {
@@ -4636,6 +4588,9 @@ export class PlanProjectListDto implements IPlanProjectListDto {
     planId: number | undefined;
     planName: string | undefined;
     unit: PlanProjectListDtoUnit | undefined;
+    readonly unitTypeDescription: string | undefined;
+    planProjectType: PlanProjectTypeListDto | undefined;
+    plan: PlanListDto | undefined;
 
     constructor(data?: IPlanProjectListDto) {
         if (data) {
@@ -4658,6 +4613,9 @@ export class PlanProjectListDto implements IPlanProjectListDto {
             this.planId = data["planId"];
             this.planName = data["planName"];
             this.unit = data["unit"];
+            (<any>this).unitTypeDescription = data["unitTypeDescription"];
+            this.planProjectType = data["planProjectType"] ? PlanProjectTypeListDto.fromJS(data["planProjectType"]) : <any>undefined;
+            this.plan = data["plan"] ? PlanListDto.fromJS(data["plan"]) : <any>undefined;
         }
     }
 
@@ -4680,6 +4638,9 @@ export class PlanProjectListDto implements IPlanProjectListDto {
         data["planId"] = this.planId;
         data["planName"] = this.planName;
         data["unit"] = this.unit;
+        data["unitTypeDescription"] = this.unitTypeDescription;
+        data["planProjectType"] = this.planProjectType ? this.planProjectType.toJSON() : <any>undefined;
+        data["plan"] = this.plan ? this.plan.toJSON() : <any>undefined;
         return data; 
     }
 
@@ -4702,6 +4663,84 @@ export interface IPlanProjectListDto {
     planId: number | undefined;
     planName: string | undefined;
     unit: PlanProjectListDtoUnit | undefined;
+    unitTypeDescription: string | undefined;
+    planProjectType: PlanProjectTypeListDto | undefined;
+    plan: PlanListDto | undefined;
+}
+
+export class PlanProjectTypeListDto implements IPlanProjectTypeListDto {
+    planProjectTypeName: string | undefined;
+    isDeleted: boolean | undefined;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    creationTime: moment.Moment | undefined;
+    creatorUserId: number | undefined;
+    id: number | undefined;
+
+    constructor(data?: IPlanProjectTypeListDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.planProjectTypeName = data["planProjectTypeName"];
+            this.isDeleted = data["isDeleted"];
+            this.deleterUserId = data["deleterUserId"];
+            this.deletionTime = data["deletionTime"] ? moment(data["deletionTime"].toString()) : <any>undefined;
+            this.lastModificationTime = data["lastModificationTime"] ? moment(data["lastModificationTime"].toString()) : <any>undefined;
+            this.lastModifierUserId = data["lastModifierUserId"];
+            this.creationTime = data["creationTime"] ? moment(data["creationTime"].toString()) : <any>undefined;
+            this.creatorUserId = data["creatorUserId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): PlanProjectTypeListDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PlanProjectTypeListDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["planProjectTypeName"] = this.planProjectTypeName;
+        data["isDeleted"] = this.isDeleted;
+        data["deleterUserId"] = this.deleterUserId;
+        data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
+        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
+        data["lastModifierUserId"] = this.lastModifierUserId;
+        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
+        data["creatorUserId"] = this.creatorUserId;
+        data["id"] = this.id;
+        return data; 
+    }
+
+    clone() {
+        const json = this.toJSON();
+        let result = new PlanProjectTypeListDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IPlanProjectTypeListDto {
+    planProjectTypeName: string | undefined;
+    isDeleted: boolean | undefined;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    creationTime: moment.Moment | undefined;
+    creatorUserId: number | undefined;
+    id: number | undefined;
 }
 
 export class GetPlanProjectForEditOutput implements IGetPlanProjectForEditOutput {
@@ -4750,10 +4789,12 @@ export interface IGetPlanProjectForEditOutput {
 export class PlanProjectEditDto implements IPlanProjectEditDto {
     id: number | undefined;
     projectTypeId: number | undefined;
+    projectTypeName: string | undefined;
     subProjectName: string;
     plannedWorkLoad: number | undefined;
     plannedCost: number | undefined;
     unit: PlanProjectEditDtoUnit | undefined;
+    readonly unitTypeDescription: string | undefined;
     description: string | undefined;
     planId: number | undefined;
 
@@ -4770,10 +4811,12 @@ export class PlanProjectEditDto implements IPlanProjectEditDto {
         if (data) {
             this.id = data["id"];
             this.projectTypeId = data["projectTypeId"];
+            this.projectTypeName = data["projectTypeName"];
             this.subProjectName = data["subProjectName"];
             this.plannedWorkLoad = data["plannedWorkLoad"];
             this.plannedCost = data["plannedCost"];
             this.unit = data["unit"];
+            (<any>this).unitTypeDescription = data["unitTypeDescription"];
             this.description = data["description"];
             this.planId = data["planId"];
         }
@@ -4790,10 +4833,12 @@ export class PlanProjectEditDto implements IPlanProjectEditDto {
         data = typeof data === 'object' ? data : {};
         data["id"] = this.id;
         data["projectTypeId"] = this.projectTypeId;
+        data["projectTypeName"] = this.projectTypeName;
         data["subProjectName"] = this.subProjectName;
         data["plannedWorkLoad"] = this.plannedWorkLoad;
         data["plannedCost"] = this.plannedCost;
         data["unit"] = this.unit;
+        data["unitTypeDescription"] = this.unitTypeDescription;
         data["description"] = this.description;
         data["planId"] = this.planId;
         return data; 
@@ -4810,10 +4855,12 @@ export class PlanProjectEditDto implements IPlanProjectEditDto {
 export interface IPlanProjectEditDto {
     id: number | undefined;
     projectTypeId: number | undefined;
+    projectTypeName: string | undefined;
     subProjectName: string;
     plannedWorkLoad: number | undefined;
     plannedCost: number | undefined;
     unit: PlanProjectEditDtoUnit | undefined;
+    unitTypeDescription: string | undefined;
     description: string | undefined;
     planId: number | undefined;
 }
@@ -4914,81 +4961,6 @@ export class PagedResultDtoOfPlanProjectTypeListDto implements IPagedResultDtoOf
 export interface IPagedResultDtoOfPlanProjectTypeListDto {
     totalCount: number | undefined;
     items: PlanProjectTypeListDto[] | undefined;
-}
-
-export class PlanProjectTypeListDto implements IPlanProjectTypeListDto {
-    planProjectTypeName: string | undefined;
-    isDeleted: boolean | undefined;
-    deleterUserId: number | undefined;
-    deletionTime: moment.Moment | undefined;
-    lastModificationTime: moment.Moment | undefined;
-    lastModifierUserId: number | undefined;
-    creationTime: moment.Moment | undefined;
-    creatorUserId: number | undefined;
-    id: number | undefined;
-
-    constructor(data?: IPlanProjectTypeListDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.planProjectTypeName = data["planProjectTypeName"];
-            this.isDeleted = data["isDeleted"];
-            this.deleterUserId = data["deleterUserId"];
-            this.deletionTime = data["deletionTime"] ? moment(data["deletionTime"].toString()) : <any>undefined;
-            this.lastModificationTime = data["lastModificationTime"] ? moment(data["lastModificationTime"].toString()) : <any>undefined;
-            this.lastModifierUserId = data["lastModifierUserId"];
-            this.creationTime = data["creationTime"] ? moment(data["creationTime"].toString()) : <any>undefined;
-            this.creatorUserId = data["creatorUserId"];
-            this.id = data["id"];
-        }
-    }
-
-    static fromJS(data: any): PlanProjectTypeListDto {
-        data = typeof data === 'object' ? data : {};
-        let result = new PlanProjectTypeListDto();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["planProjectTypeName"] = this.planProjectTypeName;
-        data["isDeleted"] = this.isDeleted;
-        data["deleterUserId"] = this.deleterUserId;
-        data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
-        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
-        data["lastModifierUserId"] = this.lastModifierUserId;
-        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
-        data["creatorUserId"] = this.creatorUserId;
-        data["id"] = this.id;
-        return data; 
-    }
-
-    clone() {
-        const json = this.toJSON();
-        let result = new PlanProjectTypeListDto();
-        result.init(json);
-        return result;
-    }
-}
-
-export interface IPlanProjectTypeListDto {
-    planProjectTypeName: string | undefined;
-    isDeleted: boolean | undefined;
-    deleterUserId: number | undefined;
-    deletionTime: moment.Moment | undefined;
-    lastModificationTime: moment.Moment | undefined;
-    lastModifierUserId: number | undefined;
-    creationTime: moment.Moment | undefined;
-    creatorUserId: number | undefined;
-    id: number | undefined;
 }
 
 export class GetPlanProjectTypeForEditOutput implements IGetPlanProjectTypeForEditOutput {

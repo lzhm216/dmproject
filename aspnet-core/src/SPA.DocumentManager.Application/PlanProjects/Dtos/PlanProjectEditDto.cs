@@ -1,8 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
-using SPA.DocumentManager.PlanProjects.Dtos.LTMAutoMapper;
-using SPA.DocumentManager.PlanProjects;
-using SPA.DocumentManager.PlanProjectTypes;
+﻿using SPA.DocumentManager.Enums.Extensions;
 using SPA.DocumentManager.Plans;
+using System.ComponentModel.DataAnnotations;
 
 namespace SPA.DocumentManager.PlanProjects.Dtos
 {
@@ -16,6 +14,8 @@ namespace SPA.DocumentManager.PlanProjects.Dtos
         ///项目名称ID
         /// </summary>
         public int ProjectTypeId { get; set; }
+
+        public string ProjectTypeName { get; set; }
         
         /// <summary>
         /// 综合工序及成果成图
@@ -43,6 +43,8 @@ namespace SPA.DocumentManager.PlanProjects.Dtos
         /// </summary>
         [Required]
         public UnitType Unit { get; set; }
+
+        public string UnitTypeDescription => Unit.ToDescription();
 
         /// <summary>
         /// 备注

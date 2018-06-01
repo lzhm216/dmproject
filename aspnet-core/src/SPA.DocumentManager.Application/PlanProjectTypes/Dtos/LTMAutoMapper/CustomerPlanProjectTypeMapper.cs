@@ -2,7 +2,7 @@
 
 namespace SPA.DocumentManager.PlanProjectTypes.Dtos.LTMAutoMapper
 {
-    using SPA.DocumentManager.PlanProjectTypes;
+    using SPA.DocumentManager.PlanProjects;
 
     /// <summary>
     /// 配置PlanProjectType的AutoMapper

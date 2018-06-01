@@ -9,7 +9,6 @@ using SPA.DocumentManager.Plans;
 using SPA.DocumentManager.SpecialPlans;
 using SPA.DocumentManager.SubSpecialPlans;
 using SPA.DocumentManager.TaskBooks;
-using SPA.DocumentManager.PlanProjectTypes;
 
 namespace SPA.DocumentManager.EntityFrameworkCore
 {

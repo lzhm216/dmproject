@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Abp.Application.Services;
 using Abp.Application.Services.Dto;
 using SPA.DocumentManager.PlanProjectTypes.Dtos;
-using SPA.DocumentManager.PlanProjectTypes;
+using SPA.DocumentManager.PlanProjects;
 
 namespace SPA.DocumentManager.PlanProjectTypes
 {

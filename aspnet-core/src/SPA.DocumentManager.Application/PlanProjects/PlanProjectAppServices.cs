@@ -46,7 +46,8 @@ namespace SPA.DocumentManager.PlanProjects
         public async Task<PagedResultDto<PlanProjectListDto>> GetPagedPlanProjects(GetPlanProjectsInput input)
         {
 
-            var query = _planprojectRepository.GetAll();
+            var query = _planprojectRepository.GetAll().Include(a => a.PlanProjectType).Include(t => t.Plan);
+
             //TODO:根据传入的参数添加过滤条件
             var planprojectCount = await query.CountAsync();
 
