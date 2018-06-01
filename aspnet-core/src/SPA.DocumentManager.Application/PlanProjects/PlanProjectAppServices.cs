@@ -55,8 +55,8 @@ namespace SPA.DocumentManager.PlanProjects
                 .PageBy(input)
                 .ToListAsync();
 
-            //var planprojectListDtos = ObjectMapper.Map<List <PlanProjectListDto>>(planprojects);
-            var planprojectListDtos = planprojects.MapTo<List<PlanProjectListDto>>();
+            var planprojectListDtos = ObjectMapper.Map<List<PlanProjectListDto>>(planprojects);
+            //var planprojectListDtos = planprojects.MapTo<List<PlanProjectListDto>>();
 
             return new PagedResultDto<PlanProjectListDto>(
                 planprojectCount,

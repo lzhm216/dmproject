@@ -8,6 +8,7 @@ import { UsersComponent } from './users/users.component';
 import { TenantsComponent } from './tenants/tenants.component';
 import { RolesComponent } from "app/roles/roles.component";
 import { PlansComponent } from '@app/plans/plans.component';
+import { PlanprojectsComponent } from '@app/planprojects/planprojects.component';
 
 @NgModule({
     imports: [
@@ -20,6 +21,7 @@ import { PlansComponent } from '@app/plans/plans.component';
                     { path: 'users', component: UsersComponent, data: { permission: 'Pages.Users' }, canActivate: [AppRouteGuard] },
                     { path: 'roles', component: RolesComponent, data: { permission: 'Pages.Roles' }, canActivate: [AppRouteGuard] },
                     { path: 'plans', component: PlansComponent, data: { permission: 'Pages.Plan' }, canActivate: [AppRouteGuard] },
+                    { path: 'planprojects', component: PlanprojectsComponent, data: { permission: 'Pages.PlanProject' }, canActivate: [AppRouteGuard] },
                     { path: 'tenants', component: TenantsComponent, data: { permission: 'Pages.Tenants' }, canActivate: [AppRouteGuard] },
                     { path: 'about', component: AboutComponent }
                 ]

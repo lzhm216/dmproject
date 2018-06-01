@@ -36,5 +36,7 @@
 
         public const int MaxTaskNameLength = 100;
         public const int MaxTaskMainContentLength = 200;
+
+        public const int MaxPlanProjectTypeNameLength = 100;
     }
 }

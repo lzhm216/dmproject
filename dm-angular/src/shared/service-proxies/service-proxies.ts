@@ -4245,7 +4245,7 @@ export class PlanListDto implements IPlanListDto {
             this.planName = data["planName"];
             this.planYear = data["planYear"];
             this.fileNo = data["fileNo"];
-            this.publishDate = data["publishDate"] ? moment(data["publishDate"].toString()).format("YYYY-MM-DD") : <any>undefined;
+            this.publishDate = data["publishDate"] ? moment(data["publishDate"].toString()) : <any>undefined;
             this.compilationBasis = data["compilationBasis"];
             this.mainContent = data["mainContent"];
             this.fundBudget = data["fundBudget"];
@@ -4511,12 +4511,15 @@ export interface IPagedResultDtoOfPlanProjectListDto {
 }
 
 export class PlanProjectListDto implements IPlanProjectListDto {
+    projectTypeId: number | undefined;
+    planProjectType: PlanProjectType | undefined;
     id: number | undefined;
     subProjectName: string | undefined;
     plannedWorkLoad: number | undefined;
     plannedCost: number | undefined;
     description: string | undefined;
     planId: number | undefined;
+    plan: Plan | undefined;
     unit: PlanProjectListDtoUnit | undefined;
 
     constructor(data?: IPlanProjectListDto) {
@@ -4530,12 +4533,15 @@ export class PlanProjectListDto implements IPlanProjectListDto {
 
     init(data?: any) {
         if (data) {
+            this.projectTypeId = data["projectTypeId"];
+            this.planProjectType = data["planProjectType"] ? PlanProjectType.fromJS(data["planProjectType"]) : <any>undefined;
             this.id = data["id"];
             this.subProjectName = data["subProjectName"];
             this.plannedWorkLoad = data["plannedWorkLoad"];
             this.plannedCost = data["plannedCost"];
             this.description = data["description"];
             this.planId = data["planId"];
+            this.plan = data["plan"] ? Plan.fromJS(data["plan"]) : <any>undefined;
             this.unit = data["unit"];
         }
     }
@@ -4549,12 +4555,15 @@ export class PlanProjectListDto implements IPlanProjectListDto {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
+        data["projectTypeId"] = this.projectTypeId;
+        data["planProjectType"] = this.planProjectType ? this.planProjectType.toJSON() : <any>undefined;
         data["id"] = this.id;
         data["subProjectName"] = this.subProjectName;
         data["plannedWorkLoad"] = this.plannedWorkLoad;
         data["plannedCost"] = this.plannedCost;
         data["description"] = this.description;
         data["planId"] = this.planId;
+        data["plan"] = this.plan ? this.plan.toJSON() : <any>undefined;
         data["unit"] = this.unit;
         return data; 
     }
@@ -4568,13 +4577,523 @@ export class PlanProjectListDto implements IPlanProjectListDto {
 }
 
 export interface IPlanProjectListDto {
+    projectTypeId: number | undefined;
+    planProjectType: PlanProjectType | undefined;
     id: number | undefined;
     subProjectName: string | undefined;
     plannedWorkLoad: number | undefined;
     plannedCost: number | undefined;
     description: string | undefined;
     planId: number | undefined;
+    plan: Plan | undefined;
     unit: PlanProjectListDtoUnit | undefined;
+}
+
+export class PlanProjectType implements IPlanProjectType {
+    planProjectTypeName: string | undefined;
+    isDeleted: boolean | undefined;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    creationTime: moment.Moment | undefined;
+    creatorUserId: number | undefined;
+    id: number | undefined;
+
+    constructor(data?: IPlanProjectType) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.planProjectTypeName = data["planProjectTypeName"];
+            this.isDeleted = data["isDeleted"];
+            this.deleterUserId = data["deleterUserId"];
+            this.deletionTime = data["deletionTime"] ? moment(data["deletionTime"].toString()) : <any>undefined;
+            this.lastModificationTime = data["lastModificationTime"] ? moment(data["lastModificationTime"].toString()) : <any>undefined;
+            this.lastModifierUserId = data["lastModifierUserId"];
+            this.creationTime = data["creationTime"] ? moment(data["creationTime"].toString()) : <any>undefined;
+            this.creatorUserId = data["creatorUserId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): PlanProjectType {
+        data = typeof data === 'object' ? data : {};
+        let result = new PlanProjectType();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["planProjectTypeName"] = this.planProjectTypeName;
+        data["isDeleted"] = this.isDeleted;
+        data["deleterUserId"] = this.deleterUserId;
+        data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
+        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
+        data["lastModifierUserId"] = this.lastModifierUserId;
+        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
+        data["creatorUserId"] = this.creatorUserId;
+        data["id"] = this.id;
+        return data; 
+    }
+
+    clone() {
+        const json = this.toJSON();
+        let result = new PlanProjectType();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IPlanProjectType {
+    planProjectTypeName: string | undefined;
+    isDeleted: boolean | undefined;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    creationTime: moment.Moment | undefined;
+    creatorUserId: number | undefined;
+    id: number | undefined;
+}
+
+export class Plan implements IPlan {
+    planName: string;
+    planYear: string;
+    fileNo: string;
+    publishDate: moment.Moment | undefined;
+    compilationBasis: string | undefined;
+    mainContent: string | undefined;
+    fundBudget: number | undefined;
+    financialSource: string | undefined;
+    planProjects: PlanProject[] | undefined;
+    specialPlans: SpecialPlan[] | undefined;
+    isDeleted: boolean | undefined;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    creationTime: moment.Moment | undefined;
+    creatorUserId: number | undefined;
+    id: number | undefined;
+
+    constructor(data?: IPlan) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.planName = data["planName"];
+            this.planYear = data["planYear"];
+            this.fileNo = data["fileNo"];
+            this.publishDate = data["publishDate"] ? moment(data["publishDate"].toString()) : <any>undefined;
+            this.compilationBasis = data["compilationBasis"];
+            this.mainContent = data["mainContent"];
+            this.fundBudget = data["fundBudget"];
+            this.financialSource = data["financialSource"];
+            if (data["planProjects"] && data["planProjects"].constructor === Array) {
+                this.planProjects = [];
+                for (let item of data["planProjects"])
+                    this.planProjects.push(PlanProject.fromJS(item));
+            }
+            if (data["specialPlans"] && data["specialPlans"].constructor === Array) {
+                this.specialPlans = [];
+                for (let item of data["specialPlans"])
+                    this.specialPlans.push(SpecialPlan.fromJS(item));
+            }
+            this.isDeleted = data["isDeleted"];
+            this.deleterUserId = data["deleterUserId"];
+            this.deletionTime = data["deletionTime"] ? moment(data["deletionTime"].toString()) : <any>undefined;
+            this.lastModificationTime = data["lastModificationTime"] ? moment(data["lastModificationTime"].toString()) : <any>undefined;
+            this.lastModifierUserId = data["lastModifierUserId"];
+            this.creationTime = data["creationTime"] ? moment(data["creationTime"].toString()) : <any>undefined;
+            this.creatorUserId = data["creatorUserId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): Plan {
+        data = typeof data === 'object' ? data : {};
+        let result = new Plan();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["planName"] = this.planName;
+        data["planYear"] = this.planYear;
+        data["fileNo"] = this.fileNo;
+        data["publishDate"] = this.publishDate ? this.publishDate.toISOString() : <any>undefined;
+        data["compilationBasis"] = this.compilationBasis;
+        data["mainContent"] = this.mainContent;
+        data["fundBudget"] = this.fundBudget;
+        data["financialSource"] = this.financialSource;
+        if (this.planProjects && this.planProjects.constructor === Array) {
+            data["planProjects"] = [];
+            for (let item of this.planProjects)
+                data["planProjects"].push(item.toJSON());
+        }
+        if (this.specialPlans && this.specialPlans.constructor === Array) {
+            data["specialPlans"] = [];
+            for (let item of this.specialPlans)
+                data["specialPlans"].push(item.toJSON());
+        }
+        data["isDeleted"] = this.isDeleted;
+        data["deleterUserId"] = this.deleterUserId;
+        data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
+        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
+        data["lastModifierUserId"] = this.lastModifierUserId;
+        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
+        data["creatorUserId"] = this.creatorUserId;
+        data["id"] = this.id;
+        return data; 
+    }
+
+    clone() {
+        const json = this.toJSON();
+        let result = new Plan();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IPlan {
+    planName: string;
+    planYear: string;
+    fileNo: string;
+    publishDate: moment.Moment | undefined;
+    compilationBasis: string | undefined;
+    mainContent: string | undefined;
+    fundBudget: number | undefined;
+    financialSource: string | undefined;
+    planProjects: PlanProject[] | undefined;
+    specialPlans: SpecialPlan[] | undefined;
+    isDeleted: boolean | undefined;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    creationTime: moment.Moment | undefined;
+    creatorUserId: number | undefined;
+    id: number | undefined;
+}
+
+export class PlanProject implements IPlanProject {
+    projectTypeId: number | undefined;
+    planProjectType: PlanProjectType | undefined;
+    subProjectName: string;
+    unit: PlanProjectUnit | undefined;
+    plannedWorkLoad: number | undefined;
+    plannedCost: number | undefined;
+    description: string | undefined;
+    planId: number | undefined;
+    plan: Plan | undefined;
+    isDeleted: boolean | undefined;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    creationTime: moment.Moment | undefined;
+    creatorUserId: number | undefined;
+    id: number | undefined;
+
+    constructor(data?: IPlanProject) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.projectTypeId = data["projectTypeId"];
+            this.planProjectType = data["planProjectType"] ? PlanProjectType.fromJS(data["planProjectType"]) : <any>undefined;
+            this.subProjectName = data["subProjectName"];
+            this.unit = data["unit"];
+            this.plannedWorkLoad = data["plannedWorkLoad"];
+            this.plannedCost = data["plannedCost"];
+            this.description = data["description"];
+            this.planId = data["planId"];
+            this.plan = data["plan"] ? Plan.fromJS(data["plan"]) : <any>undefined;
+            this.isDeleted = data["isDeleted"];
+            this.deleterUserId = data["deleterUserId"];
+            this.deletionTime = data["deletionTime"] ? moment(data["deletionTime"].toString()) : <any>undefined;
+            this.lastModificationTime = data["lastModificationTime"] ? moment(data["lastModificationTime"].toString()) : <any>undefined;
+            this.lastModifierUserId = data["lastModifierUserId"];
+            this.creationTime = data["creationTime"] ? moment(data["creationTime"].toString()) : <any>undefined;
+            this.creatorUserId = data["creatorUserId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): PlanProject {
+        data = typeof data === 'object' ? data : {};
+        let result = new PlanProject();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["projectTypeId"] = this.projectTypeId;
+        data["planProjectType"] = this.planProjectType ? this.planProjectType.toJSON() : <any>undefined;
+        data["subProjectName"] = this.subProjectName;
+        data["unit"] = this.unit;
+        data["plannedWorkLoad"] = this.plannedWorkLoad;
+        data["plannedCost"] = this.plannedCost;
+        data["description"] = this.description;
+        data["planId"] = this.planId;
+        data["plan"] = this.plan ? this.plan.toJSON() : <any>undefined;
+        data["isDeleted"] = this.isDeleted;
+        data["deleterUserId"] = this.deleterUserId;
+        data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
+        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
+        data["lastModifierUserId"] = this.lastModifierUserId;
+        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
+        data["creatorUserId"] = this.creatorUserId;
+        data["id"] = this.id;
+        return data; 
+    }
+
+    clone() {
+        const json = this.toJSON();
+        let result = new PlanProject();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IPlanProject {
+    projectTypeId: number | undefined;
+    planProjectType: PlanProjectType | undefined;
+    subProjectName: string;
+    unit: PlanProjectUnit | undefined;
+    plannedWorkLoad: number | undefined;
+    plannedCost: number | undefined;
+    description: string | undefined;
+    planId: number | undefined;
+    plan: Plan | undefined;
+    isDeleted: boolean | undefined;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    creationTime: moment.Moment | undefined;
+    creatorUserId: number | undefined;
+    id: number | undefined;
+}
+
+export class SpecialPlan implements ISpecialPlan {
+    specialPlanName: string;
+    plannedCost: number | undefined;
+    subSpecialPlans: SubSpecialPlan[] | undefined;
+    planId: number | undefined;
+    plan: Plan | undefined;
+    isDeleted: boolean | undefined;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    creationTime: moment.Moment | undefined;
+    creatorUserId: number | undefined;
+    id: number | undefined;
+
+    constructor(data?: ISpecialPlan) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.specialPlanName = data["specialPlanName"];
+            this.plannedCost = data["plannedCost"];
+            if (data["subSpecialPlans"] && data["subSpecialPlans"].constructor === Array) {
+                this.subSpecialPlans = [];
+                for (let item of data["subSpecialPlans"])
+                    this.subSpecialPlans.push(SubSpecialPlan.fromJS(item));
+            }
+            this.planId = data["planId"];
+            this.plan = data["plan"] ? Plan.fromJS(data["plan"]) : <any>undefined;
+            this.isDeleted = data["isDeleted"];
+            this.deleterUserId = data["deleterUserId"];
+            this.deletionTime = data["deletionTime"] ? moment(data["deletionTime"].toString()) : <any>undefined;
+            this.lastModificationTime = data["lastModificationTime"] ? moment(data["lastModificationTime"].toString()) : <any>undefined;
+            this.lastModifierUserId = data["lastModifierUserId"];
+            this.creationTime = data["creationTime"] ? moment(data["creationTime"].toString()) : <any>undefined;
+            this.creatorUserId = data["creatorUserId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): SpecialPlan {
+        data = typeof data === 'object' ? data : {};
+        let result = new SpecialPlan();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["specialPlanName"] = this.specialPlanName;
+        data["plannedCost"] = this.plannedCost;
+        if (this.subSpecialPlans && this.subSpecialPlans.constructor === Array) {
+            data["subSpecialPlans"] = [];
+            for (let item of this.subSpecialPlans)
+                data["subSpecialPlans"].push(item.toJSON());
+        }
+        data["planId"] = this.planId;
+        data["plan"] = this.plan ? this.plan.toJSON() : <any>undefined;
+        data["isDeleted"] = this.isDeleted;
+        data["deleterUserId"] = this.deleterUserId;
+        data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
+        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
+        data["lastModifierUserId"] = this.lastModifierUserId;
+        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
+        data["creatorUserId"] = this.creatorUserId;
+        data["id"] = this.id;
+        return data; 
+    }
+
+    clone() {
+        const json = this.toJSON();
+        let result = new SpecialPlan();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface ISpecialPlan {
+    specialPlanName: string;
+    plannedCost: number | undefined;
+    subSpecialPlans: SubSpecialPlan[] | undefined;
+    planId: number | undefined;
+    plan: Plan | undefined;
+    isDeleted: boolean | undefined;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    creationTime: moment.Moment | undefined;
+    creatorUserId: number | undefined;
+    id: number | undefined;
+}
+
+export class SubSpecialPlan implements ISubSpecialPlan {
+    mainContent: string;
+    unit: SubSpecialPlanUnit | undefined;
+    subPlanCost: number | undefined;
+    completeDate: moment.Moment | undefined;
+    description: string | undefined;
+    specialPlanId: number | undefined;
+    specialPlan: SpecialPlan | undefined;
+    isDeleted: boolean | undefined;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    creationTime: moment.Moment | undefined;
+    creatorUserId: number | undefined;
+    id: number | undefined;
+
+    constructor(data?: ISubSpecialPlan) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.mainContent = data["mainContent"];
+            this.unit = data["unit"];
+            this.subPlanCost = data["subPlanCost"];
+            this.completeDate = data["completeDate"] ? moment(data["completeDate"].toString()) : <any>undefined;
+            this.description = data["description"];
+            this.specialPlanId = data["specialPlanId"];
+            this.specialPlan = data["specialPlan"] ? SpecialPlan.fromJS(data["specialPlan"]) : <any>undefined;
+            this.isDeleted = data["isDeleted"];
+            this.deleterUserId = data["deleterUserId"];
+            this.deletionTime = data["deletionTime"] ? moment(data["deletionTime"].toString()) : <any>undefined;
+            this.lastModificationTime = data["lastModificationTime"] ? moment(data["lastModificationTime"].toString()) : <any>undefined;
+            this.lastModifierUserId = data["lastModifierUserId"];
+            this.creationTime = data["creationTime"] ? moment(data["creationTime"].toString()) : <any>undefined;
+            this.creatorUserId = data["creatorUserId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): SubSpecialPlan {
+        data = typeof data === 'object' ? data : {};
+        let result = new SubSpecialPlan();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["mainContent"] = this.mainContent;
+        data["unit"] = this.unit;
+        data["subPlanCost"] = this.subPlanCost;
+        data["completeDate"] = this.completeDate ? this.completeDate.toISOString() : <any>undefined;
+        data["description"] = this.description;
+        data["specialPlanId"] = this.specialPlanId;
+        data["specialPlan"] = this.specialPlan ? this.specialPlan.toJSON() : <any>undefined;
+        data["isDeleted"] = this.isDeleted;
+        data["deleterUserId"] = this.deleterUserId;
+        data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
+        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
+        data["lastModifierUserId"] = this.lastModifierUserId;
+        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
+        data["creatorUserId"] = this.creatorUserId;
+        data["id"] = this.id;
+        return data; 
+    }
+
+    clone() {
+        const json = this.toJSON();
+        let result = new SubSpecialPlan();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface ISubSpecialPlan {
+    mainContent: string;
+    unit: SubSpecialPlanUnit | undefined;
+    subPlanCost: number | undefined;
+    completeDate: moment.Moment | undefined;
+    description: string | undefined;
+    specialPlanId: number | undefined;
+    specialPlan: SpecialPlan | undefined;
+    isDeleted: boolean | undefined;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    creationTime: moment.Moment | undefined;
+    creatorUserId: number | undefined;
+    id: number | undefined;
 }
 
 export class GetPlanProjectForEditOutput implements IGetPlanProjectForEditOutput {
@@ -4622,9 +5141,11 @@ export interface IGetPlanProjectForEditOutput {
 
 export class PlanProjectEditDto implements IPlanProjectEditDto {
     id: number | undefined;
+    projectTypeId: number | undefined;
     subProjectName: string;
     plannedWorkLoad: number | undefined;
     plannedCost: number | undefined;
+    unit: PlanProjectEditDtoUnit | undefined;
     description: string | undefined;
     planId: number | undefined;
 
@@ -4640,9 +5161,11 @@ export class PlanProjectEditDto implements IPlanProjectEditDto {
     init(data?: any) {
         if (data) {
             this.id = data["id"];
+            this.projectTypeId = data["projectTypeId"];
             this.subProjectName = data["subProjectName"];
             this.plannedWorkLoad = data["plannedWorkLoad"];
             this.plannedCost = data["plannedCost"];
+            this.unit = data["unit"];
             this.description = data["description"];
             this.planId = data["planId"];
         }
@@ -4658,9 +5181,11 @@ export class PlanProjectEditDto implements IPlanProjectEditDto {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["id"] = this.id;
+        data["projectTypeId"] = this.projectTypeId;
         data["subProjectName"] = this.subProjectName;
         data["plannedWorkLoad"] = this.plannedWorkLoad;
         data["plannedCost"] = this.plannedCost;
+        data["unit"] = this.unit;
         data["description"] = this.description;
         data["planId"] = this.planId;
         return data; 
@@ -4676,9 +5201,11 @@ export class PlanProjectEditDto implements IPlanProjectEditDto {
 
 export interface IPlanProjectEditDto {
     id: number | undefined;
+    projectTypeId: number | undefined;
     subProjectName: string;
     plannedWorkLoad: number | undefined;
     plannedCost: number | undefined;
+    unit: PlanProjectEditDtoUnit | undefined;
     description: string | undefined;
     planId: number | undefined;
 }
@@ -7111,6 +7638,24 @@ export enum IsTenantAvailableOutputState {
 }
 
 export enum PlanProjectListDtoUnit {
+    项 = 0, 
+    幅 = 1, 
+    平方千米 = 2, 
+}
+
+export enum PlanProjectUnit {
+    _0 = 0, 
+    _1 = 1, 
+    _2 = 2, 
+}
+
+export enum SubSpecialPlanUnit {
+    _0 = 0, 
+    _1 = 1, 
+    _2 = 2, 
+}
+
+export enum PlanProjectEditDtoUnit {
     _0 = 0, 
     _1 = 1, 
     _2 = 2, 

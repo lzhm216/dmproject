@@ -31,7 +31,7 @@
                                 <span>{{subMenuItem.name}}</span>
                             </a>
                             <!-- Has child menu items (so, this is a parent menu) -->
-                            <a href="javascript:void(0);" [ngClass]="{'menu-toggle': subMenuItem.items.length}" *ngIf="menuItem.items.length">
+                            <a href="javascript:void(0);" [ngClass]="{'menu-toggle': subMenuItem.items.length}" *ngIf="subMenuItem.items.length">
                                 <i *ngIf="subMenuItem.icon" class="material-icons">{{subMenuItem.icon}}</i>
                                 <span>{{subMenuItem.name}}</span>
                             </a>

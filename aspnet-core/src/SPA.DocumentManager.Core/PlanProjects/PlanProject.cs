@@ -12,11 +12,13 @@ namespace SPA.DocumentManager.PlanProjects
     public class PlanProject : FullAuditedEntity<int>
     {
         /// <summary>
+        /// 测绘项目名称ID
+        /// </summary>
+        public int ProjectTypeId { get; set; }
+        /// <summary>
         /// 测绘项目名称
         /// </summary>
-        [Required]
-        [MaxLength(DocumentManagerConsts.MaxProjectNameLength)]
-        public PlanProjectType ProjectName { get; set; }
+        public PlanProjectType PlanProjectType { get; set; }
 
         /// <summary>
         /// 综合工序及成果成图
