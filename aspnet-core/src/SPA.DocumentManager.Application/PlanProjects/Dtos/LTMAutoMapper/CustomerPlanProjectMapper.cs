@@ -13,7 +13,7 @@ namespace SPA.DocumentManager.PlanProjects.Dtos.LTMAutoMapper
         {
             //    configuration.CreateMap <PlanProject, PlanProjectDto>();
             configuration.CreateMap<PlanProject, PlanProjectListDto>()
-                .ForMember(dest => dest.ProjectTypeName,
+                .ForMember(dest => dest.PlanProjectTypeName,
                     opt => opt.MapFrom(src => src.PlanProjectType.PlanProjectTypeName))
                 .ForMember(dest => dest.PlanName, 
                     opt => opt.MapFrom(src => src.Plan.PlanName));

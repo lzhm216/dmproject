@@ -29,7 +29,7 @@ export class CreatePlanprojectComponent extends AppComponentBase implements OnIn
     injector: Injector,
     private _planProjectService: PlanProjectServiceProxy,
     private _planProjectTypeService: PlanProjectTypeServiceProxy,
-    private _enumService: EnumServiceProxy,
+    private _enumService: EnumServiceProxy
   ) {
     super(injector);
   }

@@ -4638,8 +4638,8 @@ export interface IPagedResultDtoOfPlanProjectListDto {
 }
 
 export class PlanProjectListDto implements IPlanProjectListDto {
-    projectTypeId: number | undefined;
-    projectTypeName: string | undefined;
+    planProjectTypeId: number | undefined;
+    planProjectTypeName: string | undefined;
     id: number | undefined;
     subProjectName: string | undefined;
     plannedWorkLoad: number | undefined;
@@ -4661,8 +4661,8 @@ export class PlanProjectListDto implements IPlanProjectListDto {
 
     init(data?: any) {
         if (data) {
-            this.projectTypeId = data["projectTypeId"];
-            this.projectTypeName = data["projectTypeName"];
+            this.planProjectTypeId = data["planProjectTypeId"];
+            this.planProjectTypeName = data["planProjectTypeName"];
             this.id = data["id"];
             this.subProjectName = data["subProjectName"];
             this.plannedWorkLoad = data["plannedWorkLoad"];
@@ -4684,8 +4684,8 @@ export class PlanProjectListDto implements IPlanProjectListDto {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["projectTypeId"] = this.projectTypeId;
-        data["projectTypeName"] = this.projectTypeName;
+        data["planProjectTypeId"] = this.planProjectTypeId;
+        data["planProjectTypeName"] = this.planProjectTypeName;
         data["id"] = this.id;
         data["subProjectName"] = this.subProjectName;
         data["plannedWorkLoad"] = this.plannedWorkLoad;
@@ -4707,8 +4707,8 @@ export class PlanProjectListDto implements IPlanProjectListDto {
 }
 
 export interface IPlanProjectListDto {
-    projectTypeId: number | undefined;
-    projectTypeName: string | undefined;
+    planProjectTypeId: number | undefined;
+    planProjectTypeName: string | undefined;
     id: number | undefined;
     subProjectName: string | undefined;
     plannedWorkLoad: number | undefined;
@@ -4765,12 +4765,11 @@ export interface IGetPlanProjectForEditOutput {
 
 export class PlanProjectEditDto implements IPlanProjectEditDto {
     id: number | undefined;
-    projectTypeId: number | undefined;
-    projectTypeName: string | undefined;
+    planProjectTypeId: number | undefined;
     subProjectName: string;
     plannedWorkLoad: number | undefined;
     plannedCost: number | undefined;
-    unit: PlanProjectEditDtoUnit | undefined;
+    unit: PlanProjectListDtoUnit | undefined;
     readonly unitTypeDescription: string | undefined;
     description: string | undefined;
     planId: number | undefined;
@@ -4787,8 +4786,7 @@ export class PlanProjectEditDto implements IPlanProjectEditDto {
     init(data?: any) {
         if (data) {
             this.id = data["id"];
-            this.projectTypeId = data["projectTypeId"];
-            this.projectTypeName = data["projectTypeName"];
+            this.planProjectTypeId = data["planProjectTypeId"];
             this.subProjectName = data["subProjectName"];
             this.plannedWorkLoad = data["plannedWorkLoad"];
             this.plannedCost = data["plannedCost"];
@@ -4809,8 +4807,7 @@ export class PlanProjectEditDto implements IPlanProjectEditDto {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["id"] = this.id;
-        data["projectTypeId"] = this.projectTypeId;
-        data["projectTypeName"] = this.projectTypeName;
+        data["planProjectTypeId"] = this.planProjectTypeId;
         data["subProjectName"] = this.subProjectName;
         data["plannedWorkLoad"] = this.plannedWorkLoad;
         data["plannedCost"] = this.plannedCost;
@@ -4831,12 +4828,11 @@ export class PlanProjectEditDto implements IPlanProjectEditDto {
 
 export interface IPlanProjectEditDto {
     id: number | undefined;
-    projectTypeId: number | undefined;
-    projectTypeName: string | undefined;
+    planProjectTypeId: number | undefined;
     subProjectName: string;
     plannedWorkLoad: number | undefined;
     plannedCost: number | undefined;
-    unit: PlanProjectEditDtoUnit | undefined;
+    unit: PlanProjectListDtoUnit | undefined;
     unitTypeDescription: string | undefined;
     description: string | undefined;
     planId: number | undefined;
@@ -7321,12 +7317,6 @@ export enum IsTenantAvailableOutputState {
 }
 
 export enum PlanProjectListDtoUnit {
-    _0 = 0, 
-    _1 = 1, 
-    _2 = 2, 
-}
-
-export enum PlanProjectEditDtoUnit {
     _0 = 0, 
     _1 = 1, 
     _2 = 2, 

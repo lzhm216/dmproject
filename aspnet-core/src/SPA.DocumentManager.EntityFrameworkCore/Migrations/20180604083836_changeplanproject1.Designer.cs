@@ -17,9 +17,10 @@ using System;
 namespace SPA.DocumentManager.Migrations
 {
     [DbContext(typeof(DocumentManagerDbContext))]
-    partial class DocumentManagerDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180604083836_changeplanproject1")]
+    partial class changeplanproject1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1064,11 +1065,13 @@ namespace SPA.DocumentManager.Migrations
 
                     b.Property<int>("PlanId");
 
-                    b.Property<int>("PlanProjectTypeId");
+                    b.Property<int?>("PlanProjectTypeId");
 
                     b.Property<double>("PlannedCost");
 
                     b.Property<double>("PlannedWorkLoad");
+
+                    b.Property<int>("ProjectTypeId");
 
                     b.Property<string>("SubProjectName")
                         .IsRequired()
@@ -1447,8 +1450,7 @@ namespace SPA.DocumentManager.Migrations
 
                     b.HasOne("SPA.DocumentManager.PlanProjects.PlanProjectType", "PlanProjectType")
                         .WithMany("PlanProjects")
-                        .HasForeignKey("PlanProjectTypeId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("PlanProjectTypeId");
                 });
 
             modelBuilder.Entity("SPA.DocumentManager.SpecialPlans.SpecialPlan", b =>

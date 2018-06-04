@@ -13,7 +13,7 @@ namespace SPA.DocumentManager.PlanProjects
         /// <summary>
         /// 测绘项目名称ID
         /// </summary>
-        public int ProjectTypeId { get; set; }
+        public int PlanProjectTypeId { get; set; }
         /// <summary>
         /// 测绘项目名称
         /// </summary>

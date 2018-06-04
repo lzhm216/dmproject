@@ -8,6 +8,7 @@ using Abp.Domain.Repositories;
 using Abp.Linq.Extensions;
 
 using System.Linq.Dynamic.Core;
+using Abp.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using SPA.DocumentManager.PlanProjects.Authorization;
 using SPA.DocumentManager.PlanProjects.Dtos;
@@ -29,6 +30,7 @@ namespace SPA.DocumentManager.PlanProjects
         ////ECC/ END CUSTOM CODE SECTION
         private readonly IRepository<PlanProject, int> _planprojectRepository;
         private readonly IRepository<Plan, int> _planRepository;
+        private readonly IRepository<PlanProjectType, int> _planProjectTypeRepository;
         private readonly IPlanProjectManager _planprojectManager;
 
         /// <summary>
@@ -36,11 +38,13 @@ namespace SPA.DocumentManager.PlanProjects
         /// </summary>
         public PlanProjectAppService(IRepository<PlanProject, int> planprojectRepository
             , IRepository<Plan, int> planRepository
+            , IRepository<PlanProjectType, int> planProjectTypeRepository
       , IPlanProjectManager planprojectManager
         )
         {
             _planprojectRepository = planprojectRepository;
             _planRepository = planRepository;
+            _planProjectTypeRepository = planProjectTypeRepository;
             _planprojectManager = planprojectManager;
         }
 
@@ -146,6 +150,21 @@ namespace SPA.DocumentManager.PlanProjects
         {
             //TODO:新增前的逻辑判断，是否允许新增
             var entity = ObjectMapper.Map<PlanProject>(input);
+
+            //Plan plan = _planRepository.Get(entity.PlanId);
+            //if (plan == null)
+            //{
+            //    throw new EntityNotFoundException("未找到规划与计划");
+            //}
+
+            //PlanProjectType planProjectType = _planProjectTypeRepository.Get(entity.PlanProjectTypeId);
+            //if (planProjectType == null)
+            //{
+            //    throw new EntityNotFoundException("未找到项目名称");
+            //}
+
+            //entity.PlanProjectType = planProjectType;
+            //entity.Plan = plan;
 
             entity = await _planprojectRepository.InsertAsync(entity);
             return entity.MapTo<PlanProjectEditDto>();

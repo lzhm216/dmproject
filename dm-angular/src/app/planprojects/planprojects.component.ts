@@ -52,7 +52,7 @@ export class PlanprojectsComponent extends PagedListingComponentBase<PlanProject
     this.createPlanProjectModal.show();
   }
 
-  editPlanProject(): void{
-    this.editPlanProjectModal.show();
+  editPlanProject(entity: PlanProjectListDto): void{
+    this.editPlanProjectModal.show(entity.id);
   }
 }

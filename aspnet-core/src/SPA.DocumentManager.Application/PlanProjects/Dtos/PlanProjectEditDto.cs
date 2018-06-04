@@ -13,10 +13,8 @@ namespace SPA.DocumentManager.PlanProjects.Dtos
         /// <summary>
         ///项目名称ID
         /// </summary>
-        public int ProjectTypeId { get; set; }
+        public int PlanProjectTypeId { get; set; }
 
-        public string ProjectTypeName { get; set; }
-        
         /// <summary>
         /// 综合工序及成果成图
         /// </summary>

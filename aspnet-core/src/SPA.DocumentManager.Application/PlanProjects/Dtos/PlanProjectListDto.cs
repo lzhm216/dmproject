@@ -9,8 +9,8 @@ namespace SPA.DocumentManager.PlanProjects.Dtos
 {
     public class PlanProjectListDto
     {
-        public int ProjectTypeId { get; set; }
-        public string ProjectTypeName { get; set; }
+        public int PlanProjectTypeId { get; set; }
+        public string PlanProjectTypeName { get; set; }
         public int Id { get; set; }
         public string SubProjectName { get; set; }
         public double PlannedWorkLoad { get; set; }

@@ -14,26 +14,26 @@
           </h4>
         </div>
         <div class="modal-body">
-            <div class="row clearfix" style="margin-top:10px;">
-                <div class="col-sm-12">
-                  <div class="form-group form-float">
-                    <div class="form-line">
-                        <select id="planId" name="PlanId" [(ngModel)]="planProject.planId" class="form-control">
-                            <option *ngFor="let plan of plans" [value]=plan.id>{{plan.planName}}</option>
-                        </select>
-                      <label for="planId" class="form-label">{{l("PlanName")}}</label>
-                    </div>
-                  </div>
-                </div>
-              </div>
           <div class="row clearfix" style="margin-top:10px;">
             <div class="col-sm-12">
               <div class="form-group form-float">
                 <div class="form-line">
-                    <select id="projectTypeId" name="ProjectTypeId" [(ngModel)]="planProject.projectTypeId" class="form-control">
-                        <option *ngFor="let planProjectType of planProjectTypes" [value]=planProjectType.id>{{planProjectType.planProjectTypeName}}</option>
-                    </select>
-                  <label for="projectTypeId" class="form-label">{{l("ProjectType")}}</label>
+                  <select id="planId" name="PlanId" [(ngModel)]="planProject.planId" class="form-control">
+                    <option *ngFor="let plan of plans" [value]=plan.id>{{plan.planName}}</option>
+                  </select>
+                  <label for="planId" class="form-label">{{l("PlanName")}}</label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row clearfix" style="margin-top:10px;">
+            <div class="col-sm-12">
+              <div class="form-group form-float">
+                <div class="form-line">
+                  <select id="planProjectTypeId" name="PlanProjectTypeId" [(ngModel)]="planProject.planProjectTypeId" class="form-control">
+                    <option *ngFor="let planProjectType of planProjectTypes" [value]=planProjectType.id>{{planProjectType.planProjectTypeName}}</option>
+                  </select>
+                  <label for="planProjectTypeId" class="form-label">{{l("ProjectType")}}</label>
                 </div>
               </div>
             </div>
