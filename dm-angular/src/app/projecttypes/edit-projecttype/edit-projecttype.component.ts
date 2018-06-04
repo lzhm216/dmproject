@@ -14,7 +14,7 @@ export class EditProjecttypeComponent extends AppComponentBase {
   
   @Output() modalSave: EventEmitter<any> = new EventEmitter<any>();
   
-  projectType: PlanProjectTypeEditDto;
+  projectType: PlanProjectTypeEditDto = new PlanProjectTypeEditDto();;
   projectType_edit: CreateOrUpdatePlanProjectTypeInput = new CreateOrUpdatePlanProjectTypeInput();
 
   active: boolean = false;

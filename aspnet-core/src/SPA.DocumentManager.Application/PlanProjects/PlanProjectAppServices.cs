@@ -13,6 +13,9 @@ using SPA.DocumentManager.PlanProjects.Authorization;
 using SPA.DocumentManager.PlanProjects.Dtos;
 using SPA.DocumentManager.PlanProjects.DomainServices;
 using SPA.DocumentManager.PlanProjects;
+using SPA.DocumentManager.Plans;
+using SPA.DocumentManager.Plans.Dtos;
+using SPA.DocumentManager.Roles.Dto;
 
 namespace SPA.DocumentManager.PlanProjects
 {
@@ -25,16 +28,19 @@ namespace SPA.DocumentManager.PlanProjects
         ////BCC/ BEGIN CUSTOM CODE SECTION
         ////ECC/ END CUSTOM CODE SECTION
         private readonly IRepository<PlanProject, int> _planprojectRepository;
+        private readonly IRepository<Plan, int> _planRepository;
         private readonly IPlanProjectManager _planprojectManager;
 
         /// <summary>
         /// 构造函数
         /// </summary>
         public PlanProjectAppService(IRepository<PlanProject, int> planprojectRepository
+            , IRepository<Plan, int> planRepository
       , IPlanProjectManager planprojectManager
         )
         {
             _planprojectRepository = planprojectRepository;
+            _planRepository = planRepository;
             _planprojectManager = planprojectManager;
         }
 
@@ -182,6 +188,11 @@ namespace SPA.DocumentManager.PlanProjects
             await _planprojectRepository.DeleteAsync(s => input.Contains(s.Id));
         }
 
+        public async Task<ListResultDto<PlanListDto>> GetAllPlansAsync()
+        {
+            var plans = await _planRepository.GetAllListAsync();
+            return new ListResultDto<PlanListDto>(ObjectMapper.Map<List<PlanListDto>>(plans));
+        }
     }
 }
 

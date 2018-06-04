@@ -4,6 +4,7 @@ using Abp.Application.Services;
 using Abp.Application.Services.Dto;
 using SPA.DocumentManager.PlanProjects.Dtos;
 using SPA.DocumentManager.PlanProjects;
+using SPA.DocumentManager.Plans.Dtos;
 
 namespace SPA.DocumentManager.PlanProjects
 {
@@ -55,5 +56,7 @@ namespace SPA.DocumentManager.PlanProjects
         /// 批量删除PlanProject
         /// </summary>
         Task BatchDeletePlanProjectsAsync(List<int> input);
+
+        Task<ListResultDto<PlanListDto>>   GetAllPlansAsync();
     }
 }

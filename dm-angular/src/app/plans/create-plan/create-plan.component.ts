@@ -1,4 +1,4 @@
-import { Component, OnInit, Injector, ViewChild, ElementRef, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Injector, ViewChild, ElementRef, EventEmitter, Output } from '@angular/core';
 import { ModalDirective } from 'ngx-bootstrap';
 import { PlanServiceProxy, PlanEditDto, CreateOrUpdatePlanInput } from '@shared/service-proxies/service-proxies';
 import { AppComponentBase } from '@shared/app-component-base';
@@ -16,9 +16,10 @@ export class CreatePlanComponent extends AppComponentBase implements OnInit {
 
   @Output() modalSave: EventEmitter<any> = new EventEmitter<any>();
 
-  plan: PlanEditDto = new PlanEditDto();
   active: boolean = false;
   saving: boolean = false;
+
+  plan: PlanEditDto = new PlanEditDto();
   plan_create: CreateOrUpdatePlanInput = new CreateOrUpdatePlanInput();
 
   constructor(

@@ -7,7 +7,7 @@ import { ModalDirective } from 'ngx-bootstrap';
   selector: 'app-create-projecttype',
   templateUrl: './create-projecttype.component.html'
 })
-export class CreateProjecttypeComponent extends AppComponentBase {
+export class CreateProjecttypeComponent extends AppComponentBase implements OnInit  {
 
   @ViewChild('createProjectTypeModal') modal: ModalDirective;
   @ViewChild('modalContent') modalContent: ElementRef;
@@ -17,7 +17,7 @@ export class CreateProjecttypeComponent extends AppComponentBase {
   active: boolean = false;
   saving: boolean = false;
 
-  projectType: PlanProjectTypeEditDto;
+  projectType: PlanProjectTypeEditDto = new PlanProjectTypeEditDto();
   projectType_create: CreateOrUpdatePlanProjectTypeInput = new CreateOrUpdatePlanProjectTypeInput();
 
   constructor(
@@ -26,7 +26,11 @@ export class CreateProjecttypeComponent extends AppComponentBase {
   ) {
     super(injector);
   }
+  
+  ngOnInit(): void {
 
+  }
+  
   onShown(): void {
     $.AdminBSB.input.activate($(this.modalContent.nativeElement));
   }

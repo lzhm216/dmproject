@@ -14,6 +14,18 @@
           </h4>
         </div>
         <div class="modal-body">
+            <div class="row clearfix" style="margin-top:10px;">
+                <div class="col-sm-12">
+                  <div class="form-group form-float">
+                    <div class="form-line">
+                        <select id="planId" name="PlanId" [(ngModel)]="planProject.planId" class="form-control">
+                            <option *ngFor="let plan of plans" [value]=plan.id>{{plan.planName}}</option>
+                        </select>
+                      <label for="planId" class="form-label">{{l("PlanName")}}</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
           <div class="row clearfix" style="margin-top:10px;">
             <div class="col-sm-12">
               <div class="form-group form-float">

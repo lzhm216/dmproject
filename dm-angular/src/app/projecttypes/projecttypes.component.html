@@ -36,7 +36,7 @@
                                 </a>
                                 <ul class="dropdown-menu pull-right">
                                     <li>
-                                        <a href="javascript:void(0);" class="waves-effect waves-block" (click)="editProjectType(projectTypes)">
+                                        <a href="javascript:void(0);" class="waves-effect waves-block" (click)="editProjectType(projectType)">
                                             <i class="material-icons">create</i>{{l('Edit')}}</a>
                                     </li>
                                     <li>
@@ -63,4 +63,4 @@
 </div>
 
 <app-create-projecttype #createProjectTypeModal (modalSave)="refresh()"></app-create-projecttype>
-<app-create-projecttype #editProjectTypeModal (modalSave)="refresh()"></app-create-projecttype>
+<app-edit-projecttype #editProjectTypeModal (modalSave)="refresh()"></app-edit-projecttype>
