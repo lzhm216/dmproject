@@ -8,7 +8,9 @@ using Abp.Domain.Repositories;
 using Abp.Linq.Extensions;
 
 using System.Linq.Dynamic.Core;
+using Abp.Collections.Extensions;
 using Abp.Domain.Entities;
+using Abp.Extensions;
 using Microsoft.EntityFrameworkCore;
 using SPA.DocumentManager.PlanProjects.Authorization;
 using SPA.DocumentManager.PlanProjects.Dtos;
@@ -56,9 +58,13 @@ namespace SPA.DocumentManager.PlanProjects
         public async Task<PagedResultDto<PlanProjectListDto>> GetPagedPlanProjects(GetPlanProjectsInput input)
         {
 
-            var query = _planprojectRepository.GetAll().Include(a => a.PlanProjectType).Include(t => t.Plan);
+            var query = _planprojectRepository.GetAll().Include(a => a.PlanProjectType).Include(t => t.Plan)
+                .WhereIf(!input.Filter.IsNullOrWhiteSpace(),
+                    t => t.Plan.PlanName.Contains(input.Filter)
+                     || t.SubProjectName.Contains(input.Filter)
+                     || t.Description.Contains(input.Filter)
+                     || t.PlanProjectType.PlanProjectTypeName.Contains(input.Filter));
 
-            //TODO:根据传入的参数添加过滤条件
             var planprojectCount = await query.CountAsync();
 
             var planprojects = await query
@@ -68,6 +74,7 @@ namespace SPA.DocumentManager.PlanProjects
 
             var planprojectListDtos = ObjectMapper.Map<List<PlanProjectListDto>>(planprojects);
             //var planprojectListDtos = planprojects.MapTo<List<PlanProjectListDto>>();
+
 
             return new PagedResultDto<PlanProjectListDto>(
                 planprojectCount,
@@ -150,21 +157,6 @@ namespace SPA.DocumentManager.PlanProjects
         {
             //TODO:新增前的逻辑判断，是否允许新增
             var entity = ObjectMapper.Map<PlanProject>(input);
-
-            //Plan plan = _planRepository.Get(entity.PlanId);
-            //if (plan == null)
-            //{
-            //    throw new EntityNotFoundException("未找到规划与计划");
-            //}
-
-            //PlanProjectType planProjectType = _planProjectTypeRepository.Get(entity.PlanProjectTypeId);
-            //if (planProjectType == null)
-            //{
-            //    throw new EntityNotFoundException("未找到项目名称");
-            //}
-
-            //entity.PlanProjectType = planProjectType;
-            //entity.Plan = plan;
 
             entity = await _planprojectRepository.InsertAsync(entity);
             return entity.MapTo<PlanProjectEditDto>();

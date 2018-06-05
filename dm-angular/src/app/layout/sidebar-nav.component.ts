@@ -20,7 +20,7 @@ export class SideBarNavComponent extends AppComponentBase {
             new MenuItem(this.l("PlanProjects"), "Pages.PlanProject", "local_offer", "/app/planprojects")
         ]),
         new MenuItem(this.l("Settings"), "", "menu", "", [
-            new MenuItem(this.l("ProjectTypes"), "", "local_offer", "/app/projecttypes")
+            new MenuItem(this.l("PlanProjectTypes"), "", "local_offer", "/app/projecttypes")
         ]),
         new MenuItem(this.l("About"), "", "info", "/app/about")
     ];

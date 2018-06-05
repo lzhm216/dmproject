@@ -93,6 +93,7 @@
 
 
     //测绘计划
+    <text name="PlanProjects" value="测绘计划项目" />
     <text name="EditPlanProject" value="编辑测绘计划项目" />
     <text name="CreateNewPlanProject" value="新建测绘计划项目" />
     <text name="ProjectType" value="测绘计划项目名称" />
@@ -105,11 +106,15 @@
 
 
     //测绘项目类型
+    <text name="PlanProjectTypes" value="测绘计划项目名称" />
+    <text name="PlanProjectTypeName" value="测绘计划项目名称" />
     <text name="EditProjectType" value="编辑测绘计划项目名称" />
     <text name="CreateNewProjectType" value="新建测绘计划项目名称" />
 
     //分页
     <text name="Next" value="下一页" />
+    <text name="Previous" value="上一页" />
+    <text name="Refresh" value="刷新" />
 
 
   </texts>
