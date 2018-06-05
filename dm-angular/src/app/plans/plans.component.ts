@@ -36,12 +36,12 @@ export class PlansComponent extends PagedListingComponentBase<PlanListDto> {
 
   protected delete(entity: PlanListDto): void {
     abp.message.confirm(
-            "Delete plan '" + entity.planName + "'?",
+            "是否删除基础测绘计划 '" + entity.planName + "'?",
             (result: boolean) => {
                 if (result) {
                     this._planService.deletePlan(entity.id)
                         .subscribe(() => {
-                            abp.notify.info("Deleted Plan: " + entity.planName);
+                            abp.notify.info("基础测绘计划: " + entity.planName + "已删除");
                             this.refresh();
                         });
                 }

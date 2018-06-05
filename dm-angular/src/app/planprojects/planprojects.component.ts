@@ -45,7 +45,18 @@ export class PlanprojectsComponent extends PagedListingComponentBase<PlanProject
   }
 
   protected delete(entity: PlanProjectListDto): void {
-    throw new Error("Method not implemented.");
+    abp.message.confirm(
+      "是否删除基础测绘计划项目 '" + entity.planProjectTypeName + "'?",
+      (result: boolean) => {
+          if (result) {
+              this._planProjectService.deletePlanProject(entity.id)
+                  .subscribe(() => {
+                      abp.notify.info("基础测绘计划项目: " + entity.planName + "已删除");
+                      this.refresh();
+                  });
+          }
+      }
+  );
   }
 
   createPlanProject(): void{

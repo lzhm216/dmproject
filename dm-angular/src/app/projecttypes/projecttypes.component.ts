@@ -41,12 +41,12 @@ export class ProjecttypesComponent extends PagedListingComponentBase<PlanProject
 
   protected delete(entity: PlanProjectTypeListDto): void {
     abp.message.confirm(
-      "Delete ProjectType '" + entity.planProjectTypeName + "'?",
+      "是否删除测绘计划项目名称 '" + entity.planProjectTypeName + "'?",
       (result: boolean) => {
         if (result) {
           this._projectTypeService.deletePlanProjectType(entity.id)
             .subscribe(() => {
-              abp.notify.info("Deleted ProjectType: " + entity.planProjectTypeName);
+              abp.notify.info("测绘计划项目名称: " + entity.planProjectTypeName + "已删除");
               this.refresh();
             });
         }
