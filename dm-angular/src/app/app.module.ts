@@ -42,6 +42,7 @@ import { EditPlanprojectComponent } from './planprojects/edit-planproject/edit-p
 import { ProjecttypesComponent } from './projecttypes/projecttypes.component';
 import { CreateProjecttypeComponent } from './projecttypes/create-projecttype/create-projecttype.component';
 import { EditProjecttypeComponent } from './projecttypes/edit-projecttype/edit-projecttype.component';
+import { TestsComponent } from './tests/tests.component';
 
 @NgModule({
     declarations: [
@@ -71,7 +72,8 @@ import { EditProjecttypeComponent } from './projecttypes/edit-projecttype/edit-p
         EditPlanprojectComponent,
         ProjecttypesComponent,
         CreateProjecttypeComponent,
-        EditProjecttypeComponent
+        EditProjecttypeComponent,
+        TestsComponent
     
     ],
     imports: [

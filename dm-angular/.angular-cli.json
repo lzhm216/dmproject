@@ -60,7 +60,7 @@
                 "../node_modules/jquery-countto/jquery.countTo.js",
                 "../node_modules/raphael/raphael.min.js",
                 "../node_modules/morris.js/morris.min.js",
-                "../node_modules/chart.js/dist/Chart.bundle.min.js",
+                "../node_modules/chart.js/dist/Chart.bundle.js",
                 "../node_modules/flot/jquery.flot.js",
                 "../node_modules/flot/jquery.flot.resize.js",
                 "../node_modules/flot/jquery.flot.pie.js",

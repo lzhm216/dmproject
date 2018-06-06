@@ -20,54 +20,84 @@
                     </li>
                 </ul>
             </div>
-            <div class="body table-responsive">
-                <table class="table table-hover table-striped">
-                    <thead>
-                        <tr>
-                            <th>{{l('PlanName')}}</th>
-                            <th>{{l('PlanYear')}}</th>
-                            <th>{{l('FileNo')}}</th>
-                            <th>{{l('PublishDate')}}</th>
-                            <th>{{l('FundBudget')}}</th>
-                            <th>{{l('Actions')}}</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let plan of plans | paginate: { id: 'server', itemsPerPage: pageSize, currentPage: pageNumber, totalItems: totalItems }">
-                            <td>{{plan.planName}}</td>
-                            <td>{{plan.planYear}}</td>
-                            <td>{{plan.fileNo}}</td>
-                            <td>{{plan.publishDate}}</td>
-                            <td>{{plan.fundBudget}} 万元</td>
-                            <td class="dropdown">
-                                <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                                    <i class="material-icons">menu</i>
-                                </a>
-                                <ul class="dropdown-menu pull-right">
-                                    <li>
-                                        <a href="javascript:void(0);" class="waves-effect waves-block" (click)="editPlan(plan)">
-                                            <i class="material-icons">create</i>{{l('Edit')}}</a>
-                                    </li>
-                                    <li>
-                                        <a href="javascript:void(0);" class="waves-effect waves-block" (click)="delete(plan)">
-                                            <i class="material-icons">delete_sweep</i>{{l('Delete')}}</a>
-                                    </li>
-                                </ul>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-
-                <div class="text-align: center;" *ngIf="totalItems > pageSize">
-                    <pagination-controls (pageChange)="getDataPage($event)" id="server"></pagination-controls>
+            <div class="body">
+                <div class="row clearfix" style="padding-left: 15px;">
+                    <div class="btn-group">
+                        <button type="button" data-toggle="modal" class="btn btn-outline btn-primary" (click)="createPlan()">
+                            <i class="fa fa-plus"></i>
+                            添加测绘计划
+                        </button>
+                    </div>
                 </div>
-                <button type="button" data-toggle="modal" class="btn btn-primary btn-circle waves-effect waves-circle waves-float pull-right"
-                    (click)="createPlan()">
-                    <i class="material-icons">add</i>
-                </button>
+                <div class="table-responsive" style="padding-top: 10px;">
+                    <table class="table table-hover table-striped table-bordered">
+                        <thead>
+                            <tr>
+                                <th>{{l('PlanName')}}</th>
+                                <th>{{l('PlanYear')}}</th>
+                                <th>{{l('FileNo')}}</th>
+                                <th>{{l('PublishDate')}}</th>
+                                <th>{{l('FundBudget')}}</th>
+                                <th>{{l('Actions')}}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let plan of plans | paginate: { id: 'server', itemsPerPage: pageSize, currentPage: pageNumber, totalItems: totalItems }">
+                                <td>{{plan.planName}}</td>
+                                <td>{{plan.planYear}}</td>
+                                <td>{{plan.fileNo}}</td>
+                                <td>{{plan.publishDate}}</td>
+                                <td>{{plan.fundBudget}} 万元</td>
+                                <td  style="text-align: center;">
+                                    <div class="btn-group">
+                                        <button type="button" data-toggle="modal" class="btn btn-outline btn-primary" (click)="editPlan(plan)" >
+                                            <i class="fa fa-edit"></i>
+                                            编辑
+                                        </button>
+                                        <button type="button" data-toggle="modal" class="btn btn-outline btn-danger" (click)="delete(plan)">
+                                            <i class="fa fa-close"></i>
+                                            删除
+                                        </button>
+                                        <button type="button" data-toggle="modal" class="btn btn-outline btn-info" (click)="detail(plan)">
+                                            <i class="fa fa-info"></i>
+                                            详情
+                                        </button>
+                                    </div>
+
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="text-align: center;" *ngIf="totalItems > pageSize">
+                        <pagination-controls (pageChange)="getDataPage($event)" id="server"></pagination-controls>
+                    </div>
+
+                </div>
+                <div style="padding-top:12px">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a data-toggle="collapse" href="#panel-chart">趋势图</a>
+                            </h4>
+                        </div>
+                        <div id="panel-chart" class="panel-collapse collapse in">
+                            <div class="panel-body">
+                                <div class="row clearfix">
+                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+                                        <div class="body">
+                                            <div id="line_chart"></div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-
     </div>
 </div>
 
