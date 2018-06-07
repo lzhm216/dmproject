@@ -83,7 +83,7 @@
     //测绘规划与计划
     <text name="CreateNewPlan" value="创建测绘规划与计划" />
     <text name="EditNewPlan" value="编辑测绘规划与计划" />
-    <text name="PlanDetails" value="测绘规划与计划详情" />
+    <text name="DetailPlan" value="测绘规划与计划详情" />
 
     <text name="PlanName" value="规划名称" />
     <text name="PlanYear" value="所属年限" />
@@ -98,7 +98,6 @@
     //测绘计划
     <text name="PlanProjects" value="测绘计划项目" />
     <text name="EditPlanProject" value="编辑测绘计划项目" />
-    <text name="DetailPlanProject" value="测绘计划项目详情" />
     <text name="CreateNewPlanProject" value="新建测绘计划项目" />
     <text name="ProjectType" value="测绘计划项目名称" />
     <text name="ProjectTypeName" value="测绘计划项目名称" />
