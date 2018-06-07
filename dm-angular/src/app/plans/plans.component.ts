@@ -4,6 +4,7 @@ import { PagedListingComponentBase, PagedRequestDto } from '@shared/paged-listin
 import { appModuleAnimation } from '@shared/animations/routerTransition';
 import { CreatePlanComponent } from '@app/plans/create-plan/create-plan.component';
 import { EditPlanComponent } from '@app/plans/edit-plan/edit-plan.component';
+import { DetailPlanComponent } from '@app/plans/detail-plan/detail-plan.component';
 
 @Component({
   selector: 'app-plans',
@@ -11,14 +12,15 @@ import { EditPlanComponent } from '@app/plans/edit-plan/edit-plan.component';
   styleUrls: ['./plans.component.css'],
   animations: [appModuleAnimation()]
 })
-export class PlansComponent extends PagedListingComponentBase<PlanListDto> implements AfterViewInit {
+export class PlansComponent extends PagedListingComponentBase<PlanListDto> {
 
   @ViewChild('createPlanModal') createPlanModal: CreatePlanComponent;
   @ViewChild('editPlanModal') editPlanModal: EditPlanComponent;
+  @ViewChild('detailPlanModal') detailPlanModal: DetailPlanComponent;
 
   filter: string = '';
   plans: PlanListDto[] = [];
-  cost: number[] = [];
+  cost: any [] = [];
   constructor(
     injector: Injector,
     private _planService: PlanServiceProxy,
@@ -26,38 +28,28 @@ export class PlansComponent extends PagedListingComponentBase<PlanListDto> imple
     super(injector);
   }
 
-  ngAfterViewInit(): void {
-    $(function () {
-      initBarChart();
-    });
-
-    function initBarChart() {
+  protected list(request: PagedRequestDto, pageNumber: number, finishedCallback: Function): void {
+    this._planService.getPagedPlans(this.filter, 'Id', request.maxResultCount, request.skipCount).finally(() => {
+      
+            
       ((window as any).Morris).Line({
         element: 'line_chart',
-        data: [{
-          year: '2016', value: 2860
-        }, {
-          year: '2017', value: 2680
-        }, {
-          year: '2018', value: 2444
-        }
-        ],
+        data: this.cost,
         xkey: 'year',
         ykeys: ['value'],
         labels: ['计划总成本'],
         yLabelFormat: function (y) { return y.toString() + '万元'; }
       });
-    }
-  }
 
-  protected list(request: PagedRequestDto, pageNumber: number, finishedCallback: Function): void {
-    this._planService.getPagedPlans(this.filter, 'Id', request.maxResultCount, request.skipCount).finally(() => {
       finishedCallback();
     }).subscribe((result: PagedResultDtoOfPlanListDto) => {
+     
       this.plans = result.items;
+
       this.plans.forEach(plan => {
-        this.cost.push(plan.fundBudget);
+        this.cost.push({year: plan.planYear, value: plan.fundBudget});
       });
+
       this.showPaging(result, pageNumber);
     })
   }
@@ -77,16 +69,15 @@ export class PlansComponent extends PagedListingComponentBase<PlanListDto> imple
     );
   }
 
-  //TODO
-  protected detail(entity: PlanListDto): void {
-    //this.editPlanModal.show(entity.id);
-  }
-
   createPlan(): void {
     this.createPlanModal.show();
   }
 
   editPlan(plan: PlanEditDto): void {
     this.editPlanModal.show(plan.id);
+  }
+
+  detailPlan(plan: PlanListDto): void {
+    this.detailPlanModal.show(plan.id);
   }
 }

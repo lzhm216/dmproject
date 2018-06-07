@@ -48,9 +48,9 @@
                                 <td>{{plan.fileNo}}</td>
                                 <td>{{plan.publishDate}}</td>
                                 <td>{{plan.fundBudget}} 万元</td>
-                                <td  style="text-align: center;">
+                                <td style="text-align: center;">
                                     <div class="btn-group">
-                                        <button type="button" data-toggle="modal" class="btn btn-outline btn-primary" (click)="editPlan(plan)" >
+                                        <button type="button" data-toggle="modal" class="btn btn-outline btn-primary" (click)="editPlan(plan)">
                                             <i class="fa fa-edit"></i>
                                             编辑
                                         </button>
@@ -58,7 +58,7 @@
                                             <i class="fa fa-close"></i>
                                             删除
                                         </button>
-                                        <button type="button" data-toggle="modal" class="btn btn-outline btn-info" (click)="detail(plan)">
+                                        <button type="button" data-toggle="modal" class="btn btn-outline btn-info" (click)="detailPlan(plan)">
                                             <i class="fa fa-info"></i>
                                             详情
                                         </button>
@@ -103,3 +103,4 @@
 
 <app-plan-modal #createPlanModal (modalSave)="refresh()"></app-plan-modal>
 <app-edit-plan #editPlanModal (modalSave)="refresh()"></app-edit-plan>
+<app-detail-plan #detailPlanModal (modalSave)="refresh()"></app-detail-plan>

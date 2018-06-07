@@ -5,6 +5,7 @@
     <text name="About" value="关于我们" />
     <text name="WellcomeMessage" value="欢迎使用 DocumentManager!" />
     <text name="Settings" value="设置" />
+    <text name="Colse" value="关闭" />
     
     <text name="FormIsNotValidMessage" value="部分输入信息不符合要求，请检查并改正.." />
     <text name="TenantNameCanNotBeEmpty" value="租户名不能为空" />
@@ -97,6 +98,7 @@
     //测绘计划
     <text name="PlanProjects" value="测绘计划项目" />
     <text name="EditPlanProject" value="编辑测绘计划项目" />
+    <text name="DetailPlanProject" value="测绘计划项目详情" />
     <text name="CreateNewPlanProject" value="新建测绘计划项目" />
     <text name="ProjectType" value="测绘计划项目名称" />
     <text name="ProjectTypeName" value="测绘计划项目名称" />
@@ -112,6 +114,7 @@
     <text name="PlanProjectTypeName" value="测绘计划项目名称" />
     <text name="EditProjectType" value="编辑测绘计划项目名称" />
     <text name="CreateNewProjectType" value="新建测绘计划项目名称" />
+
 
     //分页
     <text name="Next" value="下一页" />
