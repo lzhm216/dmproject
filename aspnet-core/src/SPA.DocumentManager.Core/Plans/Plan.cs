@@ -67,5 +67,7 @@ namespace SPA.DocumentManager.Plans
         public ICollection<PlanProject> PlanProjects { get; set; }
 
         public ICollection<SpecialPlan> SpecialPlans { get; set; }
+
+        public ICollection<Attachment> Attachments { get; set; }
     }
 }

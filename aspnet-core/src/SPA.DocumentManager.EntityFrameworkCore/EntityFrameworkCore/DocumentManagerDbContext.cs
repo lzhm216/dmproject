@@ -21,6 +21,7 @@ namespace SPA.DocumentManager.EntityFrameworkCore
         public DbSet<PlanProjectType> PlanProjectTypes { get; set; }
         public DbSet<SubSpecialPlan> SubSpecialPlans { get; set; }
         public DbSet<TaskBook> TaskBooks { get; set; }
+        public DbSet<Attachment> Attachments { get; set; }
 
         public DocumentManagerDbContext(DbContextOptions<DocumentManagerDbContext> options)
             : base(options)
@@ -36,6 +37,7 @@ namespace SPA.DocumentManager.EntityFrameworkCore
             modelBuilder.Entity<SpecialPlan>().ToTable("SpecialPlan");
             modelBuilder.Entity<SubSpecialPlan>().ToTable("SubSpecialPlan");
             modelBuilder.Entity<TaskBook>().ToTable("TaskBook");
+            modelBuilder.Entity<Attachment>().ToTable("Attachment");
             base.OnModelCreating(modelBuilder);
         }
     }
