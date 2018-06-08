@@ -1,4 +1,4 @@
-<div bsModal #detailPlanModal="bs-modal" class="modal fade" (onShown)="onShown()" tabindex="-1" role="dialog" aria-labelledby="detailPlanModal"
+<div bsModal #detailPlanModal="bs-modal" class="modal fade"  tabindex="-1" role="dialog" aria-labelledby="detailPlanModal"
   aria-hidden="true" [config]="{backdrop: 'static'}">
   <div class="modal-dialog">
 
@@ -17,36 +17,66 @@
           <table class="table table-striped table-bordered">
 
             <tr>
-              <td class="font-bold"><span>{{l("PlanName")}}:</span></td>
-              <td><span class="pull-left">{{plan.planName}}</span></td>
+              <td class="font-bold">
+                <span>{{l("PlanName")}}:</span>
+              </td>
+              <td>
+                <span class="pull-left">{{plan.planName}}</span>
+              </td>
             </tr>
             <tr>
               <td class="font-bold">{{l("PlanYear")}}:</td>
-              <td><span class="pull-left">{{plan.planYear}}</span></td>
+              <td>
+                <span class="pull-left">{{plan.planYear}}</span>
+              </td>
             </tr>
             <tr>
               <td class="font-bold">{{l("FileNo")}}:</td>
-              <td><span class="pull-left">{{plan.fileNo}}</span></td>
+              <td>
+                <span class="pull-left">{{plan.fileNo}}</span>
+              </td>
             </tr>
             <tr>
               <td class="font-bold">{{l("PublishDate")}}:</td>
-              <td><span class="pull-left">{{plan.publishDate}}</span></td>
+              <td>
+                <span class="pull-left">{{plan.publishDate}}</span>
+              </td>
             </tr>
             <tr>
               <td class="font-bold">{{l("CompilationBasis")}}:</td>
-              <td><span class="pull-left">{{plan.compilationBasis}}</span></td>
+              <td>
+                <span class="pull-left">{{plan.compilationBasis}}</span>
+              </td>
             </tr>
             <tr>
               <td class="font-bold">{{l("MainContent")}}:</td>
-              <td><span class="pull-left">{{plan.mainContent}}</span></td>
+              <td>
+                <span class="pull-left">{{plan.mainContent}}</span>
+              </td>
             </tr>
             <tr>
               <td class="font-bold">{{l("FundBudget")}}:</td>
-              <td><span class="pull-left">{{plan.fundBudget}}</span></td>
+              <td>
+                <span class="pull-left">{{plan.fundBudget}}</span>
+              </td>
             </tr>
             <tr>
               <td class="font-bold">{{l("FinancialSource")}}:</td>
-              <td><span class="pull-left">{{plan.financialSource}}</span></td>
+              <td>
+                <span class="pull-left">{{plan.financialSource}}</span>
+              </td>
+            </tr>
+            <tr>
+              <td class="font-bold">{{l("Attachment")}}:</td>
+              <td>
+                <div *ngFor="let attachment of attachments">
+                  <a  href="javascript:void(0);" class=" waves-effect waves-block()" (click)="download(attachment);">
+                    <span>
+                      {{attachment.fileName}}
+                    </span>
+                  </a>
+                </div>
+              </td>
             </tr>
           </table>
         </div>

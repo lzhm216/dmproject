@@ -11,9 +11,7 @@ namespace SPA.DocumentManager.Attachments.Dtos.LTMAutoMapper
     {
         public static void CreateMappings(IMapperConfigurationExpression configuration)
         {
-            configuration.CreateMap<Attachment, AttachmentListDto>()
-                .ForMember(dest => dest.PlanName,
-                    opt => opt.MapFrom(src => src.Plan.PlanName));
+            configuration.CreateMap<Attachment, AttachmentListDto>();
             configuration.CreateMap<AttachmentEditDto, Attachment>();
         }
     }

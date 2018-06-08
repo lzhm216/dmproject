@@ -1,6 +1,6 @@
 import { Component, OnInit, Injector, ViewChild, ElementRef, EventEmitter, Output } from '@angular/core';
 import { ModalDirective } from 'ngx-bootstrap';
-import { PlanServiceProxy, PlanEditDto, CreateOrUpdatePlanInput } from '@shared/service-proxies/service-proxies';
+import { PlanServiceProxy, PlanEditDto, CreateOrUpdatePlanInput, AttachmentEditDto, AttachmentServiceProxy } from '@shared/service-proxies/service-proxies';
 import { AppComponentBase } from '@shared/app-component-base';
 
 import * as moment from 'moment';
@@ -22,9 +22,12 @@ export class CreatePlanComponent extends AppComponentBase implements OnInit {
   plan: PlanEditDto = new PlanEditDto();
   plan_create: CreateOrUpdatePlanInput = new CreateOrUpdatePlanInput();
 
+  attachment: AttachmentEditDto = new AttachmentEditDto();
+
   constructor(
     injector: Injector,
-    private _planService: PlanServiceProxy
+    private _planService: PlanServiceProxy,
+    private _attachmentService: AttachmentServiceProxy
   ) {
     super(injector);
   }
@@ -42,21 +45,25 @@ export class CreatePlanComponent extends AppComponentBase implements OnInit {
     this.modal.show();
   }
 
-  close(): void{
+  close(): void {
     this.active = false;
     this.modal.hide();
   }
 
-  save(): void{
+  save(): void {
     this.saving = true;
     this.plan.publishDate = moment(this.plan.publishDate.toString());
     this.plan_create.plan = this.plan;
-    this._planService.createOrUpdatePlan(this.plan_create).finally(()=>{
+    this._planService.createOrUpdatePlan(this.plan_create).finally(() => {
       this.saving = false;
-    }).subscribe(()=>{
-      this.notify.info(this.l('SavedSuccessfully'));
-      this.close();
-      this.modalSave.emit(null);
+    }).subscribe((result) => {    
+      const fileUpload = document.getElementById('attachment') as HTMLInputElement;
+      this._attachmentService.upload(result.id, fileUpload.files[0]).subscribe((result2) => {
+        this.notify.info(this.l('SavedSuccessfully'));
+        this.close();
+        this.modalSave.emit(null);
+      });
+
     })
   }
 }

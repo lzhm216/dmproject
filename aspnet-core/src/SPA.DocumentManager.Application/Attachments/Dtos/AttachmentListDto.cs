@@ -14,7 +14,6 @@ namespace SPA.DocumentManager.Attachments.Dtos
         public string FileName { get; set; }
         public string FileFormat { get; set; }
         public long Length { get; set; }
-
-        public string PlanName { get; set; }
+        public int PlanId { get; set; }
     }
 }

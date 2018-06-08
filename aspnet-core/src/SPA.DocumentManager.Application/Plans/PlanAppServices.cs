@@ -46,7 +46,7 @@ namespace SPA.DocumentManager.Plans
         {
 
             var query = _planRepository.GetAll();
-            //TODO:根据传入的参数添加过滤条件
+            
             var planCount = await query.CountAsync();
 
             var plans = await query
@@ -71,7 +71,9 @@ namespace SPA.DocumentManager.Plans
         {
             var entity = await _planRepository.GetAsync(input.Id);
 
-            return entity.MapTo<PlanListDto>();
+            var planListDto = entity.MapTo<PlanListDto>();
+
+            return planListDto;
         }
 
         /// <summary>
@@ -117,16 +119,16 @@ namespace SPA.DocumentManager.Plans
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        public async Task CreateOrUpdatePlan(CreateOrUpdatePlanInput input)
+        public async Task<PlanEditDto> CreateOrUpdatePlan(CreateOrUpdatePlanInput input)
         {
 
             if (input.Plan.Id.HasValue)
             {
-                await UpdatePlanAsync(input.Plan);
+               return await UpdatePlanAsync(input.Plan);
             }
             else
             {
-                await CreatePlanAsync(input.Plan);
+                return await CreatePlanAsync(input.Plan);
             }
         }
 
@@ -139,7 +141,8 @@ namespace SPA.DocumentManager.Plans
             //TODO:新增前的逻辑判断，是否允许新增
             var entity = ObjectMapper.Map<Plan>(input);
 
-            entity = await _planRepository.InsertAsync(entity);
+            int id = await _planRepository.InsertAndGetIdAsync(entity);
+            entity.Id = id;
             return entity.MapTo<PlanEditDto>();
         }
 
@@ -147,7 +150,7 @@ namespace SPA.DocumentManager.Plans
         /// 编辑Plan
         /// </summary>
         //[AbpAuthorize(PlanAppPermissions.Plan_EditPlan)]
-        protected virtual async Task UpdatePlanAsync(PlanEditDto input)
+        protected virtual async Task<PlanEditDto> UpdatePlanAsync(PlanEditDto input)
         {
             //TODO:更新前的逻辑判断，是否允许更新
             var entity = await _planRepository.GetAsync(input.Id.Value);
@@ -155,6 +158,8 @@ namespace SPA.DocumentManager.Plans
 
             // ObjectMapper.Map(input, entity);
             await _planRepository.UpdateAsync(entity);
+
+            return entity.MapTo<PlanEditDto>();
         }
 
         /// <summary>

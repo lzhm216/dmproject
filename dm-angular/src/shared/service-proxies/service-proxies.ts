@@ -17,7 +17,7 @@ import 'rxjs/add/operator/catch';
 
 import { Observable } from 'rxjs/Observable';
 import { Injectable, Inject, Optional, InjectionToken } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpParams, HttpResponse, HttpResponseBase, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpRequest, HttpHeaders, HttpParams, HttpResponse, HttpResponseBase, HttpErrorResponse } from '@angular/common/http';
 
 import * as moment from 'moment';
 
@@ -144,6 +144,484 @@ export class AccountServiceProxy {
             });
         }
         return Observable.of<RegisterOutput>(<any>null);
+    }
+}
+
+@Injectable()
+export class AttachmentServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ? baseUrl : "";
+    }
+
+    /**
+     * @filter (optional) 
+     * @planId (optional) 
+     * @sorting (optional) 
+     * @maxResultCount (optional) 
+     * @skipCount (optional) 
+     * @return Success
+     */
+    getPagedAttachments(filter: string | null | undefined, planId: number | null | undefined, sorting: string | null | undefined, maxResultCount: number | null | undefined, skipCount: number | null | undefined): Observable<PagedResultDtoOfAttachmentListDto> {
+        let url_ = this.baseUrl + "/api/services/app/Attachment/GetPagedAttachments?";
+        if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (planId !== undefined)
+            url_ += "PlanId=" + encodeURIComponent("" + planId) + "&"; 
+        if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).flatMap((response_ : any) => {
+            return this.processGetPagedAttachments(response_);
+        }).catch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetPagedAttachments(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfAttachmentListDto>><any>Observable.throw(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfAttachmentListDto>><any>Observable.throw(response_);
+        });
+    }
+
+    protected processGetPagedAttachments(response: HttpResponseBase): Observable<PagedResultDtoOfAttachmentListDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).flatMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? PagedResultDtoOfAttachmentListDto.fromJS(resultData200) : new PagedResultDtoOfAttachmentListDto();
+            return Observable.of(result200);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).flatMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Observable.of<PagedResultDtoOfAttachmentListDto>(<any>null);
+    }
+
+    /**
+     * @filter (optional) 
+     * @planId (optional) 
+     * @sorting (optional) 
+     * @maxResultCount (optional) 
+     * @skipCount (optional) 
+     * @return Success
+     */
+    getPagedAttachmentsByPlanId(filter: string | null | undefined, planId: number | null | undefined, sorting: string | null | undefined, maxResultCount: number | null | undefined, skipCount: number | null | undefined): Observable<PagedResultDtoOfAttachmentListDto> {
+        let url_ = this.baseUrl + "/api/services/app/Attachment/GetPagedAttachmentsByPlanId?";
+        if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (planId !== undefined)
+            url_ += "PlanId=" + encodeURIComponent("" + planId) + "&"; 
+        if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).flatMap((response_ : any) => {
+            return this.processGetPagedAttachmentsByPlanId(response_);
+        }).catch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetPagedAttachmentsByPlanId(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfAttachmentListDto>><any>Observable.throw(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfAttachmentListDto>><any>Observable.throw(response_);
+        });
+    }
+
+    protected processGetPagedAttachmentsByPlanId(response: HttpResponseBase): Observable<PagedResultDtoOfAttachmentListDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).flatMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? PagedResultDtoOfAttachmentListDto.fromJS(resultData200) : new PagedResultDtoOfAttachmentListDto();
+            return Observable.of(result200);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).flatMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Observable.of<PagedResultDtoOfAttachmentListDto>(<any>null);
+    }
+
+    /**
+     * @id (optional) 
+     * @return Success
+     */
+    getAttachmentByIdAsync(id: number | null | undefined): Observable<AttachmentListDto> {
+        let url_ = this.baseUrl + "/api/services/app/Attachment/GetAttachmentByIdAsync?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).flatMap((response_ : any) => {
+            return this.processGetAttachmentByIdAsync(response_);
+        }).catch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAttachmentByIdAsync(<any>response_);
+                } catch (e) {
+                    return <Observable<AttachmentListDto>><any>Observable.throw(e);
+                }
+            } else
+                return <Observable<AttachmentListDto>><any>Observable.throw(response_);
+        });
+    }
+
+    protected processGetAttachmentByIdAsync(response: HttpResponseBase): Observable<AttachmentListDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).flatMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? AttachmentListDto.fromJS(resultData200) : new AttachmentListDto();
+            return Observable.of(result200);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).flatMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Observable.of<AttachmentListDto>(<any>null);
+    }
+
+    /**
+     * @id (optional) 
+     * @return Success
+     */
+    getAttachmentForEdit(id: number | null | undefined): Observable<GetAttachmentForEditOutput> {
+        let url_ = this.baseUrl + "/api/services/app/Attachment/GetAttachmentForEdit?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).flatMap((response_ : any) => {
+            return this.processGetAttachmentForEdit(response_);
+        }).catch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAttachmentForEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<GetAttachmentForEditOutput>><any>Observable.throw(e);
+                }
+            } else
+                return <Observable<GetAttachmentForEditOutput>><any>Observable.throw(response_);
+        });
+    }
+
+    protected processGetAttachmentForEdit(response: HttpResponseBase): Observable<GetAttachmentForEditOutput> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).flatMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? GetAttachmentForEditOutput.fromJS(resultData200) : new GetAttachmentForEditOutput();
+            return Observable.of(result200);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).flatMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Observable.of<GetAttachmentForEditOutput>(<any>null);
+    }
+
+    /**
+     * @input (optional) 
+     * @return Success
+     */
+    createOrUpdateAttachment(input: CreateOrUpdateAttachmentInput | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/Attachment/CreateOrUpdateAttachment";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(input);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return this.http.request("post", url_, options_).flatMap((response_ : any) => {
+            return this.processCreateOrUpdateAttachment(response_);
+        }).catch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreateOrUpdateAttachment(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>Observable.throw(e);
+                }
+            } else
+                return <Observable<void>><any>Observable.throw(response_);
+        });
+    }
+
+    protected processCreateOrUpdateAttachment(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).flatMap(_responseText => {
+            return Observable.of<void>(<any>null);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).flatMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Observable.of<void>(<any>null);
+    }
+
+    /**
+     * @planId (optional) 
+     * @file (optional) 
+     * @return Success
+     */
+    upload(planId: number | null | undefined, file: any | null | undefined): Observable<AttachmentEditDto> {
+        let url_ = this.baseUrl + "/api/services/app/Attachment/Upload";
+        /* if (planId !== undefined)
+            url_ += "planId=" + encodeURIComponent("" + planId) + "&"; 
+        if (file !== undefined)
+            url_ += "file=" + encodeURIComponent("" + file) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+ */
+        const formData = new FormData();
+        formData.append('planId', '3');
+        formData.append('file', file);
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "multipart/form-data", 
+                "Accept": "*/*",
+                "accept-encoding": "gzip, deflate"
+            })
+        };
+
+        const uploadReq = new HttpRequest('POST', url_, formData, {
+            reportProgress: true,
+          });
+
+        return this.http.request(uploadReq).flatMap((response_ : any) => {
+            return this.processUpload(response_);
+        }).catch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processUpload(<any>response_);
+                } catch (e) {
+                    return <Observable<AttachmentEditDto>><any>Observable.throw(e);
+                }
+            } else
+                return <Observable<AttachmentEditDto>><any>Observable.throw(response_);
+        });
+    }
+
+    protected processUpload(response: HttpResponseBase): Observable<AttachmentEditDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).flatMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? AttachmentEditDto.fromJS(resultData200) : new AttachmentEditDto();
+            return Observable.of(result200);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).flatMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Observable.of<AttachmentEditDto>(<any>null);
+    }
+
+    /**
+     * @id (optional) 
+     * @return Success
+     */
+    deleteAttachment(id: number | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/Attachment/DeleteAttachment?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return this.http.request("delete", url_, options_).flatMap((response_ : any) => {
+            return this.processDeleteAttachment(response_);
+        }).catch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDeleteAttachment(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>Observable.throw(e);
+                }
+            } else
+                return <Observable<void>><any>Observable.throw(response_);
+        });
+    }
+
+    protected processDeleteAttachment(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).flatMap(_responseText => {
+            return Observable.of<void>(<any>null);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).flatMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Observable.of<void>(<any>null);
+    }
+
+    /**
+     * @input (optional) 
+     * @return Success
+     */
+    batchDeleteAttachmentsAsync(input: number[] | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/Attachment/BatchDeleteAttachmentsAsync";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(input);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return this.http.request("post", url_, options_).flatMap((response_ : any) => {
+            return this.processBatchDeleteAttachmentsAsync(response_);
+        }).catch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processBatchDeleteAttachmentsAsync(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>Observable.throw(e);
+                }
+            } else
+                return <Observable<void>><any>Observable.throw(response_);
+        });
+    }
+
+    protected processBatchDeleteAttachmentsAsync(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).flatMap(_responseText => {
+            return Observable.of<void>(<any>null);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).flatMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Observable.of<void>(<any>null);
     }
 }
 
@@ -472,7 +950,7 @@ export class PlanServiceProxy {
      * @input (optional) 
      * @return Success
      */
-    createOrUpdatePlan(input: CreateOrUpdatePlanInput | null | undefined): Observable<void> {
+    createOrUpdatePlan(input: CreateOrUpdatePlanInput | null | undefined): Observable<PlanEditDto> {
         let url_ = this.baseUrl + "/api/services/app/Plan/CreateOrUpdatePlan";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -484,6 +962,7 @@ export class PlanServiceProxy {
             responseType: "blob",
             headers: new HttpHeaders({
                 "Content-Type": "application/json", 
+                "Accept": "application/json"
             })
         };
 
@@ -494,14 +973,14 @@ export class PlanServiceProxy {
                 try {
                     return this.processCreateOrUpdatePlan(<any>response_);
                 } catch (e) {
-                    return <Observable<void>><any>Observable.throw(e);
+                    return <Observable<PlanEditDto>><any>Observable.throw(e);
                 }
             } else
-                return <Observable<void>><any>Observable.throw(response_);
+                return <Observable<PlanEditDto>><any>Observable.throw(response_);
         });
     }
 
-    protected processCreateOrUpdatePlan(response: HttpResponseBase): Observable<void> {
+    protected processCreateOrUpdatePlan(response: HttpResponseBase): Observable<PlanEditDto> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -510,14 +989,17 @@ export class PlanServiceProxy {
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
         if (status === 200) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return Observable.of<void>(<any>null);
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? PlanEditDto.fromJS(resultData200) : new PlanEditDto();
+            return Observable.of(result200);
             });
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).flatMap(_responseText => {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
-        return Observable.of<void>(<any>null);
+        return Observable.of<PlanEditDto>(<any>null);
     }
 
     /**
@@ -4201,6 +4683,376 @@ export interface IRegisterOutput {
     canLogin: boolean | undefined;
 }
 
+export class PagedResultDtoOfAttachmentListDto implements IPagedResultDtoOfAttachmentListDto {
+    totalCount: number | undefined;
+    items: AttachmentListDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfAttachmentListDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalCount = data["totalCount"];
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [];
+                for (let item of data["items"])
+                    this.items.push(AttachmentListDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfAttachmentListDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfAttachmentListDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+
+    clone() {
+        const json = this.toJSON();
+        let result = new PagedResultDtoOfAttachmentListDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IPagedResultDtoOfAttachmentListDto {
+    totalCount: number | undefined;
+    items: AttachmentListDto[] | undefined;
+}
+
+export class AttachmentListDto implements IAttachmentListDto {
+    newFileName: string | undefined;
+    fileName: string | undefined;
+    fileFormat: string | undefined;
+    length: number | undefined;
+    planId: number | undefined;
+    isDeleted: boolean | undefined;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    creationTime: moment.Moment | undefined;
+    creatorUserId: number | undefined;
+    id: number | undefined;
+
+    constructor(data?: IAttachmentListDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.newFileName = data["newFileName"];
+            this.fileName = data["fileName"];
+            this.fileFormat = data["fileFormat"];
+            this.length = data["length"];
+            this.planId = data["planId"];
+            this.isDeleted = data["isDeleted"];
+            this.deleterUserId = data["deleterUserId"];
+            this.deletionTime = data["deletionTime"] ? moment(data["deletionTime"].toString()) : <any>undefined;
+            this.lastModificationTime = data["lastModificationTime"] ? moment(data["lastModificationTime"].toString()) : <any>undefined;
+            this.lastModifierUserId = data["lastModifierUserId"];
+            this.creationTime = data["creationTime"] ? moment(data["creationTime"].toString()) : <any>undefined;
+            this.creatorUserId = data["creatorUserId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): AttachmentListDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new AttachmentListDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["newFileName"] = this.newFileName;
+        data["fileName"] = this.fileName;
+        data["fileFormat"] = this.fileFormat;
+        data["length"] = this.length;
+        data["planId"] = this.planId;
+        data["isDeleted"] = this.isDeleted;
+        data["deleterUserId"] = this.deleterUserId;
+        data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
+        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
+        data["lastModifierUserId"] = this.lastModifierUserId;
+        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
+        data["creatorUserId"] = this.creatorUserId;
+        data["id"] = this.id;
+        return data; 
+    }
+
+    clone() {
+        const json = this.toJSON();
+        let result = new AttachmentListDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IAttachmentListDto {
+    newFileName: string | undefined;
+    fileName: string | undefined;
+    fileFormat: string | undefined;
+    length: number | undefined;
+    planId: number | undefined;
+    isDeleted: boolean | undefined;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    creationTime: moment.Moment | undefined;
+    creatorUserId: number | undefined;
+    id: number | undefined;
+}
+
+export class GetAttachmentForEditOutput implements IGetAttachmentForEditOutput {
+    attachment: AttachmentEditDto | undefined;
+
+    constructor(data?: IGetAttachmentForEditOutput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.attachment = data["attachment"] ? AttachmentEditDto.fromJS(data["attachment"]) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): GetAttachmentForEditOutput {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetAttachmentForEditOutput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["attachment"] = this.attachment ? this.attachment.toJSON() : <any>undefined;
+        return data; 
+    }
+
+    clone() {
+        const json = this.toJSON();
+        let result = new GetAttachmentForEditOutput();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IGetAttachmentForEditOutput {
+    attachment: AttachmentEditDto | undefined;
+}
+
+export class AttachmentEditDto implements IAttachmentEditDto {
+    id: number | undefined;
+    newFileName: string;
+    fileName: string;
+    fileFormat: string;
+    length: number | undefined;
+    planId: number | undefined;
+
+    constructor(data?: IAttachmentEditDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.id = data["id"];
+            this.newFileName = data["newFileName"];
+            this.fileName = data["fileName"];
+            this.fileFormat = data["fileFormat"];
+            this.length = data["length"];
+            this.planId = data["planId"];
+        }
+    }
+
+    static fromJS(data: any): AttachmentEditDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new AttachmentEditDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["newFileName"] = this.newFileName;
+        data["fileName"] = this.fileName;
+        data["fileFormat"] = this.fileFormat;
+        data["length"] = this.length;
+        data["planId"] = this.planId;
+        return data; 
+    }
+
+    clone() {
+        const json = this.toJSON();
+        let result = new AttachmentEditDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IAttachmentEditDto {
+    id: number | undefined;
+    newFileName: string;
+    fileName: string;
+    fileFormat: string;
+    length: number | undefined;
+    planId: number | undefined;
+}
+
+export class CreateOrUpdateAttachmentInput implements ICreateOrUpdateAttachmentInput {
+    attachment: AttachmentEditDto = new AttachmentEditDto();
+
+    constructor(data?: ICreateOrUpdateAttachmentInput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.attachment = data["attachment"] ? AttachmentEditDto.fromJS(data["attachment"]) : new AttachmentEditDto();
+        }
+    }
+
+    static fromJS(data: any): CreateOrUpdateAttachmentInput {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateOrUpdateAttachmentInput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["attachment"] = this.attachment ? this.attachment.toJSON() : <any>undefined;
+        return data; 
+    }
+
+    clone() {
+        const json = this.toJSON();
+        let result = new CreateOrUpdateAttachmentInput();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface ICreateOrUpdateAttachmentInput {
+    attachment: AttachmentEditDto;
+}
+
+export class IFormFile implements IIFormFile {
+    readonly contentType: string | undefined;
+    readonly contentDisposition: string | undefined;
+    readonly headers: { [key: string] : string[]; } | undefined;
+    readonly length: number | undefined;
+    readonly name: string | undefined;
+    readonly fileName: string | undefined;
+
+    constructor(data?: IIFormFile) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            (<any>this).contentType = data["contentType"];
+            (<any>this).contentDisposition = data["contentDisposition"];
+            if (data["headers"]) {
+                (<any>this).headers = {};
+                for (let key in data["headers"]) {
+                    if (data["headers"].hasOwnProperty(key))
+                        (<any>this).headers[key] = data["headers"][key];
+                }
+            }
+            (<any>this).length = data["length"];
+            (<any>this).name = data["name"];
+            (<any>this).fileName = data["fileName"];
+        }
+    }
+
+    static fromJS(data: any): IFormFile {
+        data = typeof data === 'object' ? data : {};
+        let result = new IFormFile();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["contentType"] = this.contentType;
+        data["contentDisposition"] = this.contentDisposition;
+        if (this.headers) {
+            data["headers"] = {};
+            for (let key in this.headers) {
+                if (this.headers.hasOwnProperty(key))
+                    data["headers"][key] = this.headers[key];
+            }
+        }
+        data["length"] = this.length;
+        data["name"] = this.name;
+        data["fileName"] = this.fileName;
+        return data; 
+    }
+
+    clone() {
+        const json = this.toJSON();
+        let result = new IFormFile();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IIFormFile {
+    contentType: string | undefined;
+    contentDisposition: string | undefined;
+    headers: { [key: string] : string[]; } | undefined;
+    length: number | undefined;
+    name: string | undefined;
+    fileName: string | undefined;
+}
+
 export class ChangeUiThemeInput implements IChangeUiThemeInput {
     theme: string;
 
@@ -4356,6 +5208,7 @@ export class PlanListDto implements IPlanListDto {
     mainContent: string | undefined;
     fundBudget: number | undefined;
     financialSource: string | undefined;
+    attachments: Attachment[] | undefined;
 
     constructor(data?: IPlanListDto) {
         if (data) {
@@ -4377,6 +5230,11 @@ export class PlanListDto implements IPlanListDto {
             this.mainContent = data["mainContent"];
             this.fundBudget = data["fundBudget"];
             this.financialSource = data["financialSource"];
+            if (data["attachments"] && data["attachments"].constructor === Array) {
+                this.attachments = [];
+                for (let item of data["attachments"])
+                    this.attachments.push(Attachment.fromJS(item));
+            }
         }
     }
 
@@ -4398,6 +5256,11 @@ export class PlanListDto implements IPlanListDto {
         data["mainContent"] = this.mainContent;
         data["fundBudget"] = this.fundBudget;
         data["financialSource"] = this.financialSource;
+        if (this.attachments && this.attachments.constructor === Array) {
+            data["attachments"] = [];
+            for (let item of this.attachments)
+                data["attachments"].push(item.toJSON());
+        }
         return data; 
     }
 
@@ -4419,6 +5282,633 @@ export interface IPlanListDto {
     mainContent: string | undefined;
     fundBudget: number | undefined;
     financialSource: string | undefined;
+    attachments: Attachment[] | undefined;
+}
+
+export class Attachment implements IAttachment {
+    newFileName: string;
+    fileName: string;
+    fileFormat: string;
+    length: number | undefined;
+    planId: number | undefined;
+    plan: Plan | undefined;
+    isDeleted: boolean | undefined;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    creationTime: moment.Moment | undefined;
+    creatorUserId: number | undefined;
+    id: number | undefined;
+
+    constructor(data?: IAttachment) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.newFileName = data["newFileName"];
+            this.fileName = data["fileName"];
+            this.fileFormat = data["fileFormat"];
+            this.length = data["length"];
+            this.planId = data["planId"];
+            this.plan = data["plan"] ? Plan.fromJS(data["plan"]) : <any>undefined;
+            this.isDeleted = data["isDeleted"];
+            this.deleterUserId = data["deleterUserId"];
+            this.deletionTime = data["deletionTime"] ? moment(data["deletionTime"].toString()) : <any>undefined;
+            this.lastModificationTime = data["lastModificationTime"] ? moment(data["lastModificationTime"].toString()) : <any>undefined;
+            this.lastModifierUserId = data["lastModifierUserId"];
+            this.creationTime = data["creationTime"] ? moment(data["creationTime"].toString()) : <any>undefined;
+            this.creatorUserId = data["creatorUserId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): Attachment {
+        data = typeof data === 'object' ? data : {};
+        let result = new Attachment();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["newFileName"] = this.newFileName;
+        data["fileName"] = this.fileName;
+        data["fileFormat"] = this.fileFormat;
+        data["length"] = this.length;
+        data["planId"] = this.planId;
+        data["plan"] = this.plan ? this.plan.toJSON() : <any>undefined;
+        data["isDeleted"] = this.isDeleted;
+        data["deleterUserId"] = this.deleterUserId;
+        data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
+        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
+        data["lastModifierUserId"] = this.lastModifierUserId;
+        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
+        data["creatorUserId"] = this.creatorUserId;
+        data["id"] = this.id;
+        return data; 
+    }
+
+    clone() {
+        const json = this.toJSON();
+        let result = new Attachment();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IAttachment {
+    newFileName: string;
+    fileName: string;
+    fileFormat: string;
+    length: number | undefined;
+    planId: number | undefined;
+    plan: Plan | undefined;
+    isDeleted: boolean | undefined;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    creationTime: moment.Moment | undefined;
+    creatorUserId: number | undefined;
+    id: number | undefined;
+}
+
+export class Plan implements IPlan {
+    planName: string;
+    planYear: string;
+    fileNo: string;
+    publishDate: moment.Moment | undefined;
+    compilationBasis: string | undefined;
+    mainContent: string | undefined;
+    fundBudget: number | undefined;
+    financialSource: string | undefined;
+    planProjects: PlanProject[] | undefined;
+    specialPlans: SpecialPlan[] | undefined;
+    attachments: Attachment[] | undefined;
+    isDeleted: boolean | undefined;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    creationTime: moment.Moment | undefined;
+    creatorUserId: number | undefined;
+    id: number | undefined;
+
+    constructor(data?: IPlan) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.planName = data["planName"];
+            this.planYear = data["planYear"];
+            this.fileNo = data["fileNo"];
+            this.publishDate = data["publishDate"] ? moment(data["publishDate"].toString()) : <any>undefined;
+            this.compilationBasis = data["compilationBasis"];
+            this.mainContent = data["mainContent"];
+            this.fundBudget = data["fundBudget"];
+            this.financialSource = data["financialSource"];
+            if (data["planProjects"] && data["planProjects"].constructor === Array) {
+                this.planProjects = [];
+                for (let item of data["planProjects"])
+                    this.planProjects.push(PlanProject.fromJS(item));
+            }
+            if (data["specialPlans"] && data["specialPlans"].constructor === Array) {
+                this.specialPlans = [];
+                for (let item of data["specialPlans"])
+                    this.specialPlans.push(SpecialPlan.fromJS(item));
+            }
+            if (data["attachments"] && data["attachments"].constructor === Array) {
+                this.attachments = [];
+                for (let item of data["attachments"])
+                    this.attachments.push(Attachment.fromJS(item));
+            }
+            this.isDeleted = data["isDeleted"];
+            this.deleterUserId = data["deleterUserId"];
+            this.deletionTime = data["deletionTime"] ? moment(data["deletionTime"].toString()) : <any>undefined;
+            this.lastModificationTime = data["lastModificationTime"] ? moment(data["lastModificationTime"].toString()) : <any>undefined;
+            this.lastModifierUserId = data["lastModifierUserId"];
+            this.creationTime = data["creationTime"] ? moment(data["creationTime"].toString()) : <any>undefined;
+            this.creatorUserId = data["creatorUserId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): Plan {
+        data = typeof data === 'object' ? data : {};
+        let result = new Plan();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["planName"] = this.planName;
+        data["planYear"] = this.planYear;
+        data["fileNo"] = this.fileNo;
+        data["publishDate"] = this.publishDate ? this.publishDate.toISOString() : <any>undefined;
+        data["compilationBasis"] = this.compilationBasis;
+        data["mainContent"] = this.mainContent;
+        data["fundBudget"] = this.fundBudget;
+        data["financialSource"] = this.financialSource;
+        if (this.planProjects && this.planProjects.constructor === Array) {
+            data["planProjects"] = [];
+            for (let item of this.planProjects)
+                data["planProjects"].push(item.toJSON());
+        }
+        if (this.specialPlans && this.specialPlans.constructor === Array) {
+            data["specialPlans"] = [];
+            for (let item of this.specialPlans)
+                data["specialPlans"].push(item.toJSON());
+        }
+        if (this.attachments && this.attachments.constructor === Array) {
+            data["attachments"] = [];
+            for (let item of this.attachments)
+                data["attachments"].push(item.toJSON());
+        }
+        data["isDeleted"] = this.isDeleted;
+        data["deleterUserId"] = this.deleterUserId;
+        data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
+        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
+        data["lastModifierUserId"] = this.lastModifierUserId;
+        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
+        data["creatorUserId"] = this.creatorUserId;
+        data["id"] = this.id;
+        return data; 
+    }
+
+    clone() {
+        const json = this.toJSON();
+        let result = new Plan();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IPlan {
+    planName: string;
+    planYear: string;
+    fileNo: string;
+    publishDate: moment.Moment | undefined;
+    compilationBasis: string | undefined;
+    mainContent: string | undefined;
+    fundBudget: number | undefined;
+    financialSource: string | undefined;
+    planProjects: PlanProject[] | undefined;
+    specialPlans: SpecialPlan[] | undefined;
+    attachments: Attachment[] | undefined;
+    isDeleted: boolean | undefined;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    creationTime: moment.Moment | undefined;
+    creatorUserId: number | undefined;
+    id: number | undefined;
+}
+
+export class PlanProject implements IPlanProject {
+    planProjectTypeId: number | undefined;
+    planProjectType: PlanProjectType | undefined;
+    subProjectName: string;
+    unit: PlanProjectUnit | undefined;
+    plannedWorkLoad: number | undefined;
+    plannedCost: number | undefined;
+    description: string | undefined;
+    planId: number | undefined;
+    plan: Plan | undefined;
+    isDeleted: boolean | undefined;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    creationTime: moment.Moment | undefined;
+    creatorUserId: number | undefined;
+    id: number | undefined;
+
+    constructor(data?: IPlanProject) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.planProjectTypeId = data["planProjectTypeId"];
+            this.planProjectType = data["planProjectType"] ? PlanProjectType.fromJS(data["planProjectType"]) : <any>undefined;
+            this.subProjectName = data["subProjectName"];
+            this.unit = data["unit"];
+            this.plannedWorkLoad = data["plannedWorkLoad"];
+            this.plannedCost = data["plannedCost"];
+            this.description = data["description"];
+            this.planId = data["planId"];
+            this.plan = data["plan"] ? Plan.fromJS(data["plan"]) : <any>undefined;
+            this.isDeleted = data["isDeleted"];
+            this.deleterUserId = data["deleterUserId"];
+            this.deletionTime = data["deletionTime"] ? moment(data["deletionTime"].toString()) : <any>undefined;
+            this.lastModificationTime = data["lastModificationTime"] ? moment(data["lastModificationTime"].toString()) : <any>undefined;
+            this.lastModifierUserId = data["lastModifierUserId"];
+            this.creationTime = data["creationTime"] ? moment(data["creationTime"].toString()) : <any>undefined;
+            this.creatorUserId = data["creatorUserId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): PlanProject {
+        data = typeof data === 'object' ? data : {};
+        let result = new PlanProject();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["planProjectTypeId"] = this.planProjectTypeId;
+        data["planProjectType"] = this.planProjectType ? this.planProjectType.toJSON() : <any>undefined;
+        data["subProjectName"] = this.subProjectName;
+        data["unit"] = this.unit;
+        data["plannedWorkLoad"] = this.plannedWorkLoad;
+        data["plannedCost"] = this.plannedCost;
+        data["description"] = this.description;
+        data["planId"] = this.planId;
+        data["plan"] = this.plan ? this.plan.toJSON() : <any>undefined;
+        data["isDeleted"] = this.isDeleted;
+        data["deleterUserId"] = this.deleterUserId;
+        data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
+        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
+        data["lastModifierUserId"] = this.lastModifierUserId;
+        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
+        data["creatorUserId"] = this.creatorUserId;
+        data["id"] = this.id;
+        return data; 
+    }
+
+    clone() {
+        const json = this.toJSON();
+        let result = new PlanProject();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IPlanProject {
+    planProjectTypeId: number | undefined;
+    planProjectType: PlanProjectType | undefined;
+    subProjectName: string;
+    unit: PlanProjectUnit | undefined;
+    plannedWorkLoad: number | undefined;
+    plannedCost: number | undefined;
+    description: string | undefined;
+    planId: number | undefined;
+    plan: Plan | undefined;
+    isDeleted: boolean | undefined;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    creationTime: moment.Moment | undefined;
+    creatorUserId: number | undefined;
+    id: number | undefined;
+}
+
+export class SpecialPlan implements ISpecialPlan {
+    specialPlanName: string;
+    plannedCost: number | undefined;
+    subSpecialPlans: SubSpecialPlan[] | undefined;
+    planId: number | undefined;
+    plan: Plan | undefined;
+    isDeleted: boolean | undefined;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    creationTime: moment.Moment | undefined;
+    creatorUserId: number | undefined;
+    id: number | undefined;
+
+    constructor(data?: ISpecialPlan) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.specialPlanName = data["specialPlanName"];
+            this.plannedCost = data["plannedCost"];
+            if (data["subSpecialPlans"] && data["subSpecialPlans"].constructor === Array) {
+                this.subSpecialPlans = [];
+                for (let item of data["subSpecialPlans"])
+                    this.subSpecialPlans.push(SubSpecialPlan.fromJS(item));
+            }
+            this.planId = data["planId"];
+            this.plan = data["plan"] ? Plan.fromJS(data["plan"]) : <any>undefined;
+            this.isDeleted = data["isDeleted"];
+            this.deleterUserId = data["deleterUserId"];
+            this.deletionTime = data["deletionTime"] ? moment(data["deletionTime"].toString()) : <any>undefined;
+            this.lastModificationTime = data["lastModificationTime"] ? moment(data["lastModificationTime"].toString()) : <any>undefined;
+            this.lastModifierUserId = data["lastModifierUserId"];
+            this.creationTime = data["creationTime"] ? moment(data["creationTime"].toString()) : <any>undefined;
+            this.creatorUserId = data["creatorUserId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): SpecialPlan {
+        data = typeof data === 'object' ? data : {};
+        let result = new SpecialPlan();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["specialPlanName"] = this.specialPlanName;
+        data["plannedCost"] = this.plannedCost;
+        if (this.subSpecialPlans && this.subSpecialPlans.constructor === Array) {
+            data["subSpecialPlans"] = [];
+            for (let item of this.subSpecialPlans)
+                data["subSpecialPlans"].push(item.toJSON());
+        }
+        data["planId"] = this.planId;
+        data["plan"] = this.plan ? this.plan.toJSON() : <any>undefined;
+        data["isDeleted"] = this.isDeleted;
+        data["deleterUserId"] = this.deleterUserId;
+        data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
+        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
+        data["lastModifierUserId"] = this.lastModifierUserId;
+        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
+        data["creatorUserId"] = this.creatorUserId;
+        data["id"] = this.id;
+        return data; 
+    }
+
+    clone() {
+        const json = this.toJSON();
+        let result = new SpecialPlan();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface ISpecialPlan {
+    specialPlanName: string;
+    plannedCost: number | undefined;
+    subSpecialPlans: SubSpecialPlan[] | undefined;
+    planId: number | undefined;
+    plan: Plan | undefined;
+    isDeleted: boolean | undefined;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    creationTime: moment.Moment | undefined;
+    creatorUserId: number | undefined;
+    id: number | undefined;
+}
+
+export class PlanProjectType implements IPlanProjectType {
+    planProjectTypeName: string | undefined;
+    planProjects: PlanProject[] | undefined;
+    isDeleted: boolean | undefined;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    creationTime: moment.Moment | undefined;
+    creatorUserId: number | undefined;
+    id: number | undefined;
+
+    constructor(data?: IPlanProjectType) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.planProjectTypeName = data["planProjectTypeName"];
+            if (data["planProjects"] && data["planProjects"].constructor === Array) {
+                this.planProjects = [];
+                for (let item of data["planProjects"])
+                    this.planProjects.push(PlanProject.fromJS(item));
+            }
+            this.isDeleted = data["isDeleted"];
+            this.deleterUserId = data["deleterUserId"];
+            this.deletionTime = data["deletionTime"] ? moment(data["deletionTime"].toString()) : <any>undefined;
+            this.lastModificationTime = data["lastModificationTime"] ? moment(data["lastModificationTime"].toString()) : <any>undefined;
+            this.lastModifierUserId = data["lastModifierUserId"];
+            this.creationTime = data["creationTime"] ? moment(data["creationTime"].toString()) : <any>undefined;
+            this.creatorUserId = data["creatorUserId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): PlanProjectType {
+        data = typeof data === 'object' ? data : {};
+        let result = new PlanProjectType();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["planProjectTypeName"] = this.planProjectTypeName;
+        if (this.planProjects && this.planProjects.constructor === Array) {
+            data["planProjects"] = [];
+            for (let item of this.planProjects)
+                data["planProjects"].push(item.toJSON());
+        }
+        data["isDeleted"] = this.isDeleted;
+        data["deleterUserId"] = this.deleterUserId;
+        data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
+        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
+        data["lastModifierUserId"] = this.lastModifierUserId;
+        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
+        data["creatorUserId"] = this.creatorUserId;
+        data["id"] = this.id;
+        return data; 
+    }
+
+    clone() {
+        const json = this.toJSON();
+        let result = new PlanProjectType();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IPlanProjectType {
+    planProjectTypeName: string | undefined;
+    planProjects: PlanProject[] | undefined;
+    isDeleted: boolean | undefined;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    creationTime: moment.Moment | undefined;
+    creatorUserId: number | undefined;
+    id: number | undefined;
+}
+
+export class SubSpecialPlan implements ISubSpecialPlan {
+    mainContent: string;
+    unit: SubSpecialPlanUnit | undefined;
+    subPlanCost: number | undefined;
+    completeDate: moment.Moment | undefined;
+    description: string | undefined;
+    specialPlanId: number | undefined;
+    specialPlan: SpecialPlan | undefined;
+    isDeleted: boolean | undefined;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    creationTime: moment.Moment | undefined;
+    creatorUserId: number | undefined;
+    id: number | undefined;
+
+    constructor(data?: ISubSpecialPlan) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.mainContent = data["mainContent"];
+            this.unit = data["unit"];
+            this.subPlanCost = data["subPlanCost"];
+            this.completeDate = data["completeDate"] ? moment(data["completeDate"].toString()) : <any>undefined;
+            this.description = data["description"];
+            this.specialPlanId = data["specialPlanId"];
+            this.specialPlan = data["specialPlan"] ? SpecialPlan.fromJS(data["specialPlan"]) : <any>undefined;
+            this.isDeleted = data["isDeleted"];
+            this.deleterUserId = data["deleterUserId"];
+            this.deletionTime = data["deletionTime"] ? moment(data["deletionTime"].toString()) : <any>undefined;
+            this.lastModificationTime = data["lastModificationTime"] ? moment(data["lastModificationTime"].toString()) : <any>undefined;
+            this.lastModifierUserId = data["lastModifierUserId"];
+            this.creationTime = data["creationTime"] ? moment(data["creationTime"].toString()) : <any>undefined;
+            this.creatorUserId = data["creatorUserId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): SubSpecialPlan {
+        data = typeof data === 'object' ? data : {};
+        let result = new SubSpecialPlan();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["mainContent"] = this.mainContent;
+        data["unit"] = this.unit;
+        data["subPlanCost"] = this.subPlanCost;
+        data["completeDate"] = this.completeDate ? this.completeDate.toISOString() : <any>undefined;
+        data["description"] = this.description;
+        data["specialPlanId"] = this.specialPlanId;
+        data["specialPlan"] = this.specialPlan ? this.specialPlan.toJSON() : <any>undefined;
+        data["isDeleted"] = this.isDeleted;
+        data["deleterUserId"] = this.deleterUserId;
+        data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
+        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
+        data["lastModifierUserId"] = this.lastModifierUserId;
+        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
+        data["creatorUserId"] = this.creatorUserId;
+        data["id"] = this.id;
+        return data; 
+    }
+
+    clone() {
+        const json = this.toJSON();
+        let result = new SubSpecialPlan();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface ISubSpecialPlan {
+    mainContent: string;
+    unit: SubSpecialPlanUnit | undefined;
+    subPlanCost: number | undefined;
+    completeDate: moment.Moment | undefined;
+    description: string | undefined;
+    specialPlanId: number | undefined;
+    specialPlan: SpecialPlan | undefined;
+    isDeleted: boolean | undefined;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    creationTime: moment.Moment | undefined;
+    creatorUserId: number | undefined;
+    id: number | undefined;
 }
 
 export class GetPlanForEditOutput implements IGetPlanForEditOutput {
@@ -4474,6 +5964,7 @@ export class PlanEditDto implements IPlanEditDto {
     mainContent: string | undefined;
     fundBudget: number | undefined;
     financialSource: string | undefined;
+    attachments: Attachment[] | undefined;
 
     constructor(data?: IPlanEditDto) {
         if (data) {
@@ -4495,6 +5986,11 @@ export class PlanEditDto implements IPlanEditDto {
             this.mainContent = data["mainContent"];
             this.fundBudget = data["fundBudget"];
             this.financialSource = data["financialSource"];
+            if (data["attachments"] && data["attachments"].constructor === Array) {
+                this.attachments = [];
+                for (let item of data["attachments"])
+                    this.attachments.push(Attachment.fromJS(item));
+            }
         }
     }
 
@@ -4516,6 +6012,11 @@ export class PlanEditDto implements IPlanEditDto {
         data["mainContent"] = this.mainContent;
         data["fundBudget"] = this.fundBudget;
         data["financialSource"] = this.financialSource;
+        if (this.attachments && this.attachments.constructor === Array) {
+            data["attachments"] = [];
+            for (let item of this.attachments)
+                data["attachments"].push(item.toJSON());
+        }
         return data; 
     }
 
@@ -4537,6 +6038,7 @@ export interface IPlanEditDto {
     mainContent: string | undefined;
     fundBudget: number | undefined;
     financialSource: string | undefined;
+    attachments: Attachment[] | undefined;
 }
 
 export class CreateOrUpdatePlanInput implements ICreateOrUpdatePlanInput {
@@ -4647,7 +6149,7 @@ export class PlanProjectListDto implements IPlanProjectListDto {
     description: string | undefined;
     planId: number | undefined;
     planName: string | undefined;
-    unit: PlanProjectListDtoUnit | undefined;
+    unit: PlanProjectDtoUnit | undefined;
     readonly unitTypeDescription: string | undefined;
 
     constructor(data?: IPlanProjectListDto) {
@@ -4716,7 +6218,7 @@ export interface IPlanProjectListDto {
     description: string | undefined;
     planId: number | undefined;
     planName: string | undefined;
-    unit: PlanProjectListDtoUnit | undefined;
+    unit: PlanProjectDtoUnit | undefined;
     unitTypeDescription: string | undefined;
 }
 
@@ -4769,7 +6271,7 @@ export class PlanProjectEditDto implements IPlanProjectEditDto {
     subProjectName: string;
     plannedWorkLoad: number | undefined;
     plannedCost: number | undefined;
-    unit: PlanProjectListDtoUnit | undefined;
+    unit: PlanProjectDtoUnit | undefined;
     readonly unitTypeDescription: string | undefined;
     description: string | undefined;
     planId: number | undefined;
@@ -4832,7 +6334,7 @@ export interface IPlanProjectEditDto {
     subProjectName: string;
     plannedWorkLoad: number | undefined;
     plannedCost: number | undefined;
-    unit: PlanProjectListDtoUnit | undefined;
+    unit: PlanProjectDtoUnit | undefined;
     unitTypeDescription: string | undefined;
     description: string | undefined;
     planId: number | undefined;
@@ -7316,11 +8818,24 @@ export enum IsTenantAvailableOutputState {
     _3 = 3, 
 }
 
-export enum PlanProjectListDtoUnit {
+export enum PlanProjectUnit {
     _0 = 0, 
     _1 = 1, 
     _2 = 2, 
 }
+
+export enum SubSpecialPlanUnit {
+    _0 = 0, 
+    _1 = 1, 
+    _2 = 2, 
+}
+
+export enum PlanProjectDtoUnit {
+    _0 = 0, 
+    _1 = 1, 
+    _2 = 2, 
+}
+
 
 export class SwaggerException extends Error {
     message: string;

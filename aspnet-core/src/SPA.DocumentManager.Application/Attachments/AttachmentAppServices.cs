@@ -69,7 +69,27 @@ namespace SPA.DocumentManager.Attachments
                 );
 
         }
+        public async Task<PagedResultDto<AttachmentListDto>> GetPagedAttachmentsByPlanId(GetAttachmentsInput input)
+        {
 
+            var query = _attachmentRepository.GetAll().Include(t=>t.Plan).WhereIf(input.PlanId != null, t => t.PlanId == input.PlanId);
+            
+            var attachmentCount = await query.CountAsync();
+
+            var attachments = await query
+                .OrderBy(input.Sorting).AsNoTracking()
+                .PageBy(input)
+                .ToListAsync();
+
+            //var attachmentListDtos = ObjectMapper.Map<List <AttachmentListDto>>(attachments);
+            var attachmentListDtos = attachments.MapTo<List<AttachmentListDto>>();
+
+            return new PagedResultDto<AttachmentListDto>(
+                attachmentCount,
+                attachmentListDtos
+            );
+
+        }
         /// <summary>
         /// 通过指定id获取AttachmentListDto信息
         /// </summary>
@@ -144,7 +164,7 @@ namespace SPA.DocumentManager.Attachments
                 throw new ArgumentNullException();
             }
 
-            var plan = await _planRepository.GetAll().Include(a=>a.Attachments).Where(a=>a.Id == planId).FirstAsync();
+            var plan = await _planRepository.GetAll().Where(a => a.Id == planId).Include(a=>a.Attachments).FirstAsync();
             if (plan == null)
             {
                 throw new EntityNotFoundException();

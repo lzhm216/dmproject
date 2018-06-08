@@ -24,5 +24,6 @@ namespace SPA.DocumentManager.Attachments.Dtos
             }
         }
 
+        public int? PlanId { get; set; }
     }
 }

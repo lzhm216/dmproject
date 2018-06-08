@@ -28,7 +28,6 @@ namespace SPA.DocumentManager.Attachments.Dtos
         /// <summary>
         /// 规划与计划ID
         /// </summary>
-        [Required]
         public int PlanId { get; set; }
     }
 }

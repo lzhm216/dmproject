@@ -24,7 +24,9 @@ namespace SPA.DocumentManager.Attachments
         /// 通过指定id获取AttachmentListDto信息
         /// </summary>
         Task<AttachmentListDto> GetAttachmentByIdAsync(EntityDto<int> input);
+        
 
+        Task<PagedResultDto<AttachmentListDto>> GetPagedAttachmentsByPlanId(GetAttachmentsInput input);
         /// <summary>
         /// 导出Attachment为excel表
         /// </summary>

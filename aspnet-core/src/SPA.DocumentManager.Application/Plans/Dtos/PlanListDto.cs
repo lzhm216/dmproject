@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using Abp.Application.Services.Dto;
 using SPA.DocumentManager.Plans.Dtos.LTMAutoMapper;
 
@@ -15,5 +17,7 @@ namespace SPA.DocumentManager.Plans.Dtos
         public string MainContent { get; set; }
         public double FundBudget { get; set; }
         public string FinancialSource { get; set; }
+
+        public ICollection<Attachment> Attachments { get; set; }
     }
 }

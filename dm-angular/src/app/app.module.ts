@@ -44,6 +44,7 @@ import { CreateProjecttypeComponent } from './projecttypes/create-projecttype/cr
 import { EditProjecttypeComponent } from './projecttypes/edit-projecttype/edit-projecttype.component';
 import { TestsComponent } from './tests/tests.component';
 import { DetailPlanComponent } from './plans/detail-plan/detail-plan.component';
+import { UploadsComponent } from './uploads/uploads.component';
 
 @NgModule({
     declarations: [
@@ -75,8 +76,8 @@ import { DetailPlanComponent } from './plans/detail-plan/detail-plan.component';
         CreateProjecttypeComponent,
         EditProjecttypeComponent,
         TestsComponent,
-        DetailPlanComponent
-    
+        DetailPlanComponent,
+        UploadsComponent
     ],
     imports: [
         CommonModule,

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using SPA.DocumentManager.Plans.Dtos.LTMAutoMapper;
 
@@ -67,5 +68,8 @@ namespace SPA.DocumentManager.Plans.Dtos
         /// </summary>
         [StringLength(DocumentManagerConsts.MaxFinancialSourceLength)]
         public string FinancialSource { get; set; }
+
+
+        public ICollection<Attachment> Attachments { get; set; }
     }
 }

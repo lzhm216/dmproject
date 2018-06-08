@@ -41,7 +41,7 @@ namespace SPA.DocumentManager.Plans
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        Task CreateOrUpdatePlan(CreateOrUpdatePlanInput input);
+        Task<PlanEditDto> CreateOrUpdatePlan(CreateOrUpdatePlanInput input);
 
         /// <summary>
         /// 删除Plan信息的方法
