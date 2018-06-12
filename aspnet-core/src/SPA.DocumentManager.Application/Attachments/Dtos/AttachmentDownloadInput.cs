@@ -6,12 +6,12 @@ using System.Text;
 
 namespace SPA.DocumentManager.Attachments.Dtos
 {
-    public class AttachmentUploadInput
+    public class AttachmentDownloadInput
     {
         [Required]
         public int PlanId { get; set; }
 
         [Required]
-        public IFormFile File { get; set; }
+        public string FileName { get; set; }
     }
 }

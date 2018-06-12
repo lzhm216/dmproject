@@ -39,6 +39,8 @@ namespace SPA.DocumentManager.Attachments
         /// <returns></returns>
         Task<GetAttachmentForEditOutput> GetAttachmentForEdit(NullableIdDto<int> input);
 
+        Task<AttachmentListDto> Download(AttachmentDownloadInput input);
+
         Task<AttachmentEditDto> Upload(int planId, IFormFile file);
 
         //todo:缺少Dto的生成GetAttachmentForEditOutput

@@ -16,7 +16,12 @@ using SPA.DocumentManager.Plans;
 using System.IO;
 using Microsoft.AspNetCore.Hosting;
 using System;
+using System.Net;
+using Abp.Extensions;
 using Microsoft.AspNetCore.Http;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using SPA.DocumentManager.Net.MimeTypes;
 
 namespace SPA.DocumentManager.Attachments
 {
@@ -30,15 +35,16 @@ namespace SPA.DocumentManager.Attachments
         ////ECC/ END CUSTOM CODE SECTION
         private readonly IRepository<Attachment, int> _attachmentRepository;
         private readonly IRepository<Plan, int> _planRepository;
-        private readonly IHostingEnvironment _host;
+        //private readonly IHostingEnvironment _host;
+        private readonly IAppFolders _appFolders;
         /// <summary>
         /// 构造函数
         /// </summary>
-        public AttachmentAppService(IHostingEnvironment host, IRepository<Attachment, int> attachmentRepository, IRepository<Plan, int> planRepository
+        public AttachmentAppService(IAppFolders appFolders, IRepository<Attachment, int> attachmentRepository, IRepository<Plan, int> planRepository
 
             )
         {
-            _host = host;
+            _appFolders = appFolders;
             _attachmentRepository = attachmentRepository;
             _planRepository = planRepository;
         }
@@ -52,7 +58,7 @@ namespace SPA.DocumentManager.Attachments
         {
 
             var query = _attachmentRepository.GetAll();
-            //TODO:根据传入的参数添加过滤条件
+
             var attachmentCount = await query.CountAsync();
 
             var attachments = await query
@@ -175,7 +181,7 @@ namespace SPA.DocumentManager.Attachments
                 throw new Exception("该附件已经存在");
             }
 
-            var uploadsFolderPath = Path.Combine(_host.WebRootPath, "Uploads");
+            var uploadsFolderPath = _appFolders.TempFileDownloadFolder;
             if (!Directory.Exists(uploadsFolderPath))
             {
                 Directory.CreateDirectory(uploadsFolderPath);
@@ -189,11 +195,13 @@ namespace SPA.DocumentManager.Attachments
                 await file.CopyToAsync(stream);
             }
 
-            Attachment attachment = new Attachment();
-            attachment.FileFormat = Path.GetExtension(file.FileName);
-            attachment.FileName = file.FileName;
-            attachment.Length = file.Length;
-            attachment.NewFileName = fileName;
+            Attachment attachment = new Attachment
+            {
+                FileFormat = Path.GetExtension(file.FileName),
+                FileName = file.FileName,
+                Length = file.Length,
+                NewFileName = fileName
+            };
 
             var entity = await _attachmentRepository.InsertAsync(attachment);
 
@@ -204,6 +212,67 @@ namespace SPA.DocumentManager.Attachments
             plan.Attachments.Add(entity);
 
             return entity.MapTo<AttachmentEditDto>();
+        }
+
+        public virtual async Task<AttachmentListDto> Download(AttachmentDownloadInput input)
+        {
+            var attachment = await _attachmentRepository.GetAll().Where(t => t.PlanId == input.PlanId)
+                .WhereIf(!input.FileName.IsNullOrEmpty(), t => t.FileName.Equals(input.FileName)).FirstOrDefaultAsync();
+
+            var path = Path.Combine(_appFolders.TempFileDownloadFolder, attachment.NewFileName);
+            var fileExtensionName = Path.GetExtension(path);
+
+            var mimeType = GetMimeType(fileExtensionName);
+
+            var zipFileDto = new AttachmentListDto(attachment.NewFileName, mimeType);
+
+            return zipFileDto;
+        }
+
+        private string GetMimeType(string fileExtensionName)
+        {
+            string mimeTypes = "";
+            switch (fileExtensionName.ToLower())
+            {
+                case ".docx":
+                    mimeTypes = MimeTypeNames.ApplicationVndOpenxmlformatsOfficedocumentWordprocessingmlDocument;
+                    break;
+                case ".doc":
+                    mimeTypes = MimeTypeNames.ApplicationMsword;
+                    break;
+                case ".pdf":
+                    mimeTypes = MimeTypeNames.ApplicationPdf;
+                    break;
+                case ".xls":
+                    mimeTypes = MimeTypeNames.ApplicationVndMsExcel;
+                    break;
+                case ".xlsx":
+                    mimeTypes = MimeTypeNames.ApplicationVndOpenxmlformatsOfficedocumentSpreadsheetmlSheet;
+                    break;
+                case ".gif":
+                    mimeTypes = MimeTypeNames.ImageGif;
+                    break;
+                case ".jpg":
+                    mimeTypes = MimeTypeNames.ImageJpeg;
+                    break;
+                case ".jpeg":
+                    mimeTypes = MimeTypeNames.ImageJpeg;
+                    break;
+                case "png":
+                    mimeTypes = MimeTypeNames.ImagePng;
+                    break;
+                case ".tiff":
+                    mimeTypes = MimeTypeNames.ImageTiff;
+                    break;
+                case ".txt":
+                    mimeTypes = MimeTypeNames.TextPlain;
+                    break;
+                case ".csv":
+                    mimeTypes = MimeTypeNames.TextCsv;
+                    break;
+            }
+
+            return mimeTypes;
         }
 
         /// <summary>

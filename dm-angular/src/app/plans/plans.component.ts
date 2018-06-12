@@ -31,7 +31,7 @@ export class PlansComponent extends PagedListingComponentBase<PlanListDto> {
   protected list(request: PagedRequestDto, pageNumber: number, finishedCallback: Function): void {
     this._planService.getPagedPlans(this.filter, 'Id', request.maxResultCount, request.skipCount).finally(() => {
       
-            
+      $('#line_chart').html(''); 
       ((window as any).Morris).Line({
         element: 'line_chart',
         data: this.cost,
@@ -45,6 +45,8 @@ export class PlansComponent extends PagedListingComponentBase<PlanListDto> {
     }).subscribe((result: PagedResultDtoOfPlanListDto) => {
      
       this.plans = result.items;
+
+      this.cost = [];
 
       this.plans.forEach(plan => {
         this.cost.push({year: plan.planYear, value: plan.fundBudget});

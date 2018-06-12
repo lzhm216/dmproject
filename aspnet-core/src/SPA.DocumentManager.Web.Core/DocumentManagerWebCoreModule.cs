@@ -11,6 +11,8 @@ using Abp.Zero.Configuration;
 using SPA.DocumentManager.Authentication.JwtBearer;
 using SPA.DocumentManager.Configuration;
 using SPA.DocumentManager.EntityFrameworkCore;
+using System.IO;
+using Abp.IO;
 
 #if FEATURE_SIGNALR
 using Abp.Web.SignalR;
@@ -73,6 +75,37 @@ namespace SPA.DocumentManager
         public override void Initialize()
         {
             IocManager.RegisterAssemblyByConvention(typeof(DocumentManagerWebCoreModule).GetAssembly());
+        }
+
+        public override void PostInitialize()
+        {
+            SetAppFolders();
+        }
+
+        private void SetAppFolders()
+        {
+            var appFolders = IocManager.Resolve<AppFolders>();
+
+            appFolders.SampleProfileImagesFolder = Path.Combine(_env.WebRootPath, $"Common{Path.DirectorySeparatorChar}Images{Path.DirectorySeparatorChar}SampleProfilePics");
+            appFolders.TempFileDownloadFolder = Path.Combine(_env.WebRootPath, $"Temp{Path.DirectorySeparatorChar}Downloads");
+            appFolders.WebLogsFolder = Path.Combine(_env.ContentRootPath, $"App_Data{Path.DirectorySeparatorChar}Logs");
+
+#if NET461
+            if (_env.IsDevelopment())
+            {
+                var currentAssemblyDirectoryPath = typeof(AbpZeroTemplateWebCoreModule).GetAssembly().GetDirectoryPathOrNull();
+                if (currentAssemblyDirectoryPath != null)
+                {
+                    appFolders.WebLogsFolder = Path.Combine(currentAssemblyDirectoryPath, $"App_Data{Path.DirectorySeparatorChar}Logs");
+                }
+            }
+#endif
+
+            try
+            {
+                DirectoryHelper.CreateIfNotExists(appFolders.TempFileDownloadFolder);
+            }
+            catch { }
         }
     }
 }

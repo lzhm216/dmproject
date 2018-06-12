@@ -17,7 +17,7 @@ import 'rxjs/add/operator/catch';
 
 import { Observable } from 'rxjs/Observable';
 import { Injectable, Inject, Optional, InjectionToken } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpParams, HttpResponse, HttpResponseBase, HttpErrorResponse, HttpRequest } from '@angular/common/http';
+import { HttpClient, HttpRequest, HttpHeaders, HttpParams, HttpResponse, HttpResponseBase, HttpErrorResponse } from '@angular/common/http';
 
 import * as moment from 'moment';
 
@@ -44,17 +44,17 @@ export class AccountServiceProxy {
 
         const content_ = JSON.stringify(input);
 
-        let options_ : any = {
+        let options_: any = {
             body: content_,
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
                 "Accept": "application/json"
             })
         };
 
-        return this.http.request("post", url_, options_).flatMap((response_ : any) => {
+        return this.http.request("post", url_, options_).flatMap((response_: any) => {
             return this.processIsTenantAvailable(response_);
         }).catch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
@@ -70,21 +70,21 @@ export class AccountServiceProxy {
 
     protected processIsTenantAvailable(response: HttpResponseBase): Observable<IsTenantAvailableOutput> {
         const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+                (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); } };
         if (status === 200) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? IsTenantAvailableOutput.fromJS(resultData200) : new IsTenantAvailableOutput();
-            return Observable.of(result200);
+                let result200: any = null;
+                let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                result200 = resultData200 ? IsTenantAvailableOutput.fromJS(resultData200) : new IsTenantAvailableOutput();
+                return Observable.of(result200);
             });
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
         return Observable.of<IsTenantAvailableOutput>(<any>null);
@@ -100,17 +100,17 @@ export class AccountServiceProxy {
 
         const content_ = JSON.stringify(input);
 
-        let options_ : any = {
+        let options_: any = {
             body: content_,
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
                 "Accept": "application/json"
             })
         };
 
-        return this.http.request("post", url_, options_).flatMap((response_ : any) => {
+        return this.http.request("post", url_, options_).flatMap((response_: any) => {
             return this.processRegister(response_);
         }).catch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
@@ -126,21 +126,21 @@ export class AccountServiceProxy {
 
     protected processRegister(response: HttpResponseBase): Observable<RegisterOutput> {
         const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+                (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); } };
         if (status === 200) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? RegisterOutput.fromJS(resultData200) : new RegisterOutput();
-            return Observable.of(result200);
+                let result200: any = null;
+                let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                result200 = resultData200 ? RegisterOutput.fromJS(resultData200) : new RegisterOutput();
+                return Observable.of(result200);
             });
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
         return Observable.of<RegisterOutput>(<any>null);
@@ -169,27 +169,27 @@ export class AttachmentServiceProxy {
     getPagedAttachments(filter: string | null | undefined, planId: number | null | undefined, sorting: string | null | undefined, maxResultCount: number | null | undefined, skipCount: number | null | undefined): Observable<PagedResultDtoOfAttachmentListDto> {
         let url_ = this.baseUrl + "/api/services/app/Attachment/GetPagedAttachments?";
         if (filter !== undefined)
-            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&";
         if (planId !== undefined)
-            url_ += "PlanId=" + encodeURIComponent("" + planId) + "&"; 
+            url_ += "PlanId=" + encodeURIComponent("" + planId) + "&";
         if (sorting !== undefined)
-            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&";
         if (maxResultCount !== undefined)
-            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&";
         if (skipCount !== undefined)
-            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
-        let options_ : any = {
+        let options_: any = {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
                 "Accept": "application/json"
             })
         };
 
-        return this.http.request("get", url_, options_).flatMap((response_ : any) => {
+        return this.http.request("get", url_, options_).flatMap((response_: any) => {
             return this.processGetPagedAttachments(response_);
         }).catch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
@@ -205,21 +205,21 @@ export class AttachmentServiceProxy {
 
     protected processGetPagedAttachments(response: HttpResponseBase): Observable<PagedResultDtoOfAttachmentListDto> {
         const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+                (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); } };
         if (status === 200) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? PagedResultDtoOfAttachmentListDto.fromJS(resultData200) : new PagedResultDtoOfAttachmentListDto();
-            return Observable.of(result200);
+                let result200: any = null;
+                let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                result200 = resultData200 ? PagedResultDtoOfAttachmentListDto.fromJS(resultData200) : new PagedResultDtoOfAttachmentListDto();
+                return Observable.of(result200);
             });
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
         return Observable.of<PagedResultDtoOfAttachmentListDto>(<any>null);
@@ -236,27 +236,27 @@ export class AttachmentServiceProxy {
     getPagedAttachmentsByPlanId(filter: string | null | undefined, planId: number | null | undefined, sorting: string | null | undefined, maxResultCount: number | null | undefined, skipCount: number | null | undefined): Observable<PagedResultDtoOfAttachmentListDto> {
         let url_ = this.baseUrl + "/api/services/app/Attachment/GetPagedAttachmentsByPlanId?";
         if (filter !== undefined)
-            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&";
         if (planId !== undefined)
-            url_ += "PlanId=" + encodeURIComponent("" + planId) + "&"; 
+            url_ += "PlanId=" + encodeURIComponent("" + planId) + "&";
         if (sorting !== undefined)
-            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&";
         if (maxResultCount !== undefined)
-            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&";
         if (skipCount !== undefined)
-            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
-        let options_ : any = {
+        let options_: any = {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
                 "Accept": "application/json"
             })
         };
 
-        return this.http.request("get", url_, options_).flatMap((response_ : any) => {
+        return this.http.request("get", url_, options_).flatMap((response_: any) => {
             return this.processGetPagedAttachmentsByPlanId(response_);
         }).catch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
@@ -272,21 +272,21 @@ export class AttachmentServiceProxy {
 
     protected processGetPagedAttachmentsByPlanId(response: HttpResponseBase): Observable<PagedResultDtoOfAttachmentListDto> {
         const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+                (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); } };
         if (status === 200) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? PagedResultDtoOfAttachmentListDto.fromJS(resultData200) : new PagedResultDtoOfAttachmentListDto();
-            return Observable.of(result200);
+                let result200: any = null;
+                let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                result200 = resultData200 ? PagedResultDtoOfAttachmentListDto.fromJS(resultData200) : new PagedResultDtoOfAttachmentListDto();
+                return Observable.of(result200);
             });
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
         return Observable.of<PagedResultDtoOfAttachmentListDto>(<any>null);
@@ -299,19 +299,19 @@ export class AttachmentServiceProxy {
     getAttachmentByIdAsync(id: number | null | undefined): Observable<AttachmentListDto> {
         let url_ = this.baseUrl + "/api/services/app/Attachment/GetAttachmentByIdAsync?";
         if (id !== undefined)
-            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+            url_ += "Id=" + encodeURIComponent("" + id) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
-        let options_ : any = {
+        let options_: any = {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
                 "Accept": "application/json"
             })
         };
 
-        return this.http.request("get", url_, options_).flatMap((response_ : any) => {
+        return this.http.request("get", url_, options_).flatMap((response_: any) => {
             return this.processGetAttachmentByIdAsync(response_);
         }).catch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
@@ -327,21 +327,21 @@ export class AttachmentServiceProxy {
 
     protected processGetAttachmentByIdAsync(response: HttpResponseBase): Observable<AttachmentListDto> {
         const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+                (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); } };
         if (status === 200) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? AttachmentListDto.fromJS(resultData200) : new AttachmentListDto();
-            return Observable.of(result200);
+                let result200: any = null;
+                let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                result200 = resultData200 ? AttachmentListDto.fromJS(resultData200) : new AttachmentListDto();
+                return Observable.of(result200);
             });
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
         return Observable.of<AttachmentListDto>(<any>null);
@@ -354,19 +354,19 @@ export class AttachmentServiceProxy {
     getAttachmentForEdit(id: number | null | undefined): Observable<GetAttachmentForEditOutput> {
         let url_ = this.baseUrl + "/api/services/app/Attachment/GetAttachmentForEdit?";
         if (id !== undefined)
-            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+            url_ += "Id=" + encodeURIComponent("" + id) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
-        let options_ : any = {
+        let options_: any = {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
                 "Accept": "application/json"
             })
         };
 
-        return this.http.request("get", url_, options_).flatMap((response_ : any) => {
+        return this.http.request("get", url_, options_).flatMap((response_: any) => {
             return this.processGetAttachmentForEdit(response_);
         }).catch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
@@ -382,21 +382,21 @@ export class AttachmentServiceProxy {
 
     protected processGetAttachmentForEdit(response: HttpResponseBase): Observable<GetAttachmentForEditOutput> {
         const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+                (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); } };
         if (status === 200) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? GetAttachmentForEditOutput.fromJS(resultData200) : new GetAttachmentForEditOutput();
-            return Observable.of(result200);
+                let result200: any = null;
+                let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                result200 = resultData200 ? GetAttachmentForEditOutput.fromJS(resultData200) : new GetAttachmentForEditOutput();
+                return Observable.of(result200);
             });
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
         return Observable.of<GetAttachmentForEditOutput>(<any>null);
@@ -412,16 +412,16 @@ export class AttachmentServiceProxy {
 
         const content_ = JSON.stringify(input);
 
-        let options_ : any = {
+        let options_: any = {
             body: content_,
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
             })
         };
 
-        return this.http.request("post", url_, options_).flatMap((response_ : any) => {
+        return this.http.request("post", url_, options_).flatMap((response_: any) => {
             return this.processCreateOrUpdateAttachment(response_);
         }).catch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
@@ -437,21 +437,77 @@ export class AttachmentServiceProxy {
 
     protected processCreateOrUpdateAttachment(response: HttpResponseBase): Observable<void> {
         const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+                (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); } };
         if (status === 200) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return Observable.of<void>(<any>null);
+                return Observable.of<void>(<any>null);
             });
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
         return Observable.of<void>(<any>null);
+    }
+
+    /**
+     * @fileName
+     */
+    
+    downloadFile(fileName: string | null | undefined): Observable<any> {
+        let url_ = this.baseUrl + "/file/DownloadTempFile?";
+        if (fileName !== undefined) {
+            url_ += "filename=" + encodeURIComponent("" + fileName);
+        }
+
+        let options_: any = {
+            observe: "response",
+            responseType: "ArrayBuffer",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json"
+            })
+        };
+
+        return this.http.request("post", url_, options_).flatMap((response_: any) => {
+            return this.processDownloadFile(response_);
+        }).catch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDownloadFile(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>Observable.throw(e);
+                }
+            } else
+                return <Observable<void>><any>Observable.throw(response_);
+        });
+    }
+    /**
+     * 
+     */
+    protected processDownloadFile(response: HttpResponseBase): Observable<any> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+                (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); } };
+        if (status === 200) {
+            return blobToText(responseBlob).flatMap(_responseText => {
+                let result200: any = null;
+                let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                result200 = resultData200 ? AttachmentEditDto.fromJS(resultData200) : new AttachmentEditDto();
+                return Observable.of(result200);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).flatMap(_responseText => {
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Observable.of<any>(<any>null);
     }
 
     /**
@@ -460,22 +516,22 @@ export class AttachmentServiceProxy {
      * @return Success
      */
     upload(planId: number | null | undefined, file: any | null | undefined): Observable<AttachmentEditDto> {
-        let url_ = this.baseUrl + "/api/services/app/Attachment/Upload?";
-        // if (planId !== undefined)
-        //     url_ += "planId=" + encodeURIComponent("" + planId) + "&"; 
-        // if (file !== undefined)
-        //     url_ += "file=" + encodeURIComponent("" + file) + "&"; 
-        // url_ = url_.replace(/[?&]$/, "");
-
+        let url_ = this.baseUrl + "/api/services/app/Attachment/Upload";
+        /* if (planId !== undefined)
+            url_ += "planId=" + encodeURIComponent("" + planId) + "&"; 
+        if (file !== undefined)
+            url_ += "file=" + encodeURIComponent("" + file) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+ */
         const formData = new FormData();
-        formData.append('planId', '3');
+        formData.append('planId', planId.toString());
         formData.append('file', file);
 
-        let options_ : any = {
+        let options_: any = {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "multipart/form-data", 
+                "Content-Type": "multipart/form-data",
                 "Accept": "*/*",
                 "accept-encoding": "gzip, deflate"
             })
@@ -483,9 +539,9 @@ export class AttachmentServiceProxy {
 
         const uploadReq = new HttpRequest('POST', url_, formData, {
             reportProgress: true,
-          });
+        });
 
-        return this.http.request(uploadReq).flatMap((response_ : any) => {
+        return this.http.request(uploadReq).flatMap((response_: any) => {
             return this.processUpload(response_);
         }).catch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
@@ -501,82 +557,24 @@ export class AttachmentServiceProxy {
 
     protected processUpload(response: HttpResponseBase): Observable<AttachmentEditDto> {
         const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+                (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); } };
         if (status === 200) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? AttachmentEditDto.fromJS(resultData200) : new AttachmentEditDto();
-            return Observable.of(result200);
+                let result200: any = null;
+                let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                result200 = resultData200 ? AttachmentEditDto.fromJS(resultData200) : new AttachmentEditDto();
+                return Observable.of(result200);
             });
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
         return Observable.of<AttachmentEditDto>(<any>null);
-    }
-
-    /**
-     * @planId (optional) 
-     * @fileName (optional) 
-     * @return Success
-     */
-    download(planId: number | null | undefined, fileName: string | null | undefined): Observable<AttachmentListDto> {
-        let url_ = this.baseUrl + "/api/services/app/Attachment/Download?";
-        if (planId !== undefined)
-            url_ += "planId=" + encodeURIComponent("" + planId) + "&"; 
-        if (fileName !== undefined)
-            url_ += "fileName=" + encodeURIComponent("" + fileName) + "&"; 
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ : any = {
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Content-Type": "application/json", 
-                "Accept": "application/json"
-            })
-        };
-
-        return this.http.request("post", url_, options_).flatMap((response_ : any) => {
-            return this.processDownload(response_);
-        }).catch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processDownload(<any>response_);
-                } catch (e) {
-                    return <Observable<AttachmentListDto>><any>Observable.throw(e);
-                }
-            } else
-                return <Observable<AttachmentListDto>><any>Observable.throw(response_);
-        });
-    }
-
-    protected processDownload(response: HttpResponseBase): Observable<AttachmentListDto> {
-        const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
-        if (status === 200) {
-            return blobToText(responseBlob).flatMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? AttachmentListDto.fromJS(resultData200) : new AttachmentListDto();
-            return Observable.of(result200);
-            });
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            });
-        }
-        return Observable.of<AttachmentListDto>(<any>null);
     }
 
     /**
@@ -586,18 +584,18 @@ export class AttachmentServiceProxy {
     deleteAttachment(id: number | null | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/Attachment/DeleteAttachment?";
         if (id !== undefined)
-            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+            url_ += "Id=" + encodeURIComponent("" + id) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
-        let options_ : any = {
+        let options_: any = {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
             })
         };
 
-        return this.http.request("delete", url_, options_).flatMap((response_ : any) => {
+        return this.http.request("delete", url_, options_).flatMap((response_: any) => {
             return this.processDeleteAttachment(response_);
         }).catch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
@@ -613,18 +611,18 @@ export class AttachmentServiceProxy {
 
     protected processDeleteAttachment(response: HttpResponseBase): Observable<void> {
         const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+                (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); } };
         if (status === 200) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return Observable.of<void>(<any>null);
+                return Observable.of<void>(<any>null);
             });
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
         return Observable.of<void>(<any>null);
@@ -640,16 +638,16 @@ export class AttachmentServiceProxy {
 
         const content_ = JSON.stringify(input);
 
-        let options_ : any = {
+        let options_: any = {
             body: content_,
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
             })
         };
 
-        return this.http.request("post", url_, options_).flatMap((response_ : any) => {
+        return this.http.request("post", url_, options_).flatMap((response_: any) => {
             return this.processBatchDeleteAttachmentsAsync(response_);
         }).catch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
@@ -665,18 +663,18 @@ export class AttachmentServiceProxy {
 
     protected processBatchDeleteAttachmentsAsync(response: HttpResponseBase): Observable<void> {
         const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+                (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); } };
         if (status === 200) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return Observable.of<void>(<any>null);
+                return Observable.of<void>(<any>null);
             });
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
         return Observable.of<void>(<any>null);
@@ -704,16 +702,16 @@ export class ConfigurationServiceProxy {
 
         const content_ = JSON.stringify(input);
 
-        let options_ : any = {
+        let options_: any = {
             body: content_,
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
             })
         };
 
-        return this.http.request("post", url_, options_).flatMap((response_ : any) => {
+        return this.http.request("post", url_, options_).flatMap((response_: any) => {
             return this.processChangeUiTheme(response_);
         }).catch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
@@ -729,22 +727,22 @@ export class ConfigurationServiceProxy {
 
     protected processChangeUiTheme(response: HttpResponseBase): Observable<void> {
         const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+                (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); } };
         if (status === 200) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return Observable.of<void>(<any>null);
+                return Observable.of<void>(<any>null);
             });
         } else if (status === 401) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
+                return throwException("A server error occurred.", status, _responseText, _headers);
             });
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
         return Observable.of<void>(<any>null);
@@ -769,16 +767,16 @@ export class EnumServiceProxy {
         let url_ = this.baseUrl + "/api/services/app/Enum/GetUnitTypeList";
         url_ = url_.replace(/[?&]$/, "");
 
-        let options_ : any = {
+        let options_: any = {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
                 "Accept": "application/json"
             })
         };
 
-        return this.http.request("get", url_, options_).flatMap((response_ : any) => {
+        return this.http.request("get", url_, options_).flatMap((response_: any) => {
             return this.processGetUnitTypeList(response_);
         }).catch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
@@ -794,25 +792,25 @@ export class EnumServiceProxy {
 
     protected processGetUnitTypeList(response: HttpResponseBase): Observable<KeyValuePairOfStringAndString[]> {
         const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+                (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); } };
         if (status === 200) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            if (resultData200 && resultData200.constructor === Array) {
-                result200 = [];
-                for (let item of resultData200)
-                    result200.push(KeyValuePairOfStringAndString.fromJS(item));
-            }
-            return Observable.of(result200);
+                let result200: any = null;
+                let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                if (resultData200 && resultData200.constructor === Array) {
+                    result200 = [];
+                    for (let item of resultData200)
+                        result200.push(KeyValuePairOfStringAndString.fromJS(item));
+                }
+                return Observable.of(result200);
             });
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
         return Observable.of<KeyValuePairOfStringAndString[]>(<any>null);
@@ -840,25 +838,25 @@ export class PlanServiceProxy {
     getPagedPlans(filter: string | null | undefined, sorting: string | null | undefined, maxResultCount: number | null | undefined, skipCount: number | null | undefined): Observable<PagedResultDtoOfPlanListDto> {
         let url_ = this.baseUrl + "/api/services/app/Plan/GetPagedPlans?";
         if (filter !== undefined)
-            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&";
         if (sorting !== undefined)
-            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&";
         if (maxResultCount !== undefined)
-            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&";
         if (skipCount !== undefined)
-            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
-        let options_ : any = {
+        let options_: any = {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
                 "Accept": "application/json"
             })
         };
 
-        return this.http.request("get", url_, options_).flatMap((response_ : any) => {
+        return this.http.request("get", url_, options_).flatMap((response_: any) => {
             return this.processGetPagedPlans(response_);
         }).catch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
@@ -874,21 +872,21 @@ export class PlanServiceProxy {
 
     protected processGetPagedPlans(response: HttpResponseBase): Observable<PagedResultDtoOfPlanListDto> {
         const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+                (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); } };
         if (status === 200) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? PagedResultDtoOfPlanListDto.fromJS(resultData200) : new PagedResultDtoOfPlanListDto();
-            return Observable.of(result200);
+                let result200: any = null;
+                let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                result200 = resultData200 ? PagedResultDtoOfPlanListDto.fromJS(resultData200) : new PagedResultDtoOfPlanListDto();
+                return Observable.of(result200);
             });
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
         return Observable.of<PagedResultDtoOfPlanListDto>(<any>null);
@@ -901,19 +899,19 @@ export class PlanServiceProxy {
     getPlanByIdAsync(id: number | null | undefined): Observable<PlanListDto> {
         let url_ = this.baseUrl + "/api/services/app/Plan/GetPlanByIdAsync?";
         if (id !== undefined)
-            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+            url_ += "Id=" + encodeURIComponent("" + id) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
-        let options_ : any = {
+        let options_: any = {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
                 "Accept": "application/json"
             })
         };
 
-        return this.http.request("get", url_, options_).flatMap((response_ : any) => {
+        return this.http.request("get", url_, options_).flatMap((response_: any) => {
             return this.processGetPlanByIdAsync(response_);
         }).catch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
@@ -929,21 +927,21 @@ export class PlanServiceProxy {
 
     protected processGetPlanByIdAsync(response: HttpResponseBase): Observable<PlanListDto> {
         const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+                (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); } };
         if (status === 200) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? PlanListDto.fromJS(resultData200) : new PlanListDto();
-            return Observable.of(result200);
+                let result200: any = null;
+                let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                result200 = resultData200 ? PlanListDto.fromJS(resultData200) : new PlanListDto();
+                return Observable.of(result200);
             });
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
         return Observable.of<PlanListDto>(<any>null);
@@ -956,19 +954,19 @@ export class PlanServiceProxy {
     getPlanForEdit(id: number | null | undefined): Observable<GetPlanForEditOutput> {
         let url_ = this.baseUrl + "/api/services/app/Plan/GetPlanForEdit?";
         if (id !== undefined)
-            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+            url_ += "Id=" + encodeURIComponent("" + id) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
-        let options_ : any = {
+        let options_: any = {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
                 "Accept": "application/json"
             })
         };
 
-        return this.http.request("get", url_, options_).flatMap((response_ : any) => {
+        return this.http.request("get", url_, options_).flatMap((response_: any) => {
             return this.processGetPlanForEdit(response_);
         }).catch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
@@ -984,21 +982,21 @@ export class PlanServiceProxy {
 
     protected processGetPlanForEdit(response: HttpResponseBase): Observable<GetPlanForEditOutput> {
         const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+                (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); } };
         if (status === 200) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? GetPlanForEditOutput.fromJS(resultData200) : new GetPlanForEditOutput();
-            return Observable.of(result200);
+                let result200: any = null;
+                let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                result200 = resultData200 ? GetPlanForEditOutput.fromJS(resultData200) : new GetPlanForEditOutput();
+                return Observable.of(result200);
             });
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
         return Observable.of<GetPlanForEditOutput>(<any>null);
@@ -1014,17 +1012,17 @@ export class PlanServiceProxy {
 
         const content_ = JSON.stringify(input);
 
-        let options_ : any = {
+        let options_: any = {
             body: content_,
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
                 "Accept": "application/json"
             })
         };
 
-        return this.http.request("post", url_, options_).flatMap((response_ : any) => {
+        return this.http.request("post", url_, options_).flatMap((response_: any) => {
             return this.processCreateOrUpdatePlan(response_);
         }).catch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
@@ -1040,21 +1038,21 @@ export class PlanServiceProxy {
 
     protected processCreateOrUpdatePlan(response: HttpResponseBase): Observable<PlanEditDto> {
         const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+                (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); } };
         if (status === 200) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? PlanEditDto.fromJS(resultData200) : new PlanEditDto();
-            return Observable.of(result200);
+                let result200: any = null;
+                let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                result200 = resultData200 ? PlanEditDto.fromJS(resultData200) : new PlanEditDto();
+                return Observable.of(result200);
             });
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
         return Observable.of<PlanEditDto>(<any>null);
@@ -1067,18 +1065,18 @@ export class PlanServiceProxy {
     deletePlan(id: number | null | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/Plan/DeletePlan?";
         if (id !== undefined)
-            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+            url_ += "Id=" + encodeURIComponent("" + id) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
-        let options_ : any = {
+        let options_: any = {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
             })
         };
 
-        return this.http.request("delete", url_, options_).flatMap((response_ : any) => {
+        return this.http.request("delete", url_, options_).flatMap((response_: any) => {
             return this.processDeletePlan(response_);
         }).catch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
@@ -1094,26 +1092,26 @@ export class PlanServiceProxy {
 
     protected processDeletePlan(response: HttpResponseBase): Observable<void> {
         const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+                (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); } };
         if (status === 200) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return Observable.of<void>(<any>null);
+                return Observable.of<void>(<any>null);
             });
         } else if (status === 401) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
+                return throwException("A server error occurred.", status, _responseText, _headers);
             });
         } else if (status === 403) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
+                return throwException("A server error occurred.", status, _responseText, _headers);
             });
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
         return Observable.of<void>(<any>null);
@@ -1129,16 +1127,16 @@ export class PlanServiceProxy {
 
         const content_ = JSON.stringify(input);
 
-        let options_ : any = {
+        let options_: any = {
             body: content_,
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
             })
         };
 
-        return this.http.request("post", url_, options_).flatMap((response_ : any) => {
+        return this.http.request("post", url_, options_).flatMap((response_: any) => {
             return this.processBatchDeletePlansAsync(response_);
         }).catch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
@@ -1154,26 +1152,26 @@ export class PlanServiceProxy {
 
     protected processBatchDeletePlansAsync(response: HttpResponseBase): Observable<void> {
         const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+                (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); } };
         if (status === 200) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return Observable.of<void>(<any>null);
+                return Observable.of<void>(<any>null);
             });
         } else if (status === 401) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
+                return throwException("A server error occurred.", status, _responseText, _headers);
             });
         } else if (status === 403) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
+                return throwException("A server error occurred.", status, _responseText, _headers);
             });
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
         return Observable.of<void>(<any>null);
@@ -1201,25 +1199,25 @@ export class PlanProjectServiceProxy {
     getPagedPlanProjects(filter: string | null | undefined, sorting: string | null | undefined, maxResultCount: number | null | undefined, skipCount: number | null | undefined): Observable<PagedResultDtoOfPlanProjectListDto> {
         let url_ = this.baseUrl + "/api/services/app/PlanProject/GetPagedPlanProjects?";
         if (filter !== undefined)
-            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&";
         if (sorting !== undefined)
-            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&";
         if (maxResultCount !== undefined)
-            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&";
         if (skipCount !== undefined)
-            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
-        let options_ : any = {
+        let options_: any = {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
                 "Accept": "application/json"
             })
         };
 
-        return this.http.request("get", url_, options_).flatMap((response_ : any) => {
+        return this.http.request("get", url_, options_).flatMap((response_: any) => {
             return this.processGetPagedPlanProjects(response_);
         }).catch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
@@ -1235,29 +1233,29 @@ export class PlanProjectServiceProxy {
 
     protected processGetPagedPlanProjects(response: HttpResponseBase): Observable<PagedResultDtoOfPlanProjectListDto> {
         const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+                (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); } };
         if (status === 200) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? PagedResultDtoOfPlanProjectListDto.fromJS(resultData200) : new PagedResultDtoOfPlanProjectListDto();
-            return Observable.of(result200);
+                let result200: any = null;
+                let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                result200 = resultData200 ? PagedResultDtoOfPlanProjectListDto.fromJS(resultData200) : new PagedResultDtoOfPlanProjectListDto();
+                return Observable.of(result200);
             });
         } else if (status === 401) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
+                return throwException("A server error occurred.", status, _responseText, _headers);
             });
         } else if (status === 403) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
+                return throwException("A server error occurred.", status, _responseText, _headers);
             });
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
         return Observable.of<PagedResultDtoOfPlanProjectListDto>(<any>null);
@@ -1270,19 +1268,19 @@ export class PlanProjectServiceProxy {
     getPlanProjectByIdAsync(id: number | null | undefined): Observable<PlanProjectListDto> {
         let url_ = this.baseUrl + "/api/services/app/PlanProject/GetPlanProjectByIdAsync?";
         if (id !== undefined)
-            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+            url_ += "Id=" + encodeURIComponent("" + id) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
-        let options_ : any = {
+        let options_: any = {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
                 "Accept": "application/json"
             })
         };
 
-        return this.http.request("get", url_, options_).flatMap((response_ : any) => {
+        return this.http.request("get", url_, options_).flatMap((response_: any) => {
             return this.processGetPlanProjectByIdAsync(response_);
         }).catch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
@@ -1298,29 +1296,29 @@ export class PlanProjectServiceProxy {
 
     protected processGetPlanProjectByIdAsync(response: HttpResponseBase): Observable<PlanProjectListDto> {
         const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+                (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); } };
         if (status === 200) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? PlanProjectListDto.fromJS(resultData200) : new PlanProjectListDto();
-            return Observable.of(result200);
+                let result200: any = null;
+                let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                result200 = resultData200 ? PlanProjectListDto.fromJS(resultData200) : new PlanProjectListDto();
+                return Observable.of(result200);
             });
         } else if (status === 401) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
+                return throwException("A server error occurred.", status, _responseText, _headers);
             });
         } else if (status === 403) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
+                return throwException("A server error occurred.", status, _responseText, _headers);
             });
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
         return Observable.of<PlanProjectListDto>(<any>null);
@@ -1333,19 +1331,19 @@ export class PlanProjectServiceProxy {
     getPlanProjectForEdit(id: number | null | undefined): Observable<GetPlanProjectForEditOutput> {
         let url_ = this.baseUrl + "/api/services/app/PlanProject/GetPlanProjectForEdit?";
         if (id !== undefined)
-            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+            url_ += "Id=" + encodeURIComponent("" + id) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
-        let options_ : any = {
+        let options_: any = {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
                 "Accept": "application/json"
             })
         };
 
-        return this.http.request("get", url_, options_).flatMap((response_ : any) => {
+        return this.http.request("get", url_, options_).flatMap((response_: any) => {
             return this.processGetPlanProjectForEdit(response_);
         }).catch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
@@ -1361,29 +1359,29 @@ export class PlanProjectServiceProxy {
 
     protected processGetPlanProjectForEdit(response: HttpResponseBase): Observable<GetPlanProjectForEditOutput> {
         const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+                (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); } };
         if (status === 200) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? GetPlanProjectForEditOutput.fromJS(resultData200) : new GetPlanProjectForEditOutput();
-            return Observable.of(result200);
+                let result200: any = null;
+                let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                result200 = resultData200 ? GetPlanProjectForEditOutput.fromJS(resultData200) : new GetPlanProjectForEditOutput();
+                return Observable.of(result200);
             });
         } else if (status === 401) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
+                return throwException("A server error occurred.", status, _responseText, _headers);
             });
         } else if (status === 403) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
+                return throwException("A server error occurred.", status, _responseText, _headers);
             });
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
         return Observable.of<GetPlanProjectForEditOutput>(<any>null);
@@ -1399,16 +1397,16 @@ export class PlanProjectServiceProxy {
 
         const content_ = JSON.stringify(input);
 
-        let options_ : any = {
+        let options_: any = {
             body: content_,
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
             })
         };
 
-        return this.http.request("post", url_, options_).flatMap((response_ : any) => {
+        return this.http.request("post", url_, options_).flatMap((response_: any) => {
             return this.processCreateOrUpdatePlanProject(response_);
         }).catch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
@@ -1424,26 +1422,26 @@ export class PlanProjectServiceProxy {
 
     protected processCreateOrUpdatePlanProject(response: HttpResponseBase): Observable<void> {
         const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+                (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); } };
         if (status === 200) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return Observable.of<void>(<any>null);
+                return Observable.of<void>(<any>null);
             });
         } else if (status === 401) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
+                return throwException("A server error occurred.", status, _responseText, _headers);
             });
         } else if (status === 403) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
+                return throwException("A server error occurred.", status, _responseText, _headers);
             });
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
         return Observable.of<void>(<any>null);
@@ -1456,18 +1454,18 @@ export class PlanProjectServiceProxy {
     deletePlanProject(id: number | null | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/PlanProject/DeletePlanProject?";
         if (id !== undefined)
-            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+            url_ += "Id=" + encodeURIComponent("" + id) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
-        let options_ : any = {
+        let options_: any = {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
             })
         };
 
-        return this.http.request("delete", url_, options_).flatMap((response_ : any) => {
+        return this.http.request("delete", url_, options_).flatMap((response_: any) => {
             return this.processDeletePlanProject(response_);
         }).catch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
@@ -1483,26 +1481,26 @@ export class PlanProjectServiceProxy {
 
     protected processDeletePlanProject(response: HttpResponseBase): Observable<void> {
         const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+                (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); } };
         if (status === 200) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return Observable.of<void>(<any>null);
+                return Observable.of<void>(<any>null);
             });
         } else if (status === 401) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
+                return throwException("A server error occurred.", status, _responseText, _headers);
             });
         } else if (status === 403) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
+                return throwException("A server error occurred.", status, _responseText, _headers);
             });
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
         return Observable.of<void>(<any>null);
@@ -1518,16 +1516,16 @@ export class PlanProjectServiceProxy {
 
         const content_ = JSON.stringify(input);
 
-        let options_ : any = {
+        let options_: any = {
             body: content_,
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
             })
         };
 
-        return this.http.request("post", url_, options_).flatMap((response_ : any) => {
+        return this.http.request("post", url_, options_).flatMap((response_: any) => {
             return this.processBatchDeletePlanProjectsAsync(response_);
         }).catch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
@@ -1543,26 +1541,26 @@ export class PlanProjectServiceProxy {
 
     protected processBatchDeletePlanProjectsAsync(response: HttpResponseBase): Observable<void> {
         const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+                (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); } };
         if (status === 200) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return Observable.of<void>(<any>null);
+                return Observable.of<void>(<any>null);
             });
         } else if (status === 401) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
+                return throwException("A server error occurred.", status, _responseText, _headers);
             });
         } else if (status === 403) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
+                return throwException("A server error occurred.", status, _responseText, _headers);
             });
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
         return Observable.of<void>(<any>null);
@@ -1575,16 +1573,16 @@ export class PlanProjectServiceProxy {
         let url_ = this.baseUrl + "/api/services/app/PlanProject/GetAllPlansAsync";
         url_ = url_.replace(/[?&]$/, "");
 
-        let options_ : any = {
+        let options_: any = {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
                 "Accept": "application/json"
             })
         };
 
-        return this.http.request("get", url_, options_).flatMap((response_ : any) => {
+        return this.http.request("get", url_, options_).flatMap((response_: any) => {
             return this.processGetAllPlansAsync(response_);
         }).catch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
@@ -1600,29 +1598,29 @@ export class PlanProjectServiceProxy {
 
     protected processGetAllPlansAsync(response: HttpResponseBase): Observable<ListResultDtoOfPlanListDto> {
         const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+                (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); } };
         if (status === 200) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? ListResultDtoOfPlanListDto.fromJS(resultData200) : new ListResultDtoOfPlanListDto();
-            return Observable.of(result200);
+                let result200: any = null;
+                let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                result200 = resultData200 ? ListResultDtoOfPlanListDto.fromJS(resultData200) : new ListResultDtoOfPlanListDto();
+                return Observable.of(result200);
             });
         } else if (status === 401) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
+                return throwException("A server error occurred.", status, _responseText, _headers);
             });
         } else if (status === 403) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
+                return throwException("A server error occurred.", status, _responseText, _headers);
             });
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
         return Observable.of<ListResultDtoOfPlanListDto>(<any>null);
@@ -1650,25 +1648,25 @@ export class PlanProjectTypeServiceProxy {
     getPagedPlanProjectTypes(filter: string | null | undefined, sorting: string | null | undefined, maxResultCount: number | null | undefined, skipCount: number | null | undefined): Observable<PagedResultDtoOfPlanProjectTypeListDto> {
         let url_ = this.baseUrl + "/api/services/app/PlanProjectType/GetPagedPlanProjectTypes?";
         if (filter !== undefined)
-            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&";
         if (sorting !== undefined)
-            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&";
         if (maxResultCount !== undefined)
-            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&";
         if (skipCount !== undefined)
-            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
-        let options_ : any = {
+        let options_: any = {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
                 "Accept": "application/json"
             })
         };
 
-        return this.http.request("get", url_, options_).flatMap((response_ : any) => {
+        return this.http.request("get", url_, options_).flatMap((response_: any) => {
             return this.processGetPagedPlanProjectTypes(response_);
         }).catch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
@@ -1684,21 +1682,21 @@ export class PlanProjectTypeServiceProxy {
 
     protected processGetPagedPlanProjectTypes(response: HttpResponseBase): Observable<PagedResultDtoOfPlanProjectTypeListDto> {
         const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+                (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); } };
         if (status === 200) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? PagedResultDtoOfPlanProjectTypeListDto.fromJS(resultData200) : new PagedResultDtoOfPlanProjectTypeListDto();
-            return Observable.of(result200);
+                let result200: any = null;
+                let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                result200 = resultData200 ? PagedResultDtoOfPlanProjectTypeListDto.fromJS(resultData200) : new PagedResultDtoOfPlanProjectTypeListDto();
+                return Observable.of(result200);
             });
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
         return Observable.of<PagedResultDtoOfPlanProjectTypeListDto>(<any>null);
@@ -1711,19 +1709,19 @@ export class PlanProjectTypeServiceProxy {
     getPlanProjectTypeByIdAsync(id: number | null | undefined): Observable<PlanProjectTypeListDto> {
         let url_ = this.baseUrl + "/api/services/app/PlanProjectType/GetPlanProjectTypeByIdAsync?";
         if (id !== undefined)
-            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+            url_ += "Id=" + encodeURIComponent("" + id) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
-        let options_ : any = {
+        let options_: any = {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
                 "Accept": "application/json"
             })
         };
 
-        return this.http.request("get", url_, options_).flatMap((response_ : any) => {
+        return this.http.request("get", url_, options_).flatMap((response_: any) => {
             return this.processGetPlanProjectTypeByIdAsync(response_);
         }).catch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
@@ -1739,21 +1737,21 @@ export class PlanProjectTypeServiceProxy {
 
     protected processGetPlanProjectTypeByIdAsync(response: HttpResponseBase): Observable<PlanProjectTypeListDto> {
         const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+                (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); } };
         if (status === 200) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? PlanProjectTypeListDto.fromJS(resultData200) : new PlanProjectTypeListDto();
-            return Observable.of(result200);
+                let result200: any = null;
+                let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                result200 = resultData200 ? PlanProjectTypeListDto.fromJS(resultData200) : new PlanProjectTypeListDto();
+                return Observable.of(result200);
             });
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
         return Observable.of<PlanProjectTypeListDto>(<any>null);
@@ -1766,19 +1764,19 @@ export class PlanProjectTypeServiceProxy {
     getPlanProjectTypeForEdit(id: number | null | undefined): Observable<GetPlanProjectTypeForEditOutput> {
         let url_ = this.baseUrl + "/api/services/app/PlanProjectType/GetPlanProjectTypeForEdit?";
         if (id !== undefined)
-            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+            url_ += "Id=" + encodeURIComponent("" + id) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
-        let options_ : any = {
+        let options_: any = {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
                 "Accept": "application/json"
             })
         };
 
-        return this.http.request("get", url_, options_).flatMap((response_ : any) => {
+        return this.http.request("get", url_, options_).flatMap((response_: any) => {
             return this.processGetPlanProjectTypeForEdit(response_);
         }).catch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
@@ -1794,21 +1792,21 @@ export class PlanProjectTypeServiceProxy {
 
     protected processGetPlanProjectTypeForEdit(response: HttpResponseBase): Observable<GetPlanProjectTypeForEditOutput> {
         const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+                (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); } };
         if (status === 200) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? GetPlanProjectTypeForEditOutput.fromJS(resultData200) : new GetPlanProjectTypeForEditOutput();
-            return Observable.of(result200);
+                let result200: any = null;
+                let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                result200 = resultData200 ? GetPlanProjectTypeForEditOutput.fromJS(resultData200) : new GetPlanProjectTypeForEditOutput();
+                return Observable.of(result200);
             });
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
         return Observable.of<GetPlanProjectTypeForEditOutput>(<any>null);
@@ -1824,16 +1822,16 @@ export class PlanProjectTypeServiceProxy {
 
         const content_ = JSON.stringify(input);
 
-        let options_ : any = {
+        let options_: any = {
             body: content_,
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
             })
         };
 
-        return this.http.request("post", url_, options_).flatMap((response_ : any) => {
+        return this.http.request("post", url_, options_).flatMap((response_: any) => {
             return this.processCreateOrUpdatePlanProjectType(response_);
         }).catch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
@@ -1849,18 +1847,18 @@ export class PlanProjectTypeServiceProxy {
 
     protected processCreateOrUpdatePlanProjectType(response: HttpResponseBase): Observable<void> {
         const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+                (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); } };
         if (status === 200) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return Observable.of<void>(<any>null);
+                return Observable.of<void>(<any>null);
             });
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
         return Observable.of<void>(<any>null);
@@ -1873,18 +1871,18 @@ export class PlanProjectTypeServiceProxy {
     deletePlanProjectType(id: number | null | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/PlanProjectType/DeletePlanProjectType?";
         if (id !== undefined)
-            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+            url_ += "Id=" + encodeURIComponent("" + id) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
-        let options_ : any = {
+        let options_: any = {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
             })
         };
 
-        return this.http.request("delete", url_, options_).flatMap((response_ : any) => {
+        return this.http.request("delete", url_, options_).flatMap((response_: any) => {
             return this.processDeletePlanProjectType(response_);
         }).catch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
@@ -1900,18 +1898,18 @@ export class PlanProjectTypeServiceProxy {
 
     protected processDeletePlanProjectType(response: HttpResponseBase): Observable<void> {
         const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+                (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); } };
         if (status === 200) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return Observable.of<void>(<any>null);
+                return Observable.of<void>(<any>null);
             });
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
         return Observable.of<void>(<any>null);
@@ -1927,16 +1925,16 @@ export class PlanProjectTypeServiceProxy {
 
         const content_ = JSON.stringify(input);
 
-        let options_ : any = {
+        let options_: any = {
             body: content_,
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
             })
         };
 
-        return this.http.request("post", url_, options_).flatMap((response_ : any) => {
+        return this.http.request("post", url_, options_).flatMap((response_: any) => {
             return this.processBatchDeletePlanProjectTypesAsync(response_);
         }).catch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
@@ -1952,18 +1950,18 @@ export class PlanProjectTypeServiceProxy {
 
     protected processBatchDeletePlanProjectTypesAsync(response: HttpResponseBase): Observable<void> {
         const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+                (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); } };
         if (status === 200) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return Observable.of<void>(<any>null);
+                return Observable.of<void>(<any>null);
             });
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
         return Observable.of<void>(<any>null);
@@ -1991,17 +1989,17 @@ export class RoleServiceProxy {
 
         const content_ = JSON.stringify(input);
 
-        let options_ : any = {
+        let options_: any = {
             body: content_,
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
                 "Accept": "application/json"
             })
         };
 
-        return this.http.request("post", url_, options_).flatMap((response_ : any) => {
+        return this.http.request("post", url_, options_).flatMap((response_: any) => {
             return this.processCreate(response_);
         }).catch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
@@ -2017,29 +2015,29 @@ export class RoleServiceProxy {
 
     protected processCreate(response: HttpResponseBase): Observable<RoleDto> {
         const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+                (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); } };
         if (status === 200) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? RoleDto.fromJS(resultData200) : new RoleDto();
-            return Observable.of(result200);
+                let result200: any = null;
+                let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                result200 = resultData200 ? RoleDto.fromJS(resultData200) : new RoleDto();
+                return Observable.of(result200);
             });
         } else if (status === 401) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
+                return throwException("A server error occurred.", status, _responseText, _headers);
             });
         } else if (status === 403) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
+                return throwException("A server error occurred.", status, _responseText, _headers);
             });
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
         return Observable.of<RoleDto>(<any>null);
@@ -2055,17 +2053,17 @@ export class RoleServiceProxy {
 
         const content_ = JSON.stringify(input);
 
-        let options_ : any = {
+        let options_: any = {
             body: content_,
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
                 "Accept": "application/json"
             })
         };
 
-        return this.http.request("put", url_, options_).flatMap((response_ : any) => {
+        return this.http.request("put", url_, options_).flatMap((response_: any) => {
             return this.processUpdate(response_);
         }).catch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
@@ -2081,29 +2079,29 @@ export class RoleServiceProxy {
 
     protected processUpdate(response: HttpResponseBase): Observable<RoleDto> {
         const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+                (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); } };
         if (status === 200) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? RoleDto.fromJS(resultData200) : new RoleDto();
-            return Observable.of(result200);
+                let result200: any = null;
+                let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                result200 = resultData200 ? RoleDto.fromJS(resultData200) : new RoleDto();
+                return Observable.of(result200);
             });
         } else if (status === 401) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
+                return throwException("A server error occurred.", status, _responseText, _headers);
             });
         } else if (status === 403) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
+                return throwException("A server error occurred.", status, _responseText, _headers);
             });
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
         return Observable.of<RoleDto>(<any>null);
@@ -2116,18 +2114,18 @@ export class RoleServiceProxy {
     delete(id: number | null | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/Role/Delete?";
         if (id !== undefined)
-            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+            url_ += "Id=" + encodeURIComponent("" + id) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
-        let options_ : any = {
+        let options_: any = {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
             })
         };
 
-        return this.http.request("delete", url_, options_).flatMap((response_ : any) => {
+        return this.http.request("delete", url_, options_).flatMap((response_: any) => {
             return this.processDelete(response_);
         }).catch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
@@ -2143,26 +2141,26 @@ export class RoleServiceProxy {
 
     protected processDelete(response: HttpResponseBase): Observable<void> {
         const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+                (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); } };
         if (status === 200) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return Observable.of<void>(<any>null);
+                return Observable.of<void>(<any>null);
             });
         } else if (status === 401) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
+                return throwException("A server error occurred.", status, _responseText, _headers);
             });
         } else if (status === 403) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
+                return throwException("A server error occurred.", status, _responseText, _headers);
             });
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
         return Observable.of<void>(<any>null);
@@ -2175,16 +2173,16 @@ export class RoleServiceProxy {
         let url_ = this.baseUrl + "/api/services/app/Role/GetAllPermissions";
         url_ = url_.replace(/[?&]$/, "");
 
-        let options_ : any = {
+        let options_: any = {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
                 "Accept": "application/json"
             })
         };
 
-        return this.http.request("get", url_, options_).flatMap((response_ : any) => {
+        return this.http.request("get", url_, options_).flatMap((response_: any) => {
             return this.processGetAllPermissions(response_);
         }).catch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
@@ -2200,29 +2198,29 @@ export class RoleServiceProxy {
 
     protected processGetAllPermissions(response: HttpResponseBase): Observable<ListResultDtoOfPermissionDto> {
         const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+                (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); } };
         if (status === 200) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? ListResultDtoOfPermissionDto.fromJS(resultData200) : new ListResultDtoOfPermissionDto();
-            return Observable.of(result200);
+                let result200: any = null;
+                let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                result200 = resultData200 ? ListResultDtoOfPermissionDto.fromJS(resultData200) : new ListResultDtoOfPermissionDto();
+                return Observable.of(result200);
             });
         } else if (status === 401) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
+                return throwException("A server error occurred.", status, _responseText, _headers);
             });
         } else if (status === 403) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
+                return throwException("A server error occurred.", status, _responseText, _headers);
             });
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
         return Observable.of<ListResultDtoOfPermissionDto>(<any>null);
@@ -2235,19 +2233,19 @@ export class RoleServiceProxy {
     get(id: number | null | undefined): Observable<RoleDto> {
         let url_ = this.baseUrl + "/api/services/app/Role/Get?";
         if (id !== undefined)
-            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+            url_ += "Id=" + encodeURIComponent("" + id) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
-        let options_ : any = {
+        let options_: any = {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
                 "Accept": "application/json"
             })
         };
 
-        return this.http.request("get", url_, options_).flatMap((response_ : any) => {
+        return this.http.request("get", url_, options_).flatMap((response_: any) => {
             return this.processGet(response_);
         }).catch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
@@ -2263,29 +2261,29 @@ export class RoleServiceProxy {
 
     protected processGet(response: HttpResponseBase): Observable<RoleDto> {
         const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+                (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); } };
         if (status === 200) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? RoleDto.fromJS(resultData200) : new RoleDto();
-            return Observable.of(result200);
+                let result200: any = null;
+                let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                result200 = resultData200 ? RoleDto.fromJS(resultData200) : new RoleDto();
+                return Observable.of(result200);
             });
         } else if (status === 401) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
+                return throwException("A server error occurred.", status, _responseText, _headers);
             });
         } else if (status === 403) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
+                return throwException("A server error occurred.", status, _responseText, _headers);
             });
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
         return Observable.of<RoleDto>(<any>null);
@@ -2299,21 +2297,21 @@ export class RoleServiceProxy {
     getAll(skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfRoleDto> {
         let url_ = this.baseUrl + "/api/services/app/Role/GetAll?";
         if (skipCount !== undefined)
-            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&";
         if (maxResultCount !== undefined)
-            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
-        let options_ : any = {
+        let options_: any = {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
                 "Accept": "application/json"
             })
         };
 
-        return this.http.request("get", url_, options_).flatMap((response_ : any) => {
+        return this.http.request("get", url_, options_).flatMap((response_: any) => {
             return this.processGetAll(response_);
         }).catch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
@@ -2329,29 +2327,29 @@ export class RoleServiceProxy {
 
     protected processGetAll(response: HttpResponseBase): Observable<PagedResultDtoOfRoleDto> {
         const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+                (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); } };
         if (status === 200) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? PagedResultDtoOfRoleDto.fromJS(resultData200) : new PagedResultDtoOfRoleDto();
-            return Observable.of(result200);
+                let result200: any = null;
+                let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                result200 = resultData200 ? PagedResultDtoOfRoleDto.fromJS(resultData200) : new PagedResultDtoOfRoleDto();
+                return Observable.of(result200);
             });
         } else if (status === 401) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
+                return throwException("A server error occurred.", status, _responseText, _headers);
             });
         } else if (status === 403) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
+                return throwException("A server error occurred.", status, _responseText, _headers);
             });
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
         return Observable.of<PagedResultDtoOfRoleDto>(<any>null);
@@ -2376,16 +2374,16 @@ export class SessionServiceProxy {
         let url_ = this.baseUrl + "/api/services/app/Session/GetCurrentLoginInformations";
         url_ = url_.replace(/[?&]$/, "");
 
-        let options_ : any = {
+        let options_: any = {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
                 "Accept": "application/json"
             })
         };
 
-        return this.http.request("get", url_, options_).flatMap((response_ : any) => {
+        return this.http.request("get", url_, options_).flatMap((response_: any) => {
             return this.processGetCurrentLoginInformations(response_);
         }).catch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
@@ -2401,21 +2399,21 @@ export class SessionServiceProxy {
 
     protected processGetCurrentLoginInformations(response: HttpResponseBase): Observable<GetCurrentLoginInformationsOutput> {
         const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+                (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); } };
         if (status === 200) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? GetCurrentLoginInformationsOutput.fromJS(resultData200) : new GetCurrentLoginInformationsOutput();
-            return Observable.of(result200);
+                let result200: any = null;
+                let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                result200 = resultData200 ? GetCurrentLoginInformationsOutput.fromJS(resultData200) : new GetCurrentLoginInformationsOutput();
+                return Observable.of(result200);
             });
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
         return Observable.of<GetCurrentLoginInformationsOutput>(<any>null);
@@ -2443,25 +2441,25 @@ export class SpecialPlanServiceProxy {
     getPagedSpecialPlans(filter: string | null | undefined, sorting: string | null | undefined, maxResultCount: number | null | undefined, skipCount: number | null | undefined): Observable<PagedResultDtoOfSpecialPlanListDto> {
         let url_ = this.baseUrl + "/api/services/app/SpecialPlan/GetPagedSpecialPlans?";
         if (filter !== undefined)
-            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&";
         if (sorting !== undefined)
-            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&";
         if (maxResultCount !== undefined)
-            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&";
         if (skipCount !== undefined)
-            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
-        let options_ : any = {
+        let options_: any = {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
                 "Accept": "application/json"
             })
         };
 
-        return this.http.request("get", url_, options_).flatMap((response_ : any) => {
+        return this.http.request("get", url_, options_).flatMap((response_: any) => {
             return this.processGetPagedSpecialPlans(response_);
         }).catch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
@@ -2477,29 +2475,29 @@ export class SpecialPlanServiceProxy {
 
     protected processGetPagedSpecialPlans(response: HttpResponseBase): Observable<PagedResultDtoOfSpecialPlanListDto> {
         const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+                (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); } };
         if (status === 200) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? PagedResultDtoOfSpecialPlanListDto.fromJS(resultData200) : new PagedResultDtoOfSpecialPlanListDto();
-            return Observable.of(result200);
+                let result200: any = null;
+                let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                result200 = resultData200 ? PagedResultDtoOfSpecialPlanListDto.fromJS(resultData200) : new PagedResultDtoOfSpecialPlanListDto();
+                return Observable.of(result200);
             });
         } else if (status === 401) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
+                return throwException("A server error occurred.", status, _responseText, _headers);
             });
         } else if (status === 403) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
+                return throwException("A server error occurred.", status, _responseText, _headers);
             });
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
         return Observable.of<PagedResultDtoOfSpecialPlanListDto>(<any>null);
@@ -2512,19 +2510,19 @@ export class SpecialPlanServiceProxy {
     getSpecialPlanByIdAsync(id: number | null | undefined): Observable<SpecialPlanListDto> {
         let url_ = this.baseUrl + "/api/services/app/SpecialPlan/GetSpecialPlanByIdAsync?";
         if (id !== undefined)
-            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+            url_ += "Id=" + encodeURIComponent("" + id) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
-        let options_ : any = {
+        let options_: any = {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
                 "Accept": "application/json"
             })
         };
 
-        return this.http.request("get", url_, options_).flatMap((response_ : any) => {
+        return this.http.request("get", url_, options_).flatMap((response_: any) => {
             return this.processGetSpecialPlanByIdAsync(response_);
         }).catch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
@@ -2540,29 +2538,29 @@ export class SpecialPlanServiceProxy {
 
     protected processGetSpecialPlanByIdAsync(response: HttpResponseBase): Observable<SpecialPlanListDto> {
         const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+                (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); } };
         if (status === 200) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? SpecialPlanListDto.fromJS(resultData200) : new SpecialPlanListDto();
-            return Observable.of(result200);
+                let result200: any = null;
+                let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                result200 = resultData200 ? SpecialPlanListDto.fromJS(resultData200) : new SpecialPlanListDto();
+                return Observable.of(result200);
             });
         } else if (status === 401) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
+                return throwException("A server error occurred.", status, _responseText, _headers);
             });
         } else if (status === 403) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
+                return throwException("A server error occurred.", status, _responseText, _headers);
             });
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
         return Observable.of<SpecialPlanListDto>(<any>null);
@@ -2575,19 +2573,19 @@ export class SpecialPlanServiceProxy {
     getSpecialPlanForEdit(id: number | null | undefined): Observable<GetSpecialPlanForEditOutput> {
         let url_ = this.baseUrl + "/api/services/app/SpecialPlan/GetSpecialPlanForEdit?";
         if (id !== undefined)
-            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+            url_ += "Id=" + encodeURIComponent("" + id) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
-        let options_ : any = {
+        let options_: any = {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
                 "Accept": "application/json"
             })
         };
 
-        return this.http.request("get", url_, options_).flatMap((response_ : any) => {
+        return this.http.request("get", url_, options_).flatMap((response_: any) => {
             return this.processGetSpecialPlanForEdit(response_);
         }).catch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
@@ -2603,29 +2601,29 @@ export class SpecialPlanServiceProxy {
 
     protected processGetSpecialPlanForEdit(response: HttpResponseBase): Observable<GetSpecialPlanForEditOutput> {
         const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+                (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); } };
         if (status === 200) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? GetSpecialPlanForEditOutput.fromJS(resultData200) : new GetSpecialPlanForEditOutput();
-            return Observable.of(result200);
+                let result200: any = null;
+                let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                result200 = resultData200 ? GetSpecialPlanForEditOutput.fromJS(resultData200) : new GetSpecialPlanForEditOutput();
+                return Observable.of(result200);
             });
         } else if (status === 401) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
+                return throwException("A server error occurred.", status, _responseText, _headers);
             });
         } else if (status === 403) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
+                return throwException("A server error occurred.", status, _responseText, _headers);
             });
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
         return Observable.of<GetSpecialPlanForEditOutput>(<any>null);
@@ -2641,16 +2639,16 @@ export class SpecialPlanServiceProxy {
 
         const content_ = JSON.stringify(input);
 
-        let options_ : any = {
+        let options_: any = {
             body: content_,
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
             })
         };
 
-        return this.http.request("post", url_, options_).flatMap((response_ : any) => {
+        return this.http.request("post", url_, options_).flatMap((response_: any) => {
             return this.processCreateOrUpdateSpecialPlan(response_);
         }).catch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
@@ -2666,26 +2664,26 @@ export class SpecialPlanServiceProxy {
 
     protected processCreateOrUpdateSpecialPlan(response: HttpResponseBase): Observable<void> {
         const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+                (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); } };
         if (status === 200) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return Observable.of<void>(<any>null);
+                return Observable.of<void>(<any>null);
             });
         } else if (status === 401) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
+                return throwException("A server error occurred.", status, _responseText, _headers);
             });
         } else if (status === 403) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
+                return throwException("A server error occurred.", status, _responseText, _headers);
             });
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
         return Observable.of<void>(<any>null);
@@ -2698,18 +2696,18 @@ export class SpecialPlanServiceProxy {
     deleteSpecialPlan(id: number | null | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/SpecialPlan/DeleteSpecialPlan?";
         if (id !== undefined)
-            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+            url_ += "Id=" + encodeURIComponent("" + id) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
-        let options_ : any = {
+        let options_: any = {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
             })
         };
 
-        return this.http.request("delete", url_, options_).flatMap((response_ : any) => {
+        return this.http.request("delete", url_, options_).flatMap((response_: any) => {
             return this.processDeleteSpecialPlan(response_);
         }).catch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
@@ -2725,26 +2723,26 @@ export class SpecialPlanServiceProxy {
 
     protected processDeleteSpecialPlan(response: HttpResponseBase): Observable<void> {
         const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+                (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); } };
         if (status === 200) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return Observable.of<void>(<any>null);
+                return Observable.of<void>(<any>null);
             });
         } else if (status === 401) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
+                return throwException("A server error occurred.", status, _responseText, _headers);
             });
         } else if (status === 403) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
+                return throwException("A server error occurred.", status, _responseText, _headers);
             });
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
         return Observable.of<void>(<any>null);
@@ -2760,16 +2758,16 @@ export class SpecialPlanServiceProxy {
 
         const content_ = JSON.stringify(input);
 
-        let options_ : any = {
+        let options_: any = {
             body: content_,
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
             })
         };
 
-        return this.http.request("post", url_, options_).flatMap((response_ : any) => {
+        return this.http.request("post", url_, options_).flatMap((response_: any) => {
             return this.processBatchDeleteSpecialPlansAsync(response_);
         }).catch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
@@ -2785,26 +2783,26 @@ export class SpecialPlanServiceProxy {
 
     protected processBatchDeleteSpecialPlansAsync(response: HttpResponseBase): Observable<void> {
         const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+                (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); } };
         if (status === 200) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return Observable.of<void>(<any>null);
+                return Observable.of<void>(<any>null);
             });
         } else if (status === 401) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
+                return throwException("A server error occurred.", status, _responseText, _headers);
             });
         } else if (status === 403) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
+                return throwException("A server error occurred.", status, _responseText, _headers);
             });
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
         return Observable.of<void>(<any>null);
@@ -2832,25 +2830,25 @@ export class SubSpecialPlanServiceProxy {
     getPagedSubSpecialPlans(filter: string | null | undefined, sorting: string | null | undefined, maxResultCount: number | null | undefined, skipCount: number | null | undefined): Observable<PagedResultDtoOfSubSpecialPlanListDto> {
         let url_ = this.baseUrl + "/api/services/app/SubSpecialPlan/GetPagedSubSpecialPlans?";
         if (filter !== undefined)
-            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&";
         if (sorting !== undefined)
-            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&";
         if (maxResultCount !== undefined)
-            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&";
         if (skipCount !== undefined)
-            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
-        let options_ : any = {
+        let options_: any = {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
                 "Accept": "application/json"
             })
         };
 
-        return this.http.request("get", url_, options_).flatMap((response_ : any) => {
+        return this.http.request("get", url_, options_).flatMap((response_: any) => {
             return this.processGetPagedSubSpecialPlans(response_);
         }).catch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
@@ -2866,29 +2864,29 @@ export class SubSpecialPlanServiceProxy {
 
     protected processGetPagedSubSpecialPlans(response: HttpResponseBase): Observable<PagedResultDtoOfSubSpecialPlanListDto> {
         const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+                (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); } };
         if (status === 200) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? PagedResultDtoOfSubSpecialPlanListDto.fromJS(resultData200) : new PagedResultDtoOfSubSpecialPlanListDto();
-            return Observable.of(result200);
+                let result200: any = null;
+                let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                result200 = resultData200 ? PagedResultDtoOfSubSpecialPlanListDto.fromJS(resultData200) : new PagedResultDtoOfSubSpecialPlanListDto();
+                return Observable.of(result200);
             });
         } else if (status === 401) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
+                return throwException("A server error occurred.", status, _responseText, _headers);
             });
         } else if (status === 403) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
+                return throwException("A server error occurred.", status, _responseText, _headers);
             });
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
         return Observable.of<PagedResultDtoOfSubSpecialPlanListDto>(<any>null);
@@ -2901,19 +2899,19 @@ export class SubSpecialPlanServiceProxy {
     getSubSpecialPlanByIdAsync(id: number | null | undefined): Observable<SubSpecialPlanListDto> {
         let url_ = this.baseUrl + "/api/services/app/SubSpecialPlan/GetSubSpecialPlanByIdAsync?";
         if (id !== undefined)
-            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+            url_ += "Id=" + encodeURIComponent("" + id) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
-        let options_ : any = {
+        let options_: any = {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
                 "Accept": "application/json"
             })
         };
 
-        return this.http.request("get", url_, options_).flatMap((response_ : any) => {
+        return this.http.request("get", url_, options_).flatMap((response_: any) => {
             return this.processGetSubSpecialPlanByIdAsync(response_);
         }).catch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
@@ -2929,29 +2927,29 @@ export class SubSpecialPlanServiceProxy {
 
     protected processGetSubSpecialPlanByIdAsync(response: HttpResponseBase): Observable<SubSpecialPlanListDto> {
         const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+                (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); } };
         if (status === 200) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? SubSpecialPlanListDto.fromJS(resultData200) : new SubSpecialPlanListDto();
-            return Observable.of(result200);
+                let result200: any = null;
+                let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                result200 = resultData200 ? SubSpecialPlanListDto.fromJS(resultData200) : new SubSpecialPlanListDto();
+                return Observable.of(result200);
             });
         } else if (status === 401) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
+                return throwException("A server error occurred.", status, _responseText, _headers);
             });
         } else if (status === 403) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
+                return throwException("A server error occurred.", status, _responseText, _headers);
             });
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
         return Observable.of<SubSpecialPlanListDto>(<any>null);
@@ -2964,19 +2962,19 @@ export class SubSpecialPlanServiceProxy {
     getSubSpecialPlanForEdit(id: number | null | undefined): Observable<GetSubSpecialPlanForEditOutput> {
         let url_ = this.baseUrl + "/api/services/app/SubSpecialPlan/GetSubSpecialPlanForEdit?";
         if (id !== undefined)
-            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+            url_ += "Id=" + encodeURIComponent("" + id) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
-        let options_ : any = {
+        let options_: any = {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
                 "Accept": "application/json"
             })
         };
 
-        return this.http.request("get", url_, options_).flatMap((response_ : any) => {
+        return this.http.request("get", url_, options_).flatMap((response_: any) => {
             return this.processGetSubSpecialPlanForEdit(response_);
         }).catch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
@@ -2992,29 +2990,29 @@ export class SubSpecialPlanServiceProxy {
 
     protected processGetSubSpecialPlanForEdit(response: HttpResponseBase): Observable<GetSubSpecialPlanForEditOutput> {
         const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+                (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); } };
         if (status === 200) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? GetSubSpecialPlanForEditOutput.fromJS(resultData200) : new GetSubSpecialPlanForEditOutput();
-            return Observable.of(result200);
+                let result200: any = null;
+                let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                result200 = resultData200 ? GetSubSpecialPlanForEditOutput.fromJS(resultData200) : new GetSubSpecialPlanForEditOutput();
+                return Observable.of(result200);
             });
         } else if (status === 401) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
+                return throwException("A server error occurred.", status, _responseText, _headers);
             });
         } else if (status === 403) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
+                return throwException("A server error occurred.", status, _responseText, _headers);
             });
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
         return Observable.of<GetSubSpecialPlanForEditOutput>(<any>null);
@@ -3030,16 +3028,16 @@ export class SubSpecialPlanServiceProxy {
 
         const content_ = JSON.stringify(input);
 
-        let options_ : any = {
+        let options_: any = {
             body: content_,
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
             })
         };
 
-        return this.http.request("post", url_, options_).flatMap((response_ : any) => {
+        return this.http.request("post", url_, options_).flatMap((response_: any) => {
             return this.processCreateOrUpdateSubSpecialPlan(response_);
         }).catch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
@@ -3055,26 +3053,26 @@ export class SubSpecialPlanServiceProxy {
 
     protected processCreateOrUpdateSubSpecialPlan(response: HttpResponseBase): Observable<void> {
         const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+                (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); } };
         if (status === 200) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return Observable.of<void>(<any>null);
+                return Observable.of<void>(<any>null);
             });
         } else if (status === 401) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
+                return throwException("A server error occurred.", status, _responseText, _headers);
             });
         } else if (status === 403) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
+                return throwException("A server error occurred.", status, _responseText, _headers);
             });
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
         return Observable.of<void>(<any>null);
@@ -3087,18 +3085,18 @@ export class SubSpecialPlanServiceProxy {
     deleteSubSpecialPlan(id: number | null | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/SubSpecialPlan/DeleteSubSpecialPlan?";
         if (id !== undefined)
-            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+            url_ += "Id=" + encodeURIComponent("" + id) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
-        let options_ : any = {
+        let options_: any = {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
             })
         };
 
-        return this.http.request("delete", url_, options_).flatMap((response_ : any) => {
+        return this.http.request("delete", url_, options_).flatMap((response_: any) => {
             return this.processDeleteSubSpecialPlan(response_);
         }).catch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
@@ -3114,26 +3112,26 @@ export class SubSpecialPlanServiceProxy {
 
     protected processDeleteSubSpecialPlan(response: HttpResponseBase): Observable<void> {
         const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+                (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); } };
         if (status === 200) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return Observable.of<void>(<any>null);
+                return Observable.of<void>(<any>null);
             });
         } else if (status === 401) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
+                return throwException("A server error occurred.", status, _responseText, _headers);
             });
         } else if (status === 403) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
+                return throwException("A server error occurred.", status, _responseText, _headers);
             });
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
         return Observable.of<void>(<any>null);
@@ -3149,16 +3147,16 @@ export class SubSpecialPlanServiceProxy {
 
         const content_ = JSON.stringify(input);
 
-        let options_ : any = {
+        let options_: any = {
             body: content_,
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
             })
         };
 
-        return this.http.request("post", url_, options_).flatMap((response_ : any) => {
+        return this.http.request("post", url_, options_).flatMap((response_: any) => {
             return this.processBatchDeleteSubSpecialPlansAsync(response_);
         }).catch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
@@ -3174,26 +3172,26 @@ export class SubSpecialPlanServiceProxy {
 
     protected processBatchDeleteSubSpecialPlansAsync(response: HttpResponseBase): Observable<void> {
         const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+                (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); } };
         if (status === 200) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return Observable.of<void>(<any>null);
+                return Observable.of<void>(<any>null);
             });
         } else if (status === 401) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
+                return throwException("A server error occurred.", status, _responseText, _headers);
             });
         } else if (status === 403) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
+                return throwException("A server error occurred.", status, _responseText, _headers);
             });
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
         return Observable.of<void>(<any>null);
@@ -3221,25 +3219,25 @@ export class TaskBookServiceProxy {
     getPagedTaskBooks(filter: string | null | undefined, sorting: string | null | undefined, maxResultCount: number | null | undefined, skipCount: number | null | undefined): Observable<PagedResultDtoOfTaskBookListDto> {
         let url_ = this.baseUrl + "/api/services/app/TaskBook/GetPagedTaskBooks?";
         if (filter !== undefined)
-            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&";
         if (sorting !== undefined)
-            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&";
         if (maxResultCount !== undefined)
-            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&";
         if (skipCount !== undefined)
-            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
-        let options_ : any = {
+        let options_: any = {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
                 "Accept": "application/json"
             })
         };
 
-        return this.http.request("get", url_, options_).flatMap((response_ : any) => {
+        return this.http.request("get", url_, options_).flatMap((response_: any) => {
             return this.processGetPagedTaskBooks(response_);
         }).catch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
@@ -3255,29 +3253,29 @@ export class TaskBookServiceProxy {
 
     protected processGetPagedTaskBooks(response: HttpResponseBase): Observable<PagedResultDtoOfTaskBookListDto> {
         const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+                (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); } };
         if (status === 200) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? PagedResultDtoOfTaskBookListDto.fromJS(resultData200) : new PagedResultDtoOfTaskBookListDto();
-            return Observable.of(result200);
+                let result200: any = null;
+                let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                result200 = resultData200 ? PagedResultDtoOfTaskBookListDto.fromJS(resultData200) : new PagedResultDtoOfTaskBookListDto();
+                return Observable.of(result200);
             });
         } else if (status === 401) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
+                return throwException("A server error occurred.", status, _responseText, _headers);
             });
         } else if (status === 403) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
+                return throwException("A server error occurred.", status, _responseText, _headers);
             });
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
         return Observable.of<PagedResultDtoOfTaskBookListDto>(<any>null);
@@ -3290,19 +3288,19 @@ export class TaskBookServiceProxy {
     getTaskBookByIdAsync(id: number | null | undefined): Observable<TaskBookListDto> {
         let url_ = this.baseUrl + "/api/services/app/TaskBook/GetTaskBookByIdAsync?";
         if (id !== undefined)
-            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+            url_ += "Id=" + encodeURIComponent("" + id) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
-        let options_ : any = {
+        let options_: any = {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
                 "Accept": "application/json"
             })
         };
 
-        return this.http.request("get", url_, options_).flatMap((response_ : any) => {
+        return this.http.request("get", url_, options_).flatMap((response_: any) => {
             return this.processGetTaskBookByIdAsync(response_);
         }).catch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
@@ -3318,29 +3316,29 @@ export class TaskBookServiceProxy {
 
     protected processGetTaskBookByIdAsync(response: HttpResponseBase): Observable<TaskBookListDto> {
         const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+                (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); } };
         if (status === 200) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? TaskBookListDto.fromJS(resultData200) : new TaskBookListDto();
-            return Observable.of(result200);
+                let result200: any = null;
+                let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                result200 = resultData200 ? TaskBookListDto.fromJS(resultData200) : new TaskBookListDto();
+                return Observable.of(result200);
             });
         } else if (status === 401) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
+                return throwException("A server error occurred.", status, _responseText, _headers);
             });
         } else if (status === 403) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
+                return throwException("A server error occurred.", status, _responseText, _headers);
             });
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
         return Observable.of<TaskBookListDto>(<any>null);
@@ -3353,19 +3351,19 @@ export class TaskBookServiceProxy {
     getTaskBookForEdit(id: number | null | undefined): Observable<GetTaskBookForEditOutput> {
         let url_ = this.baseUrl + "/api/services/app/TaskBook/GetTaskBookForEdit?";
         if (id !== undefined)
-            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+            url_ += "Id=" + encodeURIComponent("" + id) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
-        let options_ : any = {
+        let options_: any = {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
                 "Accept": "application/json"
             })
         };
 
-        return this.http.request("get", url_, options_).flatMap((response_ : any) => {
+        return this.http.request("get", url_, options_).flatMap((response_: any) => {
             return this.processGetTaskBookForEdit(response_);
         }).catch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
@@ -3381,29 +3379,29 @@ export class TaskBookServiceProxy {
 
     protected processGetTaskBookForEdit(response: HttpResponseBase): Observable<GetTaskBookForEditOutput> {
         const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+                (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); } };
         if (status === 200) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? GetTaskBookForEditOutput.fromJS(resultData200) : new GetTaskBookForEditOutput();
-            return Observable.of(result200);
+                let result200: any = null;
+                let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                result200 = resultData200 ? GetTaskBookForEditOutput.fromJS(resultData200) : new GetTaskBookForEditOutput();
+                return Observable.of(result200);
             });
         } else if (status === 401) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
+                return throwException("A server error occurred.", status, _responseText, _headers);
             });
         } else if (status === 403) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
+                return throwException("A server error occurred.", status, _responseText, _headers);
             });
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
         return Observable.of<GetTaskBookForEditOutput>(<any>null);
@@ -3419,16 +3417,16 @@ export class TaskBookServiceProxy {
 
         const content_ = JSON.stringify(input);
 
-        let options_ : any = {
+        let options_: any = {
             body: content_,
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
             })
         };
 
-        return this.http.request("post", url_, options_).flatMap((response_ : any) => {
+        return this.http.request("post", url_, options_).flatMap((response_: any) => {
             return this.processCreateOrUpdateTaskBook(response_);
         }).catch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
@@ -3444,26 +3442,26 @@ export class TaskBookServiceProxy {
 
     protected processCreateOrUpdateTaskBook(response: HttpResponseBase): Observable<void> {
         const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+                (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); } };
         if (status === 200) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return Observable.of<void>(<any>null);
+                return Observable.of<void>(<any>null);
             });
         } else if (status === 401) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
+                return throwException("A server error occurred.", status, _responseText, _headers);
             });
         } else if (status === 403) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
+                return throwException("A server error occurred.", status, _responseText, _headers);
             });
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
         return Observable.of<void>(<any>null);
@@ -3476,18 +3474,18 @@ export class TaskBookServiceProxy {
     deleteTaskBook(id: number | null | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/TaskBook/DeleteTaskBook?";
         if (id !== undefined)
-            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+            url_ += "Id=" + encodeURIComponent("" + id) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
-        let options_ : any = {
+        let options_: any = {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
             })
         };
 
-        return this.http.request("delete", url_, options_).flatMap((response_ : any) => {
+        return this.http.request("delete", url_, options_).flatMap((response_: any) => {
             return this.processDeleteTaskBook(response_);
         }).catch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
@@ -3503,26 +3501,26 @@ export class TaskBookServiceProxy {
 
     protected processDeleteTaskBook(response: HttpResponseBase): Observable<void> {
         const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+                (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); } };
         if (status === 200) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return Observable.of<void>(<any>null);
+                return Observable.of<void>(<any>null);
             });
         } else if (status === 401) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
+                return throwException("A server error occurred.", status, _responseText, _headers);
             });
         } else if (status === 403) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
+                return throwException("A server error occurred.", status, _responseText, _headers);
             });
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
         return Observable.of<void>(<any>null);
@@ -3538,16 +3536,16 @@ export class TaskBookServiceProxy {
 
         const content_ = JSON.stringify(input);
 
-        let options_ : any = {
+        let options_: any = {
             body: content_,
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
             })
         };
 
-        return this.http.request("post", url_, options_).flatMap((response_ : any) => {
+        return this.http.request("post", url_, options_).flatMap((response_: any) => {
             return this.processBatchDeleteTaskBooksAsync(response_);
         }).catch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
@@ -3563,26 +3561,26 @@ export class TaskBookServiceProxy {
 
     protected processBatchDeleteTaskBooksAsync(response: HttpResponseBase): Observable<void> {
         const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+                (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); } };
         if (status === 200) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return Observable.of<void>(<any>null);
+                return Observable.of<void>(<any>null);
             });
         } else if (status === 401) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
+                return throwException("A server error occurred.", status, _responseText, _headers);
             });
         } else if (status === 403) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
+                return throwException("A server error occurred.", status, _responseText, _headers);
             });
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
         return Observable.of<void>(<any>null);
@@ -3610,17 +3608,17 @@ export class TenantServiceProxy {
 
         const content_ = JSON.stringify(input);
 
-        let options_ : any = {
+        let options_: any = {
             body: content_,
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
                 "Accept": "application/json"
             })
         };
 
-        return this.http.request("post", url_, options_).flatMap((response_ : any) => {
+        return this.http.request("post", url_, options_).flatMap((response_: any) => {
             return this.processCreate(response_);
         }).catch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
@@ -3636,29 +3634,29 @@ export class TenantServiceProxy {
 
     protected processCreate(response: HttpResponseBase): Observable<TenantDto> {
         const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+                (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); } };
         if (status === 200) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? TenantDto.fromJS(resultData200) : new TenantDto();
-            return Observable.of(result200);
+                let result200: any = null;
+                let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                result200 = resultData200 ? TenantDto.fromJS(resultData200) : new TenantDto();
+                return Observable.of(result200);
             });
         } else if (status === 401) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
+                return throwException("A server error occurred.", status, _responseText, _headers);
             });
         } else if (status === 403) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
+                return throwException("A server error occurred.", status, _responseText, _headers);
             });
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
         return Observable.of<TenantDto>(<any>null);
@@ -3671,18 +3669,18 @@ export class TenantServiceProxy {
     delete(id: number | null | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/Tenant/Delete?";
         if (id !== undefined)
-            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+            url_ += "Id=" + encodeURIComponent("" + id) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
-        let options_ : any = {
+        let options_: any = {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
             })
         };
 
-        return this.http.request("delete", url_, options_).flatMap((response_ : any) => {
+        return this.http.request("delete", url_, options_).flatMap((response_: any) => {
             return this.processDelete(response_);
         }).catch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
@@ -3698,26 +3696,26 @@ export class TenantServiceProxy {
 
     protected processDelete(response: HttpResponseBase): Observable<void> {
         const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+                (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); } };
         if (status === 200) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return Observable.of<void>(<any>null);
+                return Observable.of<void>(<any>null);
             });
         } else if (status === 401) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
+                return throwException("A server error occurred.", status, _responseText, _headers);
             });
         } else if (status === 403) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
+                return throwException("A server error occurred.", status, _responseText, _headers);
             });
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
         return Observable.of<void>(<any>null);
@@ -3730,19 +3728,19 @@ export class TenantServiceProxy {
     get(id: number | null | undefined): Observable<TenantDto> {
         let url_ = this.baseUrl + "/api/services/app/Tenant/Get?";
         if (id !== undefined)
-            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+            url_ += "Id=" + encodeURIComponent("" + id) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
-        let options_ : any = {
+        let options_: any = {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
                 "Accept": "application/json"
             })
         };
 
-        return this.http.request("get", url_, options_).flatMap((response_ : any) => {
+        return this.http.request("get", url_, options_).flatMap((response_: any) => {
             return this.processGet(response_);
         }).catch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
@@ -3758,29 +3756,29 @@ export class TenantServiceProxy {
 
     protected processGet(response: HttpResponseBase): Observable<TenantDto> {
         const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+                (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); } };
         if (status === 200) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? TenantDto.fromJS(resultData200) : new TenantDto();
-            return Observable.of(result200);
+                let result200: any = null;
+                let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                result200 = resultData200 ? TenantDto.fromJS(resultData200) : new TenantDto();
+                return Observable.of(result200);
             });
         } else if (status === 401) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
+                return throwException("A server error occurred.", status, _responseText, _headers);
             });
         } else if (status === 403) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
+                return throwException("A server error occurred.", status, _responseText, _headers);
             });
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
         return Observable.of<TenantDto>(<any>null);
@@ -3794,21 +3792,21 @@ export class TenantServiceProxy {
     getAll(skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfTenantDto> {
         let url_ = this.baseUrl + "/api/services/app/Tenant/GetAll?";
         if (skipCount !== undefined)
-            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&";
         if (maxResultCount !== undefined)
-            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
-        let options_ : any = {
+        let options_: any = {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
                 "Accept": "application/json"
             })
         };
 
-        return this.http.request("get", url_, options_).flatMap((response_ : any) => {
+        return this.http.request("get", url_, options_).flatMap((response_: any) => {
             return this.processGetAll(response_);
         }).catch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
@@ -3824,29 +3822,29 @@ export class TenantServiceProxy {
 
     protected processGetAll(response: HttpResponseBase): Observable<PagedResultDtoOfTenantDto> {
         const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+                (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); } };
         if (status === 200) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? PagedResultDtoOfTenantDto.fromJS(resultData200) : new PagedResultDtoOfTenantDto();
-            return Observable.of(result200);
+                let result200: any = null;
+                let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                result200 = resultData200 ? PagedResultDtoOfTenantDto.fromJS(resultData200) : new PagedResultDtoOfTenantDto();
+                return Observable.of(result200);
             });
         } else if (status === 401) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
+                return throwException("A server error occurred.", status, _responseText, _headers);
             });
         } else if (status === 403) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
+                return throwException("A server error occurred.", status, _responseText, _headers);
             });
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
         return Observable.of<PagedResultDtoOfTenantDto>(<any>null);
@@ -3862,17 +3860,17 @@ export class TenantServiceProxy {
 
         const content_ = JSON.stringify(input);
 
-        let options_ : any = {
+        let options_: any = {
             body: content_,
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
                 "Accept": "application/json"
             })
         };
 
-        return this.http.request("put", url_, options_).flatMap((response_ : any) => {
+        return this.http.request("put", url_, options_).flatMap((response_: any) => {
             return this.processUpdate(response_);
         }).catch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
@@ -3888,29 +3886,29 @@ export class TenantServiceProxy {
 
     protected processUpdate(response: HttpResponseBase): Observable<TenantDto> {
         const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+                (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); } };
         if (status === 200) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? TenantDto.fromJS(resultData200) : new TenantDto();
-            return Observable.of(result200);
+                let result200: any = null;
+                let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                result200 = resultData200 ? TenantDto.fromJS(resultData200) : new TenantDto();
+                return Observable.of(result200);
             });
         } else if (status === 401) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
+                return throwException("A server error occurred.", status, _responseText, _headers);
             });
         } else if (status === 403) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
+                return throwException("A server error occurred.", status, _responseText, _headers);
             });
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
         return Observable.of<TenantDto>(<any>null);
@@ -3938,17 +3936,17 @@ export class TokenAuthServiceProxy {
 
         const content_ = JSON.stringify(model);
 
-        let options_ : any = {
+        let options_: any = {
             body: content_,
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
                 "Accept": "application/json"
             })
         };
 
-        return this.http.request("post", url_, options_).flatMap((response_ : any) => {
+        return this.http.request("post", url_, options_).flatMap((response_: any) => {
             return this.processAuthenticate(response_);
         }).catch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
@@ -3964,21 +3962,21 @@ export class TokenAuthServiceProxy {
 
     protected processAuthenticate(response: HttpResponseBase): Observable<AuthenticateResultModel> {
         const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+                (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); } };
         if (status === 200) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? AuthenticateResultModel.fromJS(resultData200) : new AuthenticateResultModel();
-            return Observable.of(result200);
+                let result200: any = null;
+                let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                result200 = resultData200 ? AuthenticateResultModel.fromJS(resultData200) : new AuthenticateResultModel();
+                return Observable.of(result200);
             });
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
         return Observable.of<AuthenticateResultModel>(<any>null);
@@ -3991,16 +3989,16 @@ export class TokenAuthServiceProxy {
         let url_ = this.baseUrl + "/api/TokenAuth/GetExternalAuthenticationProviders";
         url_ = url_.replace(/[?&]$/, "");
 
-        let options_ : any = {
+        let options_: any = {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
                 "Accept": "application/json"
             })
         };
 
-        return this.http.request("get", url_, options_).flatMap((response_ : any) => {
+        return this.http.request("get", url_, options_).flatMap((response_: any) => {
             return this.processGetExternalAuthenticationProviders(response_);
         }).catch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
@@ -4016,25 +4014,25 @@ export class TokenAuthServiceProxy {
 
     protected processGetExternalAuthenticationProviders(response: HttpResponseBase): Observable<ExternalLoginProviderInfoModel[]> {
         const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+                (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); } };
         if (status === 200) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            if (resultData200 && resultData200.constructor === Array) {
-                result200 = [];
-                for (let item of resultData200)
-                    result200.push(ExternalLoginProviderInfoModel.fromJS(item));
-            }
-            return Observable.of(result200);
+                let result200: any = null;
+                let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                if (resultData200 && resultData200.constructor === Array) {
+                    result200 = [];
+                    for (let item of resultData200)
+                        result200.push(ExternalLoginProviderInfoModel.fromJS(item));
+                }
+                return Observable.of(result200);
             });
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
         return Observable.of<ExternalLoginProviderInfoModel[]>(<any>null);
@@ -4050,17 +4048,17 @@ export class TokenAuthServiceProxy {
 
         const content_ = JSON.stringify(model);
 
-        let options_ : any = {
+        let options_: any = {
             body: content_,
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
                 "Accept": "application/json"
             })
         };
 
-        return this.http.request("post", url_, options_).flatMap((response_ : any) => {
+        return this.http.request("post", url_, options_).flatMap((response_: any) => {
             return this.processExternalAuthenticate(response_);
         }).catch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
@@ -4076,21 +4074,21 @@ export class TokenAuthServiceProxy {
 
     protected processExternalAuthenticate(response: HttpResponseBase): Observable<ExternalAuthenticateResultModel> {
         const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+                (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); } };
         if (status === 200) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? ExternalAuthenticateResultModel.fromJS(resultData200) : new ExternalAuthenticateResultModel();
-            return Observable.of(result200);
+                let result200: any = null;
+                let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                result200 = resultData200 ? ExternalAuthenticateResultModel.fromJS(resultData200) : new ExternalAuthenticateResultModel();
+                return Observable.of(result200);
             });
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
         return Observable.of<ExternalAuthenticateResultModel>(<any>null);
@@ -4118,17 +4116,17 @@ export class UserServiceProxy {
 
         const content_ = JSON.stringify(input);
 
-        let options_ : any = {
+        let options_: any = {
             body: content_,
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
                 "Accept": "application/json"
             })
         };
 
-        return this.http.request("post", url_, options_).flatMap((response_ : any) => {
+        return this.http.request("post", url_, options_).flatMap((response_: any) => {
             return this.processCreate(response_);
         }).catch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
@@ -4144,29 +4142,29 @@ export class UserServiceProxy {
 
     protected processCreate(response: HttpResponseBase): Observable<UserDto> {
         const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+                (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); } };
         if (status === 200) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? UserDto.fromJS(resultData200) : new UserDto();
-            return Observable.of(result200);
+                let result200: any = null;
+                let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                result200 = resultData200 ? UserDto.fromJS(resultData200) : new UserDto();
+                return Observable.of(result200);
             });
         } else if (status === 401) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
+                return throwException("A server error occurred.", status, _responseText, _headers);
             });
         } else if (status === 403) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
+                return throwException("A server error occurred.", status, _responseText, _headers);
             });
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
         return Observable.of<UserDto>(<any>null);
@@ -4182,17 +4180,17 @@ export class UserServiceProxy {
 
         const content_ = JSON.stringify(input);
 
-        let options_ : any = {
+        let options_: any = {
             body: content_,
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
                 "Accept": "application/json"
             })
         };
 
-        return this.http.request("put", url_, options_).flatMap((response_ : any) => {
+        return this.http.request("put", url_, options_).flatMap((response_: any) => {
             return this.processUpdate(response_);
         }).catch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
@@ -4208,29 +4206,29 @@ export class UserServiceProxy {
 
     protected processUpdate(response: HttpResponseBase): Observable<UserDto> {
         const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+                (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); } };
         if (status === 200) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? UserDto.fromJS(resultData200) : new UserDto();
-            return Observable.of(result200);
+                let result200: any = null;
+                let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                result200 = resultData200 ? UserDto.fromJS(resultData200) : new UserDto();
+                return Observable.of(result200);
             });
         } else if (status === 401) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
+                return throwException("A server error occurred.", status, _responseText, _headers);
             });
         } else if (status === 403) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
+                return throwException("A server error occurred.", status, _responseText, _headers);
             });
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
         return Observable.of<UserDto>(<any>null);
@@ -4243,18 +4241,18 @@ export class UserServiceProxy {
     delete(id: number | null | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/User/Delete?";
         if (id !== undefined)
-            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+            url_ += "Id=" + encodeURIComponent("" + id) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
-        let options_ : any = {
+        let options_: any = {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
             })
         };
 
-        return this.http.request("delete", url_, options_).flatMap((response_ : any) => {
+        return this.http.request("delete", url_, options_).flatMap((response_: any) => {
             return this.processDelete(response_);
         }).catch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
@@ -4270,26 +4268,26 @@ export class UserServiceProxy {
 
     protected processDelete(response: HttpResponseBase): Observable<void> {
         const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+                (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); } };
         if (status === 200) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return Observable.of<void>(<any>null);
+                return Observable.of<void>(<any>null);
             });
         } else if (status === 401) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
+                return throwException("A server error occurred.", status, _responseText, _headers);
             });
         } else if (status === 403) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
+                return throwException("A server error occurred.", status, _responseText, _headers);
             });
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
         return Observable.of<void>(<any>null);
@@ -4302,16 +4300,16 @@ export class UserServiceProxy {
         let url_ = this.baseUrl + "/api/services/app/User/GetRoles";
         url_ = url_.replace(/[?&]$/, "");
 
-        let options_ : any = {
+        let options_: any = {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
                 "Accept": "application/json"
             })
         };
 
-        return this.http.request("get", url_, options_).flatMap((response_ : any) => {
+        return this.http.request("get", url_, options_).flatMap((response_: any) => {
             return this.processGetRoles(response_);
         }).catch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
@@ -4327,29 +4325,29 @@ export class UserServiceProxy {
 
     protected processGetRoles(response: HttpResponseBase): Observable<ListResultDtoOfRoleDto> {
         const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+                (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); } };
         if (status === 200) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? ListResultDtoOfRoleDto.fromJS(resultData200) : new ListResultDtoOfRoleDto();
-            return Observable.of(result200);
+                let result200: any = null;
+                let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                result200 = resultData200 ? ListResultDtoOfRoleDto.fromJS(resultData200) : new ListResultDtoOfRoleDto();
+                return Observable.of(result200);
             });
         } else if (status === 401) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
+                return throwException("A server error occurred.", status, _responseText, _headers);
             });
         } else if (status === 403) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
+                return throwException("A server error occurred.", status, _responseText, _headers);
             });
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
         return Observable.of<ListResultDtoOfRoleDto>(<any>null);
@@ -4365,16 +4363,16 @@ export class UserServiceProxy {
 
         const content_ = JSON.stringify(input);
 
-        let options_ : any = {
+        let options_: any = {
             body: content_,
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
             })
         };
 
-        return this.http.request("post", url_, options_).flatMap((response_ : any) => {
+        return this.http.request("post", url_, options_).flatMap((response_: any) => {
             return this.processChangeLanguage(response_);
         }).catch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
@@ -4390,26 +4388,26 @@ export class UserServiceProxy {
 
     protected processChangeLanguage(response: HttpResponseBase): Observable<void> {
         const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+                (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); } };
         if (status === 200) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return Observable.of<void>(<any>null);
+                return Observable.of<void>(<any>null);
             });
         } else if (status === 401) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
+                return throwException("A server error occurred.", status, _responseText, _headers);
             });
         } else if (status === 403) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
+                return throwException("A server error occurred.", status, _responseText, _headers);
             });
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
         return Observable.of<void>(<any>null);
@@ -4422,19 +4420,19 @@ export class UserServiceProxy {
     get(id: number | null | undefined): Observable<UserDto> {
         let url_ = this.baseUrl + "/api/services/app/User/Get?";
         if (id !== undefined)
-            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+            url_ += "Id=" + encodeURIComponent("" + id) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
-        let options_ : any = {
+        let options_: any = {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
                 "Accept": "application/json"
             })
         };
 
-        return this.http.request("get", url_, options_).flatMap((response_ : any) => {
+        return this.http.request("get", url_, options_).flatMap((response_: any) => {
             return this.processGet(response_);
         }).catch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
@@ -4450,29 +4448,29 @@ export class UserServiceProxy {
 
     protected processGet(response: HttpResponseBase): Observable<UserDto> {
         const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+                (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); } };
         if (status === 200) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? UserDto.fromJS(resultData200) : new UserDto();
-            return Observable.of(result200);
+                let result200: any = null;
+                let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                result200 = resultData200 ? UserDto.fromJS(resultData200) : new UserDto();
+                return Observable.of(result200);
             });
         } else if (status === 401) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
+                return throwException("A server error occurred.", status, _responseText, _headers);
             });
         } else if (status === 403) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
+                return throwException("A server error occurred.", status, _responseText, _headers);
             });
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
         return Observable.of<UserDto>(<any>null);
@@ -4486,21 +4484,21 @@ export class UserServiceProxy {
     getAll(skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfUserDto> {
         let url_ = this.baseUrl + "/api/services/app/User/GetAll?";
         if (skipCount !== undefined)
-            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&";
         if (maxResultCount !== undefined)
-            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
-        let options_ : any = {
+        let options_: any = {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json", 
+                "Content-Type": "application/json",
                 "Accept": "application/json"
             })
         };
 
-        return this.http.request("get", url_, options_).flatMap((response_ : any) => {
+        return this.http.request("get", url_, options_).flatMap((response_: any) => {
             return this.processGetAll(response_);
         }).catch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
@@ -4516,29 +4514,29 @@ export class UserServiceProxy {
 
     protected processGetAll(response: HttpResponseBase): Observable<PagedResultDtoOfUserDto> {
         const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+                (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); } };
         if (status === 200) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? PagedResultDtoOfUserDto.fromJS(resultData200) : new PagedResultDtoOfUserDto();
-            return Observable.of(result200);
+                let result200: any = null;
+                let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                result200 = resultData200 ? PagedResultDtoOfUserDto.fromJS(resultData200) : new PagedResultDtoOfUserDto();
+                return Observable.of(result200);
             });
         } else if (status === 401) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
+                return throwException("A server error occurred.", status, _responseText, _headers);
             });
         } else if (status === 403) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
+                return throwException("A server error occurred.", status, _responseText, _headers);
             });
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+                return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
         return Observable.of<PagedResultDtoOfUserDto>(<any>null);
@@ -4573,7 +4571,7 @@ export class IsTenantAvailableInput implements IIsTenantAvailableInput {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["tenancyName"] = this.tenancyName;
-        return data; 
+        return data;
     }
 
     clone() {
@@ -4619,7 +4617,7 @@ export class IsTenantAvailableOutput implements IIsTenantAvailableOutput {
         data = typeof data === 'object' ? data : {};
         data["state"] = this.state;
         data["tenantId"] = this.tenantId;
-        return data; 
+        return data;
     }
 
     clone() {
@@ -4678,7 +4676,7 @@ export class RegisterInput implements IRegisterInput {
         data["emailAddress"] = this.emailAddress;
         data["password"] = this.password;
         data["captchaResponse"] = this.captchaResponse;
-        return data; 
+        return data;
     }
 
     clone() {
@@ -4726,7 +4724,7 @@ export class RegisterOutput implements IRegisterOutput {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["canLogin"] = this.canLogin;
-        return data; 
+        return data;
     }
 
     clone() {
@@ -4780,7 +4778,7 @@ export class PagedResultDtoOfAttachmentListDto implements IPagedResultDtoOfAttac
             for (let item of this.items)
                 data["items"].push(item.toJSON());
         }
-        return data; 
+        return data;
     }
 
     clone() {
@@ -4860,7 +4858,7 @@ export class AttachmentListDto implements IAttachmentListDto {
         data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
         data["creatorUserId"] = this.creatorUserId;
         data["id"] = this.id;
-        return data; 
+        return data;
     }
 
     clone() {
@@ -4915,7 +4913,7 @@ export class GetAttachmentForEditOutput implements IGetAttachmentForEditOutput {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["attachment"] = this.attachment ? this.attachment.toJSON() : <any>undefined;
-        return data; 
+        return data;
     }
 
     clone() {
@@ -4973,7 +4971,7 @@ export class AttachmentEditDto implements IAttachmentEditDto {
         data["fileFormat"] = this.fileFormat;
         data["length"] = this.length;
         data["planId"] = this.planId;
-        return data; 
+        return data;
     }
 
     clone() {
@@ -5021,7 +5019,7 @@ export class CreateOrUpdateAttachmentInput implements ICreateOrUpdateAttachmentI
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["attachment"] = this.attachment ? this.attachment.toJSON() : <any>undefined;
-        return data; 
+        return data;
     }
 
     clone() {
@@ -5039,7 +5037,7 @@ export interface ICreateOrUpdateAttachmentInput {
 export class IFormFile implements IIFormFile {
     readonly contentType: string | undefined;
     readonly contentDisposition: string | undefined;
-    readonly headers: { [key: string] : string[]; } | undefined;
+    readonly headers: { [key: string]: string[]; } | undefined;
     readonly length: number | undefined;
     readonly name: string | undefined;
     readonly fileName: string | undefined;
@@ -5091,7 +5089,7 @@ export class IFormFile implements IIFormFile {
         data["length"] = this.length;
         data["name"] = this.name;
         data["fileName"] = this.fileName;
-        return data; 
+        return data;
     }
 
     clone() {
@@ -5105,7 +5103,7 @@ export class IFormFile implements IIFormFile {
 export interface IIFormFile {
     contentType: string | undefined;
     contentDisposition: string | undefined;
-    headers: { [key: string] : string[]; } | undefined;
+    headers: { [key: string]: string[]; } | undefined;
     length: number | undefined;
     name: string | undefined;
     fileName: string | undefined;
@@ -5139,7 +5137,7 @@ export class ChangeUiThemeInput implements IChangeUiThemeInput {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["theme"] = this.theme;
-        return data; 
+        return data;
     }
 
     clone() {
@@ -5185,7 +5183,7 @@ export class KeyValuePairOfStringAndString implements IKeyValuePairOfStringAndSt
         data = typeof data === 'object' ? data : {};
         data["key"] = this.key;
         data["value"] = this.value;
-        return data; 
+        return data;
     }
 
     clone() {
@@ -5240,7 +5238,7 @@ export class PagedResultDtoOfPlanListDto implements IPagedResultDtoOfPlanListDto
             for (let item of this.items)
                 data["items"].push(item.toJSON());
         }
-        return data; 
+        return data;
     }
 
     clone() {
@@ -5319,7 +5317,7 @@ export class PlanListDto implements IPlanListDto {
             for (let item of this.attachments)
                 data["attachments"].push(item.toJSON());
         }
-        return data; 
+        return data;
     }
 
     clone() {
@@ -5410,7 +5408,7 @@ export class Attachment implements IAttachment {
         data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
         data["creatorUserId"] = this.creatorUserId;
         data["id"] = this.id;
-        return data; 
+        return data;
     }
 
     clone() {
@@ -5544,7 +5542,7 @@ export class Plan implements IPlan {
         data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
         data["creatorUserId"] = this.creatorUserId;
         data["id"] = this.id;
-        return data; 
+        return data;
     }
 
     clone() {
@@ -5653,7 +5651,7 @@ export class PlanProject implements IPlanProject {
         data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
         data["creatorUserId"] = this.creatorUserId;
         data["id"] = this.id;
-        return data; 
+        return data;
     }
 
     clone() {
@@ -5756,7 +5754,7 @@ export class SpecialPlan implements ISpecialPlan {
         data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
         data["creatorUserId"] = this.creatorUserId;
         data["id"] = this.id;
-        return data; 
+        return data;
     }
 
     clone() {
@@ -5846,7 +5844,7 @@ export class PlanProjectType implements IPlanProjectType {
         data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
         data["creatorUserId"] = this.creatorUserId;
         data["id"] = this.id;
-        return data; 
+        return data;
     }
 
     clone() {
@@ -5940,7 +5938,7 @@ export class SubSpecialPlan implements ISubSpecialPlan {
         data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
         data["creatorUserId"] = this.creatorUserId;
         data["id"] = this.id;
-        return data; 
+        return data;
     }
 
     clone() {
@@ -5997,7 +5995,7 @@ export class GetPlanForEditOutput implements IGetPlanForEditOutput {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["plan"] = this.plan ? this.plan.toJSON() : <any>undefined;
-        return data; 
+        return data;
     }
 
     clone() {
@@ -6075,7 +6073,7 @@ export class PlanEditDto implements IPlanEditDto {
             for (let item of this.attachments)
                 data["attachments"].push(item.toJSON());
         }
-        return data; 
+        return data;
     }
 
     clone() {
@@ -6127,7 +6125,7 @@ export class CreateOrUpdatePlanInput implements ICreateOrUpdatePlanInput {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["plan"] = this.plan ? this.plan.toJSON() : <any>undefined;
-        return data; 
+        return data;
     }
 
     clone() {
@@ -6181,7 +6179,7 @@ export class PagedResultDtoOfPlanProjectListDto implements IPagedResultDtoOfPlan
             for (let item of this.items)
                 data["items"].push(item.toJSON());
         }
-        return data; 
+        return data;
     }
 
     clone() {
@@ -6207,7 +6205,7 @@ export class PlanProjectListDto implements IPlanProjectListDto {
     description: string | undefined;
     planId: number | undefined;
     planName: string | undefined;
-    unit: PlanProjectEditDtoUnit | undefined;
+    unit: PlanProjectDtoUnit | undefined;
     readonly unitTypeDescription: string | undefined;
 
     constructor(data?: IPlanProjectListDto) {
@@ -6255,7 +6253,7 @@ export class PlanProjectListDto implements IPlanProjectListDto {
         data["planName"] = this.planName;
         data["unit"] = this.unit;
         data["unitTypeDescription"] = this.unitTypeDescription;
-        return data; 
+        return data;
     }
 
     clone() {
@@ -6276,7 +6274,7 @@ export interface IPlanProjectListDto {
     description: string | undefined;
     planId: number | undefined;
     planName: string | undefined;
-    unit: PlanProjectEditDtoUnit | undefined;
+    unit: PlanProjectDtoUnit | undefined;
     unitTypeDescription: string | undefined;
 }
 
@@ -6308,7 +6306,7 @@ export class GetPlanProjectForEditOutput implements IGetPlanProjectForEditOutput
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["planProject"] = this.planProject ? this.planProject.toJSON() : <any>undefined;
-        return data; 
+        return data;
     }
 
     clone() {
@@ -6329,7 +6327,7 @@ export class PlanProjectEditDto implements IPlanProjectEditDto {
     subProjectName: string;
     plannedWorkLoad: number | undefined;
     plannedCost: number | undefined;
-    unit: PlanProjectEditDtoUnit | undefined;
+    unit: PlanProjectDtoUnit | undefined;
     readonly unitTypeDescription: string | undefined;
     description: string | undefined;
     planId: number | undefined;
@@ -6375,7 +6373,7 @@ export class PlanProjectEditDto implements IPlanProjectEditDto {
         data["unitTypeDescription"] = this.unitTypeDescription;
         data["description"] = this.description;
         data["planId"] = this.planId;
-        return data; 
+        return data;
     }
 
     clone() {
@@ -6392,7 +6390,7 @@ export interface IPlanProjectEditDto {
     subProjectName: string;
     plannedWorkLoad: number | undefined;
     plannedCost: number | undefined;
-    unit: PlanProjectEditDtoUnit | undefined;
+    unit: PlanProjectDtoUnit | undefined;
     unitTypeDescription: string | undefined;
     description: string | undefined;
     planId: number | undefined;
@@ -6426,7 +6424,7 @@ export class CreateOrUpdatePlanProjectInput implements ICreateOrUpdatePlanProjec
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["planProject"] = this.planProject ? this.planProject.toJSON() : <any>undefined;
-        return data; 
+        return data;
     }
 
     clone() {
@@ -6477,7 +6475,7 @@ export class ListResultDtoOfPlanListDto implements IListResultDtoOfPlanListDto {
             for (let item of this.items)
                 data["items"].push(item.toJSON());
         }
-        return data; 
+        return data;
     }
 
     clone() {
@@ -6531,7 +6529,7 @@ export class PagedResultDtoOfPlanProjectTypeListDto implements IPagedResultDtoOf
             for (let item of this.items)
                 data["items"].push(item.toJSON());
         }
-        return data; 
+        return data;
     }
 
     clone() {
@@ -6599,7 +6597,7 @@ export class PlanProjectTypeListDto implements IPlanProjectTypeListDto {
         data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
         data["creatorUserId"] = this.creatorUserId;
         data["id"] = this.id;
-        return data; 
+        return data;
     }
 
     clone() {
@@ -6650,7 +6648,7 @@ export class GetPlanProjectTypeForEditOutput implements IGetPlanProjectTypeForEd
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["planProjectType"] = this.planProjectType ? this.planProjectType.toJSON() : <any>undefined;
-        return data; 
+        return data;
     }
 
     clone() {
@@ -6696,7 +6694,7 @@ export class PlanProjectTypeEditDto implements IPlanProjectTypeEditDto {
         data = typeof data === 'object' ? data : {};
         data["id"] = this.id;
         data["planProjectTypeName"] = this.planProjectTypeName;
-        return data; 
+        return data;
     }
 
     clone() {
@@ -6740,7 +6738,7 @@ export class CreateOrUpdatePlanProjectTypeInput implements ICreateOrUpdatePlanPr
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["planProjectType"] = this.planProjectType ? this.planProjectType.toJSON() : <any>undefined;
-        return data; 
+        return data;
     }
 
     clone() {
@@ -6806,7 +6804,7 @@ export class CreateRoleDto implements ICreateRoleDto {
             for (let item of this.permissions)
                 data["permissions"].push(item);
         }
-        return data; 
+        return data;
     }
 
     clone() {
@@ -6880,7 +6878,7 @@ export class RoleDto implements IRoleDto {
                 data["permissions"].push(item);
         }
         data["id"] = this.id;
-        return data; 
+        return data;
     }
 
     clone() {
@@ -6937,7 +6935,7 @@ export class ListResultDtoOfPermissionDto implements IListResultDtoOfPermissionD
             for (let item of this.items)
                 data["items"].push(item.toJSON());
         }
-        return data; 
+        return data;
     }
 
     clone() {
@@ -6989,7 +6987,7 @@ export class PermissionDto implements IPermissionDto {
         data["displayName"] = this.displayName;
         data["description"] = this.description;
         data["id"] = this.id;
-        return data; 
+        return data;
     }
 
     clone() {
@@ -7046,7 +7044,7 @@ export class PagedResultDtoOfRoleDto implements IPagedResultDtoOfRoleDto {
             for (let item of this.items)
                 data["items"].push(item.toJSON());
         }
-        return data; 
+        return data;
     }
 
     clone() {
@@ -7096,7 +7094,7 @@ export class GetCurrentLoginInformationsOutput implements IGetCurrentLoginInform
         data["application"] = this.application ? this.application.toJSON() : <any>undefined;
         data["user"] = this.user ? this.user.toJSON() : <any>undefined;
         data["tenant"] = this.tenant ? this.tenant.toJSON() : <any>undefined;
-        return data; 
+        return data;
     }
 
     clone() {
@@ -7116,7 +7114,7 @@ export interface IGetCurrentLoginInformationsOutput {
 export class ApplicationInfoDto implements IApplicationInfoDto {
     version: string | undefined;
     releaseDate: moment.Moment | undefined;
-    features: { [key: string] : boolean; } | undefined;
+    features: { [key: string]: boolean; } | undefined;
 
     constructor(data?: IApplicationInfoDto) {
         if (data) {
@@ -7159,7 +7157,7 @@ export class ApplicationInfoDto implements IApplicationInfoDto {
                     data["features"][key] = this.features[key];
             }
         }
-        return data; 
+        return data;
     }
 
     clone() {
@@ -7173,7 +7171,7 @@ export class ApplicationInfoDto implements IApplicationInfoDto {
 export interface IApplicationInfoDto {
     version: string | undefined;
     releaseDate: moment.Moment | undefined;
-    features: { [key: string] : boolean; } | undefined;
+    features: { [key: string]: boolean; } | undefined;
 }
 
 export class UserLoginInfoDto implements IUserLoginInfoDto {
@@ -7216,7 +7214,7 @@ export class UserLoginInfoDto implements IUserLoginInfoDto {
         data["userName"] = this.userName;
         data["emailAddress"] = this.emailAddress;
         data["id"] = this.id;
-        return data; 
+        return data;
     }
 
     clone() {
@@ -7269,7 +7267,7 @@ export class TenantLoginInfoDto implements ITenantLoginInfoDto {
         data["tenancyName"] = this.tenancyName;
         data["name"] = this.name;
         data["id"] = this.id;
-        return data; 
+        return data;
     }
 
     clone() {
@@ -7325,7 +7323,7 @@ export class PagedResultDtoOfSpecialPlanListDto implements IPagedResultDtoOfSpec
             for (let item of this.items)
                 data["items"].push(item.toJSON());
         }
-        return data; 
+        return data;
     }
 
     clone() {
@@ -7399,7 +7397,7 @@ export class SpecialPlanListDto implements ISpecialPlanListDto {
         data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
         data["creatorUserId"] = this.creatorUserId;
         data["id"] = this.id;
-        return data; 
+        return data;
     }
 
     clone() {
@@ -7452,7 +7450,7 @@ export class GetSpecialPlanForEditOutput implements IGetSpecialPlanForEditOutput
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["specialPlan"] = this.specialPlan ? this.specialPlan.toJSON() : <any>undefined;
-        return data; 
+        return data;
     }
 
     clone() {
@@ -7504,7 +7502,7 @@ export class SpecialPlanEditDto implements ISpecialPlanEditDto {
         data["specialPlanName"] = this.specialPlanName;
         data["plannedCost"] = this.plannedCost;
         data["planId"] = this.planId;
-        return data; 
+        return data;
     }
 
     clone() {
@@ -7550,7 +7548,7 @@ export class CreateOrUpdateSpecialPlanInput implements ICreateOrUpdateSpecialPla
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["specialPlan"] = this.specialPlan ? this.specialPlan.toJSON() : <any>undefined;
-        return data; 
+        return data;
     }
 
     clone() {
@@ -7604,7 +7602,7 @@ export class PagedResultDtoOfSubSpecialPlanListDto implements IPagedResultDtoOfS
             for (let item of this.items)
                 data["items"].push(item.toJSON());
         }
-        return data; 
+        return data;
     }
 
     clone() {
@@ -7684,7 +7682,7 @@ export class SubSpecialPlanListDto implements ISubSpecialPlanListDto {
         data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
         data["creatorUserId"] = this.creatorUserId;
         data["id"] = this.id;
-        return data; 
+        return data;
     }
 
     clone() {
@@ -7739,7 +7737,7 @@ export class GetSubSpecialPlanForEditOutput implements IGetSubSpecialPlanForEdit
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["subSpecialPlan"] = this.subSpecialPlan ? this.subSpecialPlan.toJSON() : <any>undefined;
-        return data; 
+        return data;
     }
 
     clone() {
@@ -7797,7 +7795,7 @@ export class SubSpecialPlanEditDto implements ISubSpecialPlanEditDto {
         data["completeDate"] = this.completeDate ? this.completeDate.toISOString() : <any>undefined;
         data["description"] = this.description;
         data["specialPlanId"] = this.specialPlanId;
-        return data; 
+        return data;
     }
 
     clone() {
@@ -7845,7 +7843,7 @@ export class CreateOrUpdateSubSpecialPlanInput implements ICreateOrUpdateSubSpec
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["subSpecialPlan"] = this.subSpecialPlan ? this.subSpecialPlan.toJSON() : <any>undefined;
-        return data; 
+        return data;
     }
 
     clone() {
@@ -7899,7 +7897,7 @@ export class PagedResultDtoOfTaskBookListDto implements IPagedResultDtoOfTaskBoo
             for (let item of this.items)
                 data["items"].push(item.toJSON());
         }
-        return data; 
+        return data;
     }
 
     clone() {
@@ -7970,7 +7968,7 @@ export class TaskBookListDto implements ITaskBookListDto {
         data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
         data["creatorUserId"] = this.creatorUserId;
         data["id"] = this.id;
-        return data; 
+        return data;
     }
 
     clone() {
@@ -8022,7 +8020,7 @@ export class GetTaskBookForEditOutput implements IGetTaskBookForEditOutput {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["taskBook"] = this.taskBook ? this.taskBook.toJSON() : <any>undefined;
-        return data; 
+        return data;
     }
 
     clone() {
@@ -8071,7 +8069,7 @@ export class TaskBookEditDto implements ITaskBookEditDto {
         data["id"] = this.id;
         data["taskName"] = this.taskName;
         data["taskMainContent"] = this.taskMainContent;
-        return data; 
+        return data;
     }
 
     clone() {
@@ -8116,7 +8114,7 @@ export class CreateOrUpdateTaskBookInput implements ICreateOrUpdateTaskBookInput
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["taskBook"] = this.taskBook ? this.taskBook.toJSON() : <any>undefined;
-        return data; 
+        return data;
     }
 
     clone() {
@@ -8171,7 +8169,7 @@ export class CreateTenantDto implements ICreateTenantDto {
         data["adminEmailAddress"] = this.adminEmailAddress;
         data["connectionString"] = this.connectionString;
         data["isActive"] = this.isActive;
-        return data; 
+        return data;
     }
 
     clone() {
@@ -8227,7 +8225,7 @@ export class TenantDto implements ITenantDto {
         data["name"] = this.name;
         data["isActive"] = this.isActive;
         data["id"] = this.id;
-        return data; 
+        return data;
     }
 
     clone() {
@@ -8284,7 +8282,7 @@ export class PagedResultDtoOfTenantDto implements IPagedResultDtoOfTenantDto {
             for (let item of this.items)
                 data["items"].push(item.toJSON());
         }
-        return data; 
+        return data;
     }
 
     clone() {
@@ -8334,7 +8332,7 @@ export class AuthenticateModel implements IAuthenticateModel {
         data["userNameOrEmailAddress"] = this.userNameOrEmailAddress;
         data["password"] = this.password;
         data["rememberClient"] = this.rememberClient;
-        return data; 
+        return data;
     }
 
     clone() {
@@ -8388,7 +8386,7 @@ export class AuthenticateResultModel implements IAuthenticateResultModel {
         data["encryptedAccessToken"] = this.encryptedAccessToken;
         data["expireInSeconds"] = this.expireInSeconds;
         data["userId"] = this.userId;
-        return data; 
+        return data;
     }
 
     clone() {
@@ -8437,7 +8435,7 @@ export class ExternalLoginProviderInfoModel implements IExternalLoginProviderInf
         data = typeof data === 'object' ? data : {};
         data["name"] = this.name;
         data["clientId"] = this.clientId;
-        return data; 
+        return data;
     }
 
     clone() {
@@ -8487,7 +8485,7 @@ export class ExternalAuthenticateModel implements IExternalAuthenticateModel {
         data["authProvider"] = this.authProvider;
         data["providerKey"] = this.providerKey;
         data["providerAccessCode"] = this.providerAccessCode;
-        return data; 
+        return data;
     }
 
     clone() {
@@ -8541,7 +8539,7 @@ export class ExternalAuthenticateResultModel implements IExternalAuthenticateRes
         data["encryptedAccessToken"] = this.encryptedAccessToken;
         data["expireInSeconds"] = this.expireInSeconds;
         data["waitingForActivation"] = this.waitingForActivation;
-        return data; 
+        return data;
     }
 
     clone() {
@@ -8613,7 +8611,7 @@ export class CreateUserDto implements ICreateUserDto {
                 data["roleNames"].push(item);
         }
         data["password"] = this.password;
-        return data; 
+        return data;
     }
 
     clone() {
@@ -8697,7 +8695,7 @@ export class UserDto implements IUserDto {
                 data["roleNames"].push(item);
         }
         data["id"] = this.id;
-        return data; 
+        return data;
     }
 
     clone() {
@@ -8757,7 +8755,7 @@ export class ListResultDtoOfRoleDto implements IListResultDtoOfRoleDto {
             for (let item of this.items)
                 data["items"].push(item.toJSON());
         }
-        return data; 
+        return data;
     }
 
     clone() {
@@ -8800,7 +8798,7 @@ export class ChangeUserLanguageDto implements IChangeUserLanguageDto {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["languageName"] = this.languageName;
-        return data; 
+        return data;
     }
 
     clone() {
@@ -8854,7 +8852,7 @@ export class PagedResultDtoOfUserDto implements IPagedResultDtoOfUserDto {
             for (let item of this.items)
                 data["items"].push(item.toJSON());
         }
-        return data; 
+        return data;
     }
 
     clone() {
@@ -8871,36 +8869,36 @@ export interface IPagedResultDtoOfUserDto {
 }
 
 export enum IsTenantAvailableOutputState {
-    _1 = 1, 
-    _2 = 2, 
-    _3 = 3, 
+    _1 = 1,
+    _2 = 2,
+    _3 = 3,
 }
 
 export enum PlanProjectUnit {
-    _0 = 0, 
-    _1 = 1, 
-    _2 = 2, 
+    _0 = 0,
+    _1 = 1,
+    _2 = 2,
 }
 
 export enum SubSpecialPlanUnit {
-    _0 = 0, 
-    _1 = 1, 
-    _2 = 2, 
+    _0 = 0,
+    _1 = 1,
+    _2 = 2,
 }
 
-export enum PlanProjectEditDtoUnit {
-    _0 = 0, 
-    _1 = 1, 
-    _2 = 2, 
+export enum PlanProjectDtoUnit {
+    _0 = 0,
+    _1 = 1,
+    _2 = 2,
 }
 
 
 export class SwaggerException extends Error {
     message: string;
-    status: number; 
-    response: string; 
+    status: number;
+    response: string;
     headers: { [key: string]: any; };
-    result: any; 
+    result: any;
 
     constructor(message: string, status: number, response: string, headers: { [key: string]: any; }, result: any) {
         super();
@@ -8920,7 +8918,7 @@ export class SwaggerException extends Error {
 }
 
 function throwException(message: string, status: number, response: string, headers: { [key: string]: any; }, result?: any): Observable<any> {
-    if(result !== null && result !== undefined)
+    if (result !== null && result !== undefined)
         return Observable.throw(result);
     else
         return Observable.throw(new SwaggerException(message, status, response, headers, null));
@@ -8932,12 +8930,12 @@ function blobToText(blob: any): Observable<string> {
             observer.next("");
             observer.complete();
         } else {
-            let reader = new FileReader(); 
-            reader.onload = function() { 
+            let reader = new FileReader();
+            reader.onload = function () {
                 observer.next(this.result);
                 observer.complete();
             }
-            reader.readAsText(blob); 
+            reader.readAsText(blob);
         }
     });
 }

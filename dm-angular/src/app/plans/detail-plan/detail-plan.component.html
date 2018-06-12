@@ -70,7 +70,7 @@
               <td class="font-bold">{{l("Attachment")}}:</td>
               <td>
                 <div *ngFor="let attachment of attachments">
-                  <a  href="javascript:void(0);" class=" waves-effect waves-block()" (click)="download(attachment);">
+                  <a  id="fileurl" href="javascript:void(0);" class=" waves-effect waves-block()" (click)="download(attachment);">
                     <span>
                       {{attachment.fileName}}
                     </span>

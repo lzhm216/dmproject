@@ -8,6 +8,12 @@ namespace SPA.DocumentManager.Attachments.Dtos
 {
     public class AttachmentListDto : FullAuditedEntityDto<int>
     {
+        public AttachmentListDto(string newFileName, string fileFormat)
+        {
+            NewFileName = newFileName;
+            FileFormat = fileFormat;
+        }
+
         ////BCC/ BEGIN CUSTOM CODE SECTION
         ////ECC/ END CUSTOM CODE SECTION
         public string NewFileName { get; set; }

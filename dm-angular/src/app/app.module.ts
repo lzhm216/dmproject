@@ -46,6 +46,8 @@ import { TestsComponent } from './tests/tests.component';
 import { DetailPlanComponent } from './plans/detail-plan/detail-plan.component';
 import { UploadsComponent } from './uploads/uploads.component';
 
+import { FileDownloadService } from '@shared/utils/file-download.service';
+
 @NgModule({
     declarations: [
         AppComponent,
@@ -92,7 +94,7 @@ import { UploadsComponent } from './uploads/uploads.component';
         NgxPaginationModule
     ],
     providers: [
-
+        FileDownloadService
     ]
 })
 export class AppModule { }
