@@ -318,8 +318,14 @@ namespace SPA.DocumentManager.Attachments
 
         public async Task DeleteAttachment(EntityDto<int> input)
         {
+            //删除对应的文件
+           var attachment = await _attachmentRepository.GetAsync(input.Id);
+            string filePath = Path.Combine(_appFolders.TempFileDownloadFolder, attachment.NewFileName);
+            if (File.Exists(filePath))
+            {
+                File.Delete(filePath);
+            }
 
-            //TODO:删除前的逻辑判断，是否允许删除
             await _attachmentRepository.DeleteAsync(input.Id);
         }
 

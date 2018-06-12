@@ -95,15 +95,14 @@
             </div>
           </div>
           <div class="row clearfix" style="margin-top:10px;">
-              <div class="col-sm-12">
-                <div class="form-group form-float">
-                  <div class="form-line">
-                    <input id="attachment" type="file" name="Attachment"  class="form-control">
-                    <label for="attachment" class="form-label">{{l("Attachments")}}</label>
-                  </div>
+            <div class="col-sm-12">
+              <div class="form-group form-float">
+                <div class="form-line">
+                  <input id="attachment" type="file" name="Attachment" class="form-control" multiple>
                 </div>
               </div>
             </div>
+          </div>
         </div>
         <div class="modal-footer">
           <button [disabled]="saving" type="button" class="btn btn-default waves-effect" (click)="close()">

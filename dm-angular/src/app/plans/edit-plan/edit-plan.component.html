@@ -17,7 +17,7 @@
               <div class="form-group form-float">
                 <div class="form-line">
                   <label for="planName" class="form-label">{{l("PlanName")}}</label>
-                  <input type="text" id="planName" name="PlanName" [(ngModel)]="plan.planName" required class="validate form-control"/>
+                  <input type="text" id="planName" name="PlanName" [(ngModel)]="plan.planName" required class="validate form-control" />
                 </div>
               </div>
             </div>
@@ -96,20 +96,32 @@
             <div class="col-sm-12">
               <div class="form-group form-float">
                 <div class="form-line">
-                  <input id="attachment" type="file" name="Attachment" class="form-control">
+                  <input id="attachment" type="file" name="Attachment" class="form-control" multiple>
                 </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-12">
+            <div class="list-group" *ngFor="let attachment of attachments">
+              <div class="form-line">
+                <span>
+                  {{attachment.fileName}}
+                </span>
+                <button type="button" class="btn btn-danger btn-xs" (click)="deleteattachment(attachment)">
+                  <span class="fa fa-close"></span>
+                </button>
               </div>
             </div>
           </div>
         </div>
         <div class="modal-footer">
-            <button [disabled]="saving" type="button" class="btn btn-default waves-effect" (click)="close()">
-              {{l("Cancel")}}
-            </button>
-            <button [disabled]="!editPlanForm.form.valid || saving" type="submit" class="btn btn-primary waves-effect">
-              {{l("Save")}}
-            </button>
-          </div>
+          <button [disabled]="saving" type="button" class="btn btn-default waves-effect" (click)="close()">
+            {{l("Cancel")}}
+          </button>
+          <button [disabled]="!editPlanForm.form.valid || saving" type="submit" class="btn btn-primary waves-effect">
+            {{l("Save")}}
+          </button>
+        </div>
       </form>
     </div>
   </div>
