@@ -204,14 +204,17 @@ namespace SPA.DocumentManager.Attachments
                 PlanId = planId
             };
 
-            var entity = await _attachmentRepository.InsertAsync(attachment);
+            //            var entity = await _attachmentRepository.InsertAsync(attachment);
             //var entity = await _attachmentRepository.GetAsync(attId);
 
-            if (plan.Attachments == null)
-            {
-                plan.Attachments = new List<Attachment>();
-            }
-            plan.Attachments.Add(entity);
+            int id =  await _attachmentRepository.InsertAndGetIdAsync(attachment);
+            var entity = await _attachmentRepository.GetAsync(id);
+
+            //if (plan.Attachments == null)
+            //{
+            //    plan.Attachments = new List<Attachment>();
+            //}
+            //plan.Attachments.Add(entity);
 
             return entity.MapTo<AttachmentListDto>();
         }
