@@ -7,8 +7,6 @@ namespace SPA.DocumentManager.Attachments.Dtos
 {
     public class AttachmentEditDto
     {
-        ////BCC/ BEGIN CUSTOM CODE SECTION
-        ////ECC/ END CUSTOM CODE SECTION
         public int? Id { get; set; }
         [Required]
         [StringLength(DocumentManagerConsts.MaxNewFileNameLength)]

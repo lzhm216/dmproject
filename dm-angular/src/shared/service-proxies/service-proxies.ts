@@ -459,8 +459,8 @@ export class AttachmentServiceProxy {
      * @file (optional) 
      * @return Success
      */
-    upload(planId: number | null | undefined, file: any | null | undefined): Observable<AttachmentEditDto> {
-        let url_ = this.baseUrl + "/api/services/app/Attachment/Upload?";
+    upload(planId: number | null | undefined, file: any | null | undefined): Observable<AttachmentListDto> {
+        let url_ = this.baseUrl + "/api/services/app/Attachment/Upload";
         // if (planId !== undefined)
         //     url_ += "planId=" + encodeURIComponent("" + planId) + "&"; 
         // if (file !== undefined)
@@ -468,7 +468,7 @@ export class AttachmentServiceProxy {
         // url_ = url_.replace(/[?&]$/, "");
 
         const formData = new FormData();
-        formData.append('planId', '3');
+        formData.append('planId', planId.toString());
         formData.append('file', file);
 
         let options_ : any = {
@@ -476,8 +476,8 @@ export class AttachmentServiceProxy {
             responseType: "blob",
             headers: new HttpHeaders({
                 "Content-Type": "multipart/form-data", 
-                "Accept": "*/*",
-                "accept-encoding": "gzip, deflate"
+                "Accept": "application/json" 
+                
             })
         };
 
@@ -492,14 +492,14 @@ export class AttachmentServiceProxy {
                 try {
                     return this.processUpload(<any>response_);
                 } catch (e) {
-                    return <Observable<AttachmentEditDto>><any>Observable.throw(e);
+                    return <Observable<AttachmentListDto>><any>Observable.throw(e);
                 }
             } else
-                return <Observable<AttachmentEditDto>><any>Observable.throw(response_);
+                return <Observable<AttachmentListDto>><any>Observable.throw(response_);
         });
     }
 
-    protected processUpload(response: HttpResponseBase): Observable<AttachmentEditDto> {
+    protected processUpload(response: HttpResponseBase): Observable<AttachmentListDto> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -507,34 +507,29 @@ export class AttachmentServiceProxy {
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
         if (status === 200) {
-            return blobToText(responseBlob).flatMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? AttachmentEditDto.fromJS(resultData200) : new AttachmentEditDto();
+            let result200 = JSON.stringify(responseBlob.result) === ""?  new AttachmentListDto() : AttachmentListDto.fromJS(responseBlob.result);
             return Observable.of(result200);
-            });
         } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).flatMap(_responseText => {
+
+            return responseBlob.flatMap(_responseText => {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
-        return Observable.of<AttachmentEditDto>(<any>null);
+        return Observable.of<AttachmentListDto>(<any>null);
     }
 
     /**
-     * @planId (optional) 
-     * @fileName (optional) 
+     * @input (optional) 
      * @return Success
      */
-    download(planId: number | null | undefined, fileName: string | null | undefined): Observable<AttachmentListDto> {
-        let url_ = this.baseUrl + "/api/services/app/Attachment/Download?";
-        if (planId !== undefined)
-            url_ += "planId=" + encodeURIComponent("" + planId) + "&"; 
-        if (fileName !== undefined)
-            url_ += "fileName=" + encodeURIComponent("" + fileName) + "&"; 
+    download(input: AttachmentDownloadInput | null | undefined): Observable<AttachmentListDto> {
+        let url_ = this.baseUrl + "/api/services/app/Attachment/Download";
         url_ = url_.replace(/[?&]$/, "");
 
+        const content_ = JSON.stringify(input);
+
         let options_ : any = {
+            body: content_,
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
@@ -4797,19 +4792,12 @@ export interface IPagedResultDtoOfAttachmentListDto {
 }
 
 export class AttachmentListDto implements IAttachmentListDto {
+    id: number | undefined;
     newFileName: string | undefined;
     fileName: string | undefined;
     fileFormat: string | undefined;
     length: number | undefined;
     planId: number | undefined;
-    isDeleted: boolean | undefined;
-    deleterUserId: number | undefined;
-    deletionTime: moment.Moment | undefined;
-    lastModificationTime: moment.Moment | undefined;
-    lastModifierUserId: number | undefined;
-    creationTime: moment.Moment | undefined;
-    creatorUserId: number | undefined;
-    id: number | undefined;
 
     constructor(data?: IAttachmentListDto) {
         if (data) {
@@ -4822,19 +4810,12 @@ export class AttachmentListDto implements IAttachmentListDto {
 
     init(data?: any) {
         if (data) {
+            this.id = data["id"];
             this.newFileName = data["newFileName"];
             this.fileName = data["fileName"];
             this.fileFormat = data["fileFormat"];
             this.length = data["length"];
             this.planId = data["planId"];
-            this.isDeleted = data["isDeleted"];
-            this.deleterUserId = data["deleterUserId"];
-            this.deletionTime = data["deletionTime"] ? moment(data["deletionTime"].toString()) : <any>undefined;
-            this.lastModificationTime = data["lastModificationTime"] ? moment(data["lastModificationTime"].toString()) : <any>undefined;
-            this.lastModifierUserId = data["lastModifierUserId"];
-            this.creationTime = data["creationTime"] ? moment(data["creationTime"].toString()) : <any>undefined;
-            this.creatorUserId = data["creatorUserId"];
-            this.id = data["id"];
         }
     }
 
@@ -4847,19 +4828,12 @@ export class AttachmentListDto implements IAttachmentListDto {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
         data["newFileName"] = this.newFileName;
         data["fileName"] = this.fileName;
         data["fileFormat"] = this.fileFormat;
         data["length"] = this.length;
         data["planId"] = this.planId;
-        data["isDeleted"] = this.isDeleted;
-        data["deleterUserId"] = this.deleterUserId;
-        data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
-        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
-        data["lastModifierUserId"] = this.lastModifierUserId;
-        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
-        data["creatorUserId"] = this.creatorUserId;
-        data["id"] = this.id;
         return data; 
     }
 
@@ -4872,19 +4846,12 @@ export class AttachmentListDto implements IAttachmentListDto {
 }
 
 export interface IAttachmentListDto {
+    id: number | undefined;
     newFileName: string | undefined;
     fileName: string | undefined;
     fileFormat: string | undefined;
     length: number | undefined;
     planId: number | undefined;
-    isDeleted: boolean | undefined;
-    deleterUserId: number | undefined;
-    deletionTime: moment.Moment | undefined;
-    lastModificationTime: moment.Moment | undefined;
-    lastModifierUserId: number | undefined;
-    creationTime: moment.Moment | undefined;
-    creatorUserId: number | undefined;
-    id: number | undefined;
 }
 
 export class GetAttachmentForEditOutput implements IGetAttachmentForEditOutput {
@@ -5109,6 +5076,53 @@ export interface IIFormFile {
     length: number | undefined;
     name: string | undefined;
     fileName: string | undefined;
+}
+
+export class AttachmentDownloadInput implements IAttachmentDownloadInput {
+    planId: number | undefined;
+    fileName: string;
+
+    constructor(data?: IAttachmentDownloadInput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.planId = data["planId"];
+            this.fileName = data["fileName"];
+        }
+    }
+
+    static fromJS(data: any): AttachmentDownloadInput {
+        data = typeof data === 'object' ? data : {};
+        let result = new AttachmentDownloadInput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["planId"] = this.planId;
+        data["fileName"] = this.fileName;
+        return data; 
+    }
+
+    clone() {
+        const json = this.toJSON();
+        let result = new AttachmentDownloadInput();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IAttachmentDownloadInput {
+    planId: number | undefined;
+    fileName: string;
 }
 
 export class ChangeUiThemeInput implements IChangeUiThemeInput {
@@ -8893,7 +8907,6 @@ export enum PlanProjectEditDtoUnit {
     _1 = 1, 
     _2 = 2, 
 }
-
 
 export class SwaggerException extends Error {
     message: string;

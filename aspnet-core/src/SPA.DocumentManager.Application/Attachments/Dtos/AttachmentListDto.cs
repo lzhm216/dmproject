@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace SPA.DocumentManager.Attachments.Dtos
 {
-    public class AttachmentListDto : FullAuditedEntityDto<int>
+    public class AttachmentListDto
     {
         public AttachmentListDto(string newFileName, string fileFormat)
         {
@@ -14,8 +14,7 @@ namespace SPA.DocumentManager.Attachments.Dtos
             FileFormat = fileFormat;
         }
 
-        ////BCC/ BEGIN CUSTOM CODE SECTION
-        ////ECC/ END CUSTOM CODE SECTION
+        public int Id { get; set; }
         public string NewFileName { get; set; }
         public string FileName { get; set; }
         public string FileFormat { get; set; }

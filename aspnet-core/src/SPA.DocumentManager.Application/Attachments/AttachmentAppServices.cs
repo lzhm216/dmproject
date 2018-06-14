@@ -163,7 +163,7 @@ namespace SPA.DocumentManager.Attachments
         }
 
 
-        public virtual async Task<AttachmentEditDto> Upload(int planId, IFormFile file)
+        public async Task<AttachmentListDto> Upload(int planId, IFormFile file)
         {
             if (file == null)
             {
@@ -200,10 +200,12 @@ namespace SPA.DocumentManager.Attachments
                 FileFormat = Path.GetExtension(file.FileName),
                 FileName = file.FileName,
                 Length = file.Length,
-                NewFileName = fileName
+                NewFileName = fileName,
+                PlanId = planId
             };
 
             var entity = await _attachmentRepository.InsertAsync(attachment);
+            //var entity = await _attachmentRepository.GetAsync(attId);
 
             if (plan.Attachments == null)
             {
@@ -211,7 +213,7 @@ namespace SPA.DocumentManager.Attachments
             }
             plan.Attachments.Add(entity);
 
-            return entity.MapTo<AttachmentEditDto>();
+            return entity.MapTo<AttachmentListDto>();
         }
 
         public virtual async Task<AttachmentListDto> Download(AttachmentDownloadInput input)

@@ -1,0 +1,8 @@
+农用地：10
+"DLMC" = '其他园地' OR "DLMC" = '其他林地' OR "DLMC" = '有林地' OR "DLMC" = '果园' OR "DLMC" = '水浇地' OR "DLMC" = '坑塘水面' OR "DLMC" = '灌木林地' OR "DLMC" = '设施农用地' OR "DLMC" = '农村道路' OR "DLMC" = '天然牧草地'
+
+建设用地  11
+"DLMC" = '采矿用地' OR "DLMC" = '城市'  OR "DLMC" = '村庄' OR "DLMC" = '风景名胜及特殊用地' OR "DLMC" = '公路用地' OR "DLMC" = '管道运输用地' OR "DLMC" = '机场用地' OR "DLMC" = '建制镇' OR "DLMC" = '水工建筑用地' OR "DLMC" = '铁路用地' OR "DLMC" = '水库水面'
+
+未利用地  7
+"DLMC" = '沼泽地' OR "DLMC" = '盐碱地' OR "DLMC" = '沙地' OR "DLMC" = '其他草地' OR "DLMC" = '内陆滩涂' OR "DLMC" = '裸地' OR "DLMC" = '河流水面'

@@ -47,6 +47,7 @@ import { DetailPlanComponent } from './plans/detail-plan/detail-plan.component';
 import { UploadsComponent } from './uploads/uploads.component';
 
 import { FileDownloadService } from '@shared/utils/file-download.service';
+import { PlanAttachmentComponent } from './plans/plan-attachment/plan-attachment.component';
 
 @NgModule({
     declarations: [
@@ -79,7 +80,8 @@ import { FileDownloadService } from '@shared/utils/file-download.service';
         EditProjecttypeComponent,
         TestsComponent,
         DetailPlanComponent,
-        UploadsComponent
+        UploadsComponent,
+        PlanAttachmentComponent
     ],
     imports: [
         CommonModule,

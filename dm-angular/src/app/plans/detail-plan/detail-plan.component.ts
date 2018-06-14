@@ -1,5 +1,5 @@
 import { Component, OnInit, Injector, ViewChild } from '@angular/core';
-import { PlanServiceProxy, PlanListDto, AttachmentListDto, AttachmentServiceProxy, API_BASE_URL } from '@shared/service-proxies/service-proxies';
+import { PlanServiceProxy, PlanListDto, AttachmentListDto, AttachmentServiceProxy, API_BASE_URL, AttachmentDownloadInput } from '@shared/service-proxies/service-proxies';
 import { AppComponentBase } from '@shared/app-component-base';
 import { ModalDirective } from 'ngx-bootstrap';
 import { FileDownloadService } from '@shared/utils/file-download.service';
@@ -16,6 +16,9 @@ export class DetailPlanComponent extends AppComponentBase {
   active: boolean = false;
   attachments: AttachmentListDto[] = [];
   filter: string = "";
+
+  downloadInput: AttachmentDownloadInput= new AttachmentListDto();
+
   constructor(
     injector: Injector,
     private _planService: PlanServiceProxy,
@@ -45,7 +48,10 @@ export class DetailPlanComponent extends AppComponentBase {
   }
 
   download(entity: AttachmentListDto): void{
-    this._attachmentService.download(entity.planId, entity.fileName).subscribe((result) => {      
+    this.downloadInput.planId = entity.planId;
+    this.downloadInput.fileName = entity.fileName;
+
+    this._attachmentService.download(this.downloadInput).subscribe((result) => {      
       this._fileDownloadService.downloadTempFile(encodeURI(result.newFileName));
     });
     

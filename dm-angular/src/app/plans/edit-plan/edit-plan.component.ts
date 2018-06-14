@@ -1,10 +1,11 @@
 import { Component, OnInit, Injector, ViewChild, ElementRef, Output, EventEmitter } from '@angular/core';
-import { PlanEditDto, PlanServiceProxy, CreateOrUpdatePlanInput, AttachmentListDto, AttachmentServiceProxy } from '@shared/service-proxies/service-proxies';
+import { PlanEditDto, PlanServiceProxy, CreateOrUpdatePlanInput, AttachmentListDto, AttachmentServiceProxy, Attachment } from '@shared/service-proxies/service-proxies';
 import { AppComponentBase } from '@shared/app-component-base';
 import { ModalDirective } from 'ngx-bootstrap';
 
 import * as moment from 'moment';
 import * as _ from 'lodash';
+import { PlanAttachmentComponent } from '@app/plans/plan-attachment/plan-attachment.component';
 
 @Component({
   selector: 'app-edit-plan',
@@ -14,6 +15,7 @@ export class EditPlanComponent extends AppComponentBase implements OnInit {
 
   @ViewChild('editPlanModal') modal: ModalDirective;
   @ViewChild('modalContent') modalContent: ElementRef;
+  @ViewChild('attachment')  attachmentChild: PlanAttachmentComponent;
 
   @Output() modalSave: EventEmitter<any> = new EventEmitter<any>();
 
@@ -72,13 +74,20 @@ export class EditPlanComponent extends AppComponentBase implements OnInit {
   }
 
   deleteattachment(entity: AttachmentListDto): void {
-    abp.message.confirm("是否确定删除附件" + entity.fileName, (result) => {
-      if (result) {
-        this._attachmentService.deleteAttachment(entity.id).subscribe(() => {
-          this.notify.success(this.l("SuccessfullyDeleted"));
-          _.remove(this.attachments, entity);
-        })
-      }
+    
+  }
+
+  uploadattachment():void {
+    const fileUpload = document.getElementById('file') as HTMLInputElement;
+    this._attachmentService.upload(this.plan.id, fileUpload.files[0]).finally(() => {
+      
+      // this.attachmentChild.refresh();
+      
+    }).subscribe((result2) => {
+
+      this.attachments.push(result2);
+      this.attachmentChild.refresh();
+      this.notify.info(this.l('SavedSuccessfully'));
     });
   }
 }

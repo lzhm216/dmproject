@@ -95,14 +95,20 @@
           <div class="row clearfix" style="margin-top:10px;">
             <div class="col-sm-12">
               <div class="form-group form-float">
-                <div class="form-line">
-                  <input id="attachment" type="file" name="Attachment" class="form-control" multiple>
+                <div class="input-group">
+                  <div class="form-line">
+                      <input id="file" type="file" name="file" class="form-control">
+                  </div>
+
+                  <span class="input-group-addon">
+                    <i class="material-icons" (click)="uploadattachment()">file_upload </i>
+                  </span>
                 </div>
               </div>
             </div>
           </div>
           <div class="col-sm-12">
-            <div class="list-group" *ngFor="let attachment of attachments">
+            <!-- <div class="list-group" *ngFor="let attachment of attachments | paginate: { id: 'server', itemsPerPage: pageSize, currentPage: pageNumber, totalItems: totalItems }">
               <div class="form-line">
                 <span>
                   {{attachment.fileName}}
@@ -111,7 +117,9 @@
                   <span class="fa fa-close"></span>
                 </button>
               </div>
-            </div>
+            </div> -->
+            <app-plan-attachment #attachment [attachments] = "attachments">
+            </app-plan-attachment>
           </div>
         </div>
         <div class="modal-footer">

@@ -1,0 +1,10 @@
+<div class="list-group" *ngFor="let attachment of attachments | paginate: { id: 'server', itemsPerPage: 4, currentPage: pageNumber, totalItems: totalItems }">
+  <div class="form-line">
+    <span>
+      {{attachment.fileName}}
+    </span>
+    <button type="button" class="btn btn-danger btn-xs" (click)="delete(attachment)">
+      <span class="fa fa-close"></span>
+    </button>
+  </div>
+</div>
