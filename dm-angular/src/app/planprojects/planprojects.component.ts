@@ -32,6 +32,7 @@ export class PlanprojectsComponent extends PagedListingComponentBase<PlanProject
     this._enumService.getUnitTypeList().subscribe(result => {
       this.unitType = result;
     });
+    this.refresh();
   }
 
 

@@ -21,18 +21,20 @@
                 </ul>
             </div>
             <div class="body ">
-                <div class="row clearfix">
-                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                        <div class="input-group btn-group btn-defualt form-group">
-                            <input type="text" name="filterText" [(ngModel)]="filter" class="form-control" placeholder="输入搜索内容:">
-                            <span class="input-group-btn">
-                                <button (click)="refresh()" class="btn btn-defualt" type="button">
-                                    <i class="icon-magnifier"></i>
-                                </button>
-                            </span>
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon1">@</span>
+                        </div>
+                        <input type="text" name="filterText" [(ngModel)]="filter" class="form-control" placeholder="输入搜索内容...">
+                        <div class="input-group-append">
+                            <button (click)="refresh()" class="btn btn-defualt" type="button">
+                                <i class="icon-magnifier"></i>
+                            </button>
                         </div>
                     </div>
                 </div>
+
                 <div class="table-responsive">
                     <table class="table table-hover table-striped table-bordered">
                         <thead>

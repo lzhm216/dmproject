@@ -10,8 +10,9 @@ import * as _ from 'lodash';
 })
 export class PlanAttachmentComponent extends PagedListingComponentBase<AttachmentListDto>  {
 
-  @Input() attachments: AttachmentListDto []=[];
-   pagedattachmentdto: PagedResultDtoOfAttachmentListDto = new PagedResultDtoOfAttachmentListDto();
+  @Input() attachments: AttachmentListDto[] = [];
+  pagedAttachmentDto: PagedResultDtoOfAttachmentListDto = new PagedResultDtoOfAttachmentListDto();
+  pageSize = 4;
   constructor(
     injector: Injector,
     private _attachmentService: AttachmentServiceProxy
@@ -20,8 +21,9 @@ export class PlanAttachmentComponent extends PagedListingComponentBase<Attachmen
   }
 
   protected list(request: PagedRequestDto, pageNumber: number, finishedCallback: Function): void {
-    this.pagedattachmentdto.items = this.attachments;
-    this.showPaging(this.pagedattachmentdto, pageNumber);
+    this.pagedAttachmentDto.items = this.attachments.slice((pageNumber - 1) * request.maxResultCount, request.maxResultCount);
+    this.pagedAttachmentDto.totalCount = this.attachments.length;
+    this.showPaging(this.pagedAttachmentDto, pageNumber);
     finishedCallback();
   }
 
@@ -35,6 +37,6 @@ export class PlanAttachmentComponent extends PagedListingComponentBase<Attachmen
       }
     });
   }
-  
-  
+
+
 }
