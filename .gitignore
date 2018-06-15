@@ -7,3 +7,16 @@ bin/
 aspnet-core/src/SPA.DocumentManager.Web.Host/App_Data/Logs/
 aspnet-core/src/SPA.DocumentManager.Web.Mvc/App_Data/Logs/
 aspnet-core/src/SPA.DocumentManager.Migrator/Logs/Logs.txt
+
+
+#document:
+*.doc
+*.docx
+*.png
+*.jpg
+*.xls
+*.xlsx
+*.txt
+Downloads/
+D:/workspace/Code/2018/SPA.DocumentManager/aspnet-core/src/SPA.DocumentManager.Web.Host/wwwroot/Temp
+
