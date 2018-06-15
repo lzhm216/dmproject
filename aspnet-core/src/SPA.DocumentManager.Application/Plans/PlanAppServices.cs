@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Abp.Application.Services.Dto;
 using System.Linq;
@@ -8,6 +9,8 @@ using Abp.Domain.Repositories;
 using Abp.Linq.Extensions;
 
 using System.Linq.Dynamic.Core;
+using Abp;
+using Castle.Core.Internal;
 using Microsoft.EntityFrameworkCore;
 using SPA.DocumentManager.Plans.Authorization;
 using SPA.DocumentManager.Plans.Dtos;
@@ -62,6 +65,59 @@ namespace SPA.DocumentManager.Plans
                 planListDtos
                 );
 
+        }
+
+        public async Task<List<PlanListDto>> GetPlanList(GetPlansInput input)
+        {
+            var query = _planRepository.GetAll();
+
+            var plans = await query
+                .OrderBy(input.Sorting).AsNoTracking()
+                .PageBy(input)
+                .ToListAsync();
+            
+            var planListDtos = plans.MapTo<List<PlanListDto>>();
+
+            return new List<PlanListDto>(
+                planListDtos
+            );
+
+        }
+
+        public async Task<PagedResultDto<PlanListWithProjectDto>> GetPagedPlansWithProject(GetPlansInput input)
+        {
+            try
+            {
+                var query = _planRepository.GetAll().Include(t => t.PlanProjects)
+                    .WhereIf(!input.Filter.IsNullOrEmpty(),
+                        t => t.PlanName.Contains(input.Filter)
+                             || t.FileNo.Contains(input.Filter)
+                             || t.MainContent.Contains(input.Filter));
+
+                var planCount = await query.CountAsync();
+
+                var plans = await query
+                    .OrderByDescending(t => t.PlanYear).AsNoTracking()
+                    .PageBy(input)
+                    .ToListAsync();
+
+                //var planListDtos = ObjectMapper.Map<List <PlanListDto>>(plans);
+                var planListDtos = plans.MapTo<List<PlanListWithProjectDto>>();
+
+                return new PagedResultDto<PlanListWithProjectDto>(
+                    planCount,
+                    planListDtos
+                );
+            }
+            catch (Exception ex)
+            {
+                
+                return new PagedResultDto<PlanListWithProjectDto>(
+                    0,
+                    null
+                );
+            }
+           
         }
 
         /// <summary>

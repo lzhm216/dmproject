@@ -11,6 +11,8 @@ namespace SPA.DocumentManager.Plans.Dtos.LTMAutoMapper
         {
             //    configuration.CreateMap <Plan, PlanDto>();
             configuration.CreateMap<Plan, PlanListDto>();
+            configuration.CreateMap<Plan, PlanListWithProjectDto>();
+
             configuration.CreateMap<PlanEditDto, Plan>();
             // configuration.CreateMap<CreatePlanInput, Plan>();
             //        configuration.CreateMap<Plan, GetPlanForEditOutput>();

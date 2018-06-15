@@ -12,12 +12,19 @@ namespace SPA.DocumentManager.Plans
     public interface IPlanAppService : IApplicationService
     {
         /// <summary>
+        /// 获取所有Plan的表信息
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        Task<List<PlanListDto>> GetPlanList(GetPlansInput input);
+        /// <summary>
         /// 获取Plan的分页列表信息
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
         Task<PagedResultDto<PlanListDto>> GetPagedPlans(GetPlansInput input);
 
+        Task<PagedResultDto<PlanListWithProjectDto>> GetPagedPlansWithProject(GetPlansInput input);
         /// <summary>
         /// 通过指定id获取PlanListDto信息
         /// </summary>

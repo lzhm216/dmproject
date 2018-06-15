@@ -1,5 +1,5 @@
 import { Component, OnInit, Injector, ViewChild } from '@angular/core';
-import { PlanProjectServiceProxy, PagedResultDtoOfPlanProjectListDto, PlanProjectListDto, EnumServiceProxy } from '@shared/service-proxies/service-proxies';
+import { PlanProjectServiceProxy, EnumServiceProxy, PlanListDto, PlanServiceProxy, PagedResultDtoOfPlanListDto, PagedResultDtoOfPlanListWithProjectDto, PlanListWithProjectDto, PlanProjectListDto } from '@shared/service-proxies/service-proxies';
 import { PagedListingComponentBase, PagedRequestDto } from '@shared/paged-listing-component-base';
 import { appModuleAnimation } from '@shared/animations/routerTransition';
 import { CreatePlanprojectComponent } from '@app/planprojects/create-planproject/create-planproject.component';
@@ -11,17 +11,22 @@ import { EditPlanprojectComponent } from '@app/planprojects/edit-planproject/edi
   animations: [appModuleAnimation()]
 })
 
-export class PlanprojectsComponent extends PagedListingComponentBase<PlanProjectListDto> implements OnInit {
-
-  filter: string = "";
-  planProjects: PlanProjectListDto[] = [];
-  unitType: any = null;
+export class PlanprojectsComponent extends PagedListingComponentBase<PlanListWithProjectDto> implements OnInit {
 
   @ViewChild('createPlanProjectModal') createPlanProjectModal: CreatePlanprojectComponent;
   @ViewChild('editPlanProjectModal') editPlanProjectModal: EditPlanprojectComponent;
 
+  
+  filter: string = '';
+  plans: PlanListWithProjectDto[] = [];
+  cost: any[] = [];
+  unitType: any = null;
+
+  editingPlan: PlanListWithProjectDto = null;
+
   constructor(
     injector: Injector,
+    private _planService: PlanServiceProxy,
     private _planProjectService: PlanProjectServiceProxy,
     private _enumService: EnumServiceProxy
   ) {
@@ -35,17 +40,46 @@ export class PlanprojectsComponent extends PagedListingComponentBase<PlanProject
     this.refresh();
   }
 
-
   protected list(request: PagedRequestDto, pageNumber: number, finishedCallback: Function): void {
-    this._planProjectService.getPagedPlanProjects(this.filter, 'Id', request.maxResultCount, request.skipCount).finally(() => {
+    this._planService.getPagedPlansWithProject(this.filter, 'Id', request.maxResultCount, request.skipCount).finally(() => {
+
       finishedCallback();
-    }).subscribe((result: PagedResultDtoOfPlanProjectListDto) => {
-      this.planProjects = result.items;
+    }).subscribe((result: PagedResultDtoOfPlanListWithProjectDto) => {
+
+      this.plans = result.items;
+
       this.showPaging(result, pageNumber);
     })
   }
 
-  protected delete(entity: PlanProjectListDto): void {
+  protected delete(entity: PlanListWithProjectDto): void {
+    abp.message.confirm(
+      "是否删除基础测绘计划 '" + entity.planName + "'?",
+      (result: boolean) => {
+        if (result) {
+          this._planService.deletePlan(entity.id)
+            .subscribe(() => {
+              abp.notify.info("基础测绘计划: " + entity.planName + "已删除");
+              this.refresh();
+            });
+        }
+      }
+    );
+  }
+
+  showPlanProjectsByPlan(entity: PlanListWithProjectDto): void {
+    if (entity === this.editingPlan) {
+      this.editingPlan = null;
+    } else {
+      if (entity.planProjects.length <= 0) {
+        abp.notify.info("该测绘计划没有测绘计划项目");
+        return;
+      }
+      this.editingPlan = entity;
+    }
+  }
+
+  protected deletePlanProject(entity: PlanProjectListDto): void {
     abp.message.confirm(
       "是否删除基础测绘计划项目 '" + entity.planProjectTypeName + "'?",
       (result: boolean) => {

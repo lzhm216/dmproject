@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using Abp.Domain.Entities.Auditing;
+using Newtonsoft.Json;
 using SPA.DocumentManager.Plans;
 
 namespace SPA.DocumentManager.PlanProjects
@@ -53,6 +54,7 @@ namespace SPA.DocumentManager.PlanProjects
 
         public int PlanId { get; set; }
 
-        public Plan Plan { get; set; }
+        [JsonIgnore]
+        public virtual Plan Plan { get; set; }
     }
 }

@@ -17,7 +17,7 @@ import 'rxjs/add/operator/catch';
 
 import { Observable } from 'rxjs/Observable';
 import { Injectable, Inject, Optional, InjectionToken } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpParams, HttpResponse, HttpResponseBase, HttpErrorResponse, HttpRequest } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams, HttpResponse, HttpResponseBase, HttpErrorResponse } from '@angular/common/http';
 
 import * as moment from 'moment';
 
@@ -460,32 +460,23 @@ export class AttachmentServiceProxy {
      * @return Success
      */
     upload(planId: number | null | undefined, file: any | null | undefined): Observable<AttachmentListDto> {
-        let url_ = this.baseUrl + "/api/services/app/Attachment/Upload";
-        // if (planId !== undefined)
-        //     url_ += "planId=" + encodeURIComponent("" + planId) + "&"; 
-        // if (file !== undefined)
-        //     url_ += "file=" + encodeURIComponent("" + file) + "&"; 
-        // url_ = url_.replace(/[?&]$/, "");
-
-        const formData = new FormData();
-        formData.append('planId', planId.toString());
-        formData.append('file', file);
+        let url_ = this.baseUrl + "/api/services/app/Attachment/Upload?";
+        if (planId !== undefined)
+            url_ += "planId=" + encodeURIComponent("" + planId) + "&"; 
+        if (file !== undefined)
+            url_ += "file=" + encodeURIComponent("" + file) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "multipart/form-data", 
-                "Accept": "application/json" 
-                
+                "Content-Type": "application/json", 
+                "Accept": "application/json"
             })
         };
 
-        const uploadReq = new HttpRequest('POST', url_, formData, {
-            reportProgress: true,
-          });
-
-        return this.http.request(uploadReq).flatMap((response_ : any) => {
+        return this.http.request("post", url_, options_).flatMap((response_ : any) => {
             return this.processUpload(response_);
         }).catch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
@@ -507,11 +498,14 @@ export class AttachmentServiceProxy {
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
         if (status === 200) {
-            let result200 = JSON.stringify(responseBlob.result) === ""?  new AttachmentListDto() : AttachmentListDto.fromJS(responseBlob.result);
+            return blobToText(responseBlob).flatMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? AttachmentListDto.fromJS(resultData200) : new AttachmentListDto();
             return Observable.of(result200);
+            });
         } else if (status !== 200 && status !== 204) {
-
-            return responseBlob.flatMap(_responseText => {
+            return blobToText(responseBlob).flatMap(_responseText => {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
@@ -887,6 +881,138 @@ export class PlanServiceProxy {
             });
         }
         return Observable.of<PagedResultDtoOfPlanListDto>(<any>null);
+    }
+
+    /**
+     * @filter (optional) 
+     * @sorting (optional) 
+     * @maxResultCount (optional) 
+     * @skipCount (optional) 
+     * @return Success
+     */
+    getPlanList(filter: string | null | undefined, sorting: string | null | undefined, maxResultCount: number | null | undefined, skipCount: number | null | undefined): Observable<PlanListDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/Plan/GetPlanList?";
+        if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).flatMap((response_ : any) => {
+            return this.processGetPlanList(response_);
+        }).catch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetPlanList(<any>response_);
+                } catch (e) {
+                    return <Observable<PlanListDto[]>><any>Observable.throw(e);
+                }
+            } else
+                return <Observable<PlanListDto[]>><any>Observable.throw(response_);
+        });
+    }
+
+    protected processGetPlanList(response: HttpResponseBase): Observable<PlanListDto[]> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).flatMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (resultData200 && resultData200.constructor === Array) {
+                result200 = [];
+                for (let item of resultData200)
+                    result200.push(PlanListDto.fromJS(item));
+            }
+            return Observable.of(result200);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).flatMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Observable.of<PlanListDto[]>(<any>null);
+    }
+
+    /**
+     * @filter (optional) 
+     * @sorting (optional) 
+     * @maxResultCount (optional) 
+     * @skipCount (optional) 
+     * @return Success
+     */
+    getPagedPlansWithProject(filter: string | null | undefined, sorting: string | null | undefined, maxResultCount: number | null | undefined, skipCount: number | null | undefined): Observable<PagedResultDtoOfPlanListWithProjectDto> {
+        let url_ = this.baseUrl + "/api/services/app/Plan/GetPagedPlansWithProject?";
+        if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).flatMap((response_ : any) => {
+            return this.processGetPagedPlansWithProject(response_);
+        }).catch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetPagedPlansWithProject(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfPlanListWithProjectDto>><any>Observable.throw(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfPlanListWithProjectDto>><any>Observable.throw(response_);
+        });
+    }
+
+    protected processGetPagedPlansWithProject(response: HttpResponseBase): Observable<PagedResultDtoOfPlanListWithProjectDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).flatMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? PagedResultDtoOfPlanListWithProjectDto.fromJS(resultData200) : new PagedResultDtoOfPlanListWithProjectDto();
+            return Observable.of(result200);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).flatMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Observable.of<PagedResultDtoOfPlanListWithProjectDto>(<any>null);
     }
 
     /**
@@ -5363,7 +5489,6 @@ export class Attachment implements IAttachment {
     fileFormat: string;
     length: number | undefined;
     planId: number | undefined;
-    plan: Plan | undefined;
     isDeleted: boolean | undefined;
     deleterUserId: number | undefined;
     deletionTime: moment.Moment | undefined;
@@ -5389,7 +5514,6 @@ export class Attachment implements IAttachment {
             this.fileFormat = data["fileFormat"];
             this.length = data["length"];
             this.planId = data["planId"];
-            this.plan = data["plan"] ? Plan.fromJS(data["plan"]) : <any>undefined;
             this.isDeleted = data["isDeleted"];
             this.deleterUserId = data["deleterUserId"];
             this.deletionTime = data["deletionTime"] ? moment(data["deletionTime"].toString()) : <any>undefined;
@@ -5415,7 +5539,6 @@ export class Attachment implements IAttachment {
         data["fileFormat"] = this.fileFormat;
         data["length"] = this.length;
         data["planId"] = this.planId;
-        data["plan"] = this.plan ? this.plan.toJSON() : <any>undefined;
         data["isDeleted"] = this.isDeleted;
         data["deleterUserId"] = this.deleterUserId;
         data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
@@ -5441,7 +5564,6 @@ export interface IAttachment {
     fileFormat: string;
     length: number | undefined;
     planId: number | undefined;
-    plan: Plan | undefined;
     isDeleted: boolean | undefined;
     deleterUserId: number | undefined;
     deletionTime: moment.Moment | undefined;
@@ -5452,28 +5574,11 @@ export interface IAttachment {
     id: number | undefined;
 }
 
-export class Plan implements IPlan {
-    planName: string;
-    planYear: string;
-    fileNo: string;
-    publishDate: moment.Moment | undefined;
-    compilationBasis: string | undefined;
-    mainContent: string | undefined;
-    fundBudget: number | undefined;
-    financialSource: string | undefined;
-    planProjects: PlanProject[] | undefined;
-    specialPlans: SpecialPlan[] | undefined;
-    attachments: Attachment[] | undefined;
-    isDeleted: boolean | undefined;
-    deleterUserId: number | undefined;
-    deletionTime: moment.Moment | undefined;
-    lastModificationTime: moment.Moment | undefined;
-    lastModifierUserId: number | undefined;
-    creationTime: moment.Moment | undefined;
-    creatorUserId: number | undefined;
-    id: number | undefined;
+export class PagedResultDtoOfPlanListWithProjectDto implements IPagedResultDtoOfPlanListWithProjectDto {
+    totalCount: number | undefined;
+    items: PlanListWithProjectDto[] | undefined;
 
-    constructor(data?: IPlan) {
+    constructor(data?: IPagedResultDtoOfPlanListWithProjectDto) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -5484,6 +5589,70 @@ export class Plan implements IPlan {
 
     init(data?: any) {
         if (data) {
+            this.totalCount = data["totalCount"];
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [];
+                for (let item of data["items"])
+                    this.items.push(PlanListWithProjectDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfPlanListWithProjectDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfPlanListWithProjectDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+
+    clone() {
+        const json = this.toJSON();
+        let result = new PagedResultDtoOfPlanListWithProjectDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IPagedResultDtoOfPlanListWithProjectDto {
+    totalCount: number | undefined;
+    items: PlanListWithProjectDto[] | undefined;
+}
+
+export class PlanListWithProjectDto implements IPlanListWithProjectDto {
+    id: number | undefined;
+    planName: string | undefined;
+    planYear: string | undefined;
+    fileNo: string | undefined;
+    publishDate: moment.Moment | undefined;
+    compilationBasis: string | undefined;
+    mainContent: string | undefined;
+    fundBudget: number | undefined;
+    financialSource: string | undefined;
+    planProjects: PlanProjectListDto[] | undefined;
+
+    constructor(data?: IPlanListWithProjectDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.id = data["id"];
             this.planName = data["planName"];
             this.planYear = data["planYear"];
             this.fileNo = data["fileNo"];
@@ -5495,38 +5664,21 @@ export class Plan implements IPlan {
             if (data["planProjects"] && data["planProjects"].constructor === Array) {
                 this.planProjects = [];
                 for (let item of data["planProjects"])
-                    this.planProjects.push(PlanProject.fromJS(item));
+                    this.planProjects.push(PlanProjectListDto.fromJS(item));
             }
-            if (data["specialPlans"] && data["specialPlans"].constructor === Array) {
-                this.specialPlans = [];
-                for (let item of data["specialPlans"])
-                    this.specialPlans.push(SpecialPlan.fromJS(item));
-            }
-            if (data["attachments"] && data["attachments"].constructor === Array) {
-                this.attachments = [];
-                for (let item of data["attachments"])
-                    this.attachments.push(Attachment.fromJS(item));
-            }
-            this.isDeleted = data["isDeleted"];
-            this.deleterUserId = data["deleterUserId"];
-            this.deletionTime = data["deletionTime"] ? moment(data["deletionTime"].toString()) : <any>undefined;
-            this.lastModificationTime = data["lastModificationTime"] ? moment(data["lastModificationTime"].toString()) : <any>undefined;
-            this.lastModifierUserId = data["lastModifierUserId"];
-            this.creationTime = data["creationTime"] ? moment(data["creationTime"].toString()) : <any>undefined;
-            this.creatorUserId = data["creatorUserId"];
-            this.id = data["id"];
         }
     }
 
-    static fromJS(data: any): Plan {
+    static fromJS(data: any): PlanListWithProjectDto {
         data = typeof data === 'object' ? data : {};
-        let result = new Plan();
+        let result = new PlanListWithProjectDto();
         result.init(data);
         return result;
     }
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
         data["planName"] = this.planName;
         data["planYear"] = this.planYear;
         data["fileNo"] = this.fileNo;
@@ -5540,77 +5692,44 @@ export class Plan implements IPlan {
             for (let item of this.planProjects)
                 data["planProjects"].push(item.toJSON());
         }
-        if (this.specialPlans && this.specialPlans.constructor === Array) {
-            data["specialPlans"] = [];
-            for (let item of this.specialPlans)
-                data["specialPlans"].push(item.toJSON());
-        }
-        if (this.attachments && this.attachments.constructor === Array) {
-            data["attachments"] = [];
-            for (let item of this.attachments)
-                data["attachments"].push(item.toJSON());
-        }
-        data["isDeleted"] = this.isDeleted;
-        data["deleterUserId"] = this.deleterUserId;
-        data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
-        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
-        data["lastModifierUserId"] = this.lastModifierUserId;
-        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
-        data["creatorUserId"] = this.creatorUserId;
-        data["id"] = this.id;
         return data; 
     }
 
     clone() {
         const json = this.toJSON();
-        let result = new Plan();
+        let result = new PlanListWithProjectDto();
         result.init(json);
         return result;
     }
 }
 
-export interface IPlan {
-    planName: string;
-    planYear: string;
-    fileNo: string;
+export interface IPlanListWithProjectDto {
+    id: number | undefined;
+    planName: string | undefined;
+    planYear: string | undefined;
+    fileNo: string | undefined;
     publishDate: moment.Moment | undefined;
     compilationBasis: string | undefined;
     mainContent: string | undefined;
     fundBudget: number | undefined;
     financialSource: string | undefined;
-    planProjects: PlanProject[] | undefined;
-    specialPlans: SpecialPlan[] | undefined;
-    attachments: Attachment[] | undefined;
-    isDeleted: boolean | undefined;
-    deleterUserId: number | undefined;
-    deletionTime: moment.Moment | undefined;
-    lastModificationTime: moment.Moment | undefined;
-    lastModifierUserId: number | undefined;
-    creationTime: moment.Moment | undefined;
-    creatorUserId: number | undefined;
-    id: number | undefined;
+    planProjects: PlanProjectListDto[] | undefined;
 }
 
-export class PlanProject implements IPlanProject {
+export class PlanProjectListDto implements IPlanProjectListDto {
     planProjectTypeId: number | undefined;
-    planProjectType: PlanProjectType | undefined;
-    subProjectName: string;
-    unit: PlanProjectUnit | undefined;
+    planProjectTypeName: string | undefined;
+    id: number | undefined;
+    subProjectName: string | undefined;
     plannedWorkLoad: number | undefined;
     plannedCost: number | undefined;
     description: string | undefined;
     planId: number | undefined;
-    plan: Plan | undefined;
-    isDeleted: boolean | undefined;
-    deleterUserId: number | undefined;
-    deletionTime: moment.Moment | undefined;
-    lastModificationTime: moment.Moment | undefined;
-    lastModifierUserId: number | undefined;
-    creationTime: moment.Moment | undefined;
-    creatorUserId: number | undefined;
-    id: number | undefined;
+    planName: string | undefined;
+    unit: PlanProjectListDtoUnit | undefined;
+    readonly unitTypeDescription: string | undefined;
 
-    constructor(data?: IPlanProject) {
+    constructor(data?: IPlanProjectListDto) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -5622,28 +5741,22 @@ export class PlanProject implements IPlanProject {
     init(data?: any) {
         if (data) {
             this.planProjectTypeId = data["planProjectTypeId"];
-            this.planProjectType = data["planProjectType"] ? PlanProjectType.fromJS(data["planProjectType"]) : <any>undefined;
+            this.planProjectTypeName = data["planProjectTypeName"];
+            this.id = data["id"];
             this.subProjectName = data["subProjectName"];
-            this.unit = data["unit"];
             this.plannedWorkLoad = data["plannedWorkLoad"];
             this.plannedCost = data["plannedCost"];
             this.description = data["description"];
             this.planId = data["planId"];
-            this.plan = data["plan"] ? Plan.fromJS(data["plan"]) : <any>undefined;
-            this.isDeleted = data["isDeleted"];
-            this.deleterUserId = data["deleterUserId"];
-            this.deletionTime = data["deletionTime"] ? moment(data["deletionTime"].toString()) : <any>undefined;
-            this.lastModificationTime = data["lastModificationTime"] ? moment(data["lastModificationTime"].toString()) : <any>undefined;
-            this.lastModifierUserId = data["lastModifierUserId"];
-            this.creationTime = data["creationTime"] ? moment(data["creationTime"].toString()) : <any>undefined;
-            this.creatorUserId = data["creatorUserId"];
-            this.id = data["id"];
+            this.planName = data["planName"];
+            this.unit = data["unit"];
+            (<any>this).unitTypeDescription = data["unitTypeDescription"];
         }
     }
 
-    static fromJS(data: any): PlanProject {
+    static fromJS(data: any): PlanProjectListDto {
         data = typeof data === 'object' ? data : {};
-        let result = new PlanProject();
+        let result = new PlanProjectListDto();
         result.init(data);
         return result;
     }
@@ -5651,336 +5764,39 @@ export class PlanProject implements IPlanProject {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["planProjectTypeId"] = this.planProjectTypeId;
-        data["planProjectType"] = this.planProjectType ? this.planProjectType.toJSON() : <any>undefined;
+        data["planProjectTypeName"] = this.planProjectTypeName;
+        data["id"] = this.id;
         data["subProjectName"] = this.subProjectName;
-        data["unit"] = this.unit;
         data["plannedWorkLoad"] = this.plannedWorkLoad;
         data["plannedCost"] = this.plannedCost;
         data["description"] = this.description;
         data["planId"] = this.planId;
-        data["plan"] = this.plan ? this.plan.toJSON() : <any>undefined;
-        data["isDeleted"] = this.isDeleted;
-        data["deleterUserId"] = this.deleterUserId;
-        data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
-        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
-        data["lastModifierUserId"] = this.lastModifierUserId;
-        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
-        data["creatorUserId"] = this.creatorUserId;
-        data["id"] = this.id;
+        data["planName"] = this.planName;
+        data["unit"] = this.unit;
+        data["unitTypeDescription"] = this.unitTypeDescription;
         return data; 
     }
 
     clone() {
         const json = this.toJSON();
-        let result = new PlanProject();
+        let result = new PlanProjectListDto();
         result.init(json);
         return result;
     }
 }
 
-export interface IPlanProject {
+export interface IPlanProjectListDto {
     planProjectTypeId: number | undefined;
-    planProjectType: PlanProjectType | undefined;
-    subProjectName: string;
-    unit: PlanProjectUnit | undefined;
+    planProjectTypeName: string | undefined;
+    id: number | undefined;
+    subProjectName: string | undefined;
     plannedWorkLoad: number | undefined;
     plannedCost: number | undefined;
     description: string | undefined;
     planId: number | undefined;
-    plan: Plan | undefined;
-    isDeleted: boolean | undefined;
-    deleterUserId: number | undefined;
-    deletionTime: moment.Moment | undefined;
-    lastModificationTime: moment.Moment | undefined;
-    lastModifierUserId: number | undefined;
-    creationTime: moment.Moment | undefined;
-    creatorUserId: number | undefined;
-    id: number | undefined;
-}
-
-export class SpecialPlan implements ISpecialPlan {
-    specialPlanName: string;
-    plannedCost: number | undefined;
-    subSpecialPlans: SubSpecialPlan[] | undefined;
-    planId: number | undefined;
-    plan: Plan | undefined;
-    isDeleted: boolean | undefined;
-    deleterUserId: number | undefined;
-    deletionTime: moment.Moment | undefined;
-    lastModificationTime: moment.Moment | undefined;
-    lastModifierUserId: number | undefined;
-    creationTime: moment.Moment | undefined;
-    creatorUserId: number | undefined;
-    id: number | undefined;
-
-    constructor(data?: ISpecialPlan) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.specialPlanName = data["specialPlanName"];
-            this.plannedCost = data["plannedCost"];
-            if (data["subSpecialPlans"] && data["subSpecialPlans"].constructor === Array) {
-                this.subSpecialPlans = [];
-                for (let item of data["subSpecialPlans"])
-                    this.subSpecialPlans.push(SubSpecialPlan.fromJS(item));
-            }
-            this.planId = data["planId"];
-            this.plan = data["plan"] ? Plan.fromJS(data["plan"]) : <any>undefined;
-            this.isDeleted = data["isDeleted"];
-            this.deleterUserId = data["deleterUserId"];
-            this.deletionTime = data["deletionTime"] ? moment(data["deletionTime"].toString()) : <any>undefined;
-            this.lastModificationTime = data["lastModificationTime"] ? moment(data["lastModificationTime"].toString()) : <any>undefined;
-            this.lastModifierUserId = data["lastModifierUserId"];
-            this.creationTime = data["creationTime"] ? moment(data["creationTime"].toString()) : <any>undefined;
-            this.creatorUserId = data["creatorUserId"];
-            this.id = data["id"];
-        }
-    }
-
-    static fromJS(data: any): SpecialPlan {
-        data = typeof data === 'object' ? data : {};
-        let result = new SpecialPlan();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["specialPlanName"] = this.specialPlanName;
-        data["plannedCost"] = this.plannedCost;
-        if (this.subSpecialPlans && this.subSpecialPlans.constructor === Array) {
-            data["subSpecialPlans"] = [];
-            for (let item of this.subSpecialPlans)
-                data["subSpecialPlans"].push(item.toJSON());
-        }
-        data["planId"] = this.planId;
-        data["plan"] = this.plan ? this.plan.toJSON() : <any>undefined;
-        data["isDeleted"] = this.isDeleted;
-        data["deleterUserId"] = this.deleterUserId;
-        data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
-        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
-        data["lastModifierUserId"] = this.lastModifierUserId;
-        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
-        data["creatorUserId"] = this.creatorUserId;
-        data["id"] = this.id;
-        return data; 
-    }
-
-    clone() {
-        const json = this.toJSON();
-        let result = new SpecialPlan();
-        result.init(json);
-        return result;
-    }
-}
-
-export interface ISpecialPlan {
-    specialPlanName: string;
-    plannedCost: number | undefined;
-    subSpecialPlans: SubSpecialPlan[] | undefined;
-    planId: number | undefined;
-    plan: Plan | undefined;
-    isDeleted: boolean | undefined;
-    deleterUserId: number | undefined;
-    deletionTime: moment.Moment | undefined;
-    lastModificationTime: moment.Moment | undefined;
-    lastModifierUserId: number | undefined;
-    creationTime: moment.Moment | undefined;
-    creatorUserId: number | undefined;
-    id: number | undefined;
-}
-
-export class PlanProjectType implements IPlanProjectType {
-    planProjectTypeName: string | undefined;
-    planProjects: PlanProject[] | undefined;
-    isDeleted: boolean | undefined;
-    deleterUserId: number | undefined;
-    deletionTime: moment.Moment | undefined;
-    lastModificationTime: moment.Moment | undefined;
-    lastModifierUserId: number | undefined;
-    creationTime: moment.Moment | undefined;
-    creatorUserId: number | undefined;
-    id: number | undefined;
-
-    constructor(data?: IPlanProjectType) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.planProjectTypeName = data["planProjectTypeName"];
-            if (data["planProjects"] && data["planProjects"].constructor === Array) {
-                this.planProjects = [];
-                for (let item of data["planProjects"])
-                    this.planProjects.push(PlanProject.fromJS(item));
-            }
-            this.isDeleted = data["isDeleted"];
-            this.deleterUserId = data["deleterUserId"];
-            this.deletionTime = data["deletionTime"] ? moment(data["deletionTime"].toString()) : <any>undefined;
-            this.lastModificationTime = data["lastModificationTime"] ? moment(data["lastModificationTime"].toString()) : <any>undefined;
-            this.lastModifierUserId = data["lastModifierUserId"];
-            this.creationTime = data["creationTime"] ? moment(data["creationTime"].toString()) : <any>undefined;
-            this.creatorUserId = data["creatorUserId"];
-            this.id = data["id"];
-        }
-    }
-
-    static fromJS(data: any): PlanProjectType {
-        data = typeof data === 'object' ? data : {};
-        let result = new PlanProjectType();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["planProjectTypeName"] = this.planProjectTypeName;
-        if (this.planProjects && this.planProjects.constructor === Array) {
-            data["planProjects"] = [];
-            for (let item of this.planProjects)
-                data["planProjects"].push(item.toJSON());
-        }
-        data["isDeleted"] = this.isDeleted;
-        data["deleterUserId"] = this.deleterUserId;
-        data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
-        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
-        data["lastModifierUserId"] = this.lastModifierUserId;
-        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
-        data["creatorUserId"] = this.creatorUserId;
-        data["id"] = this.id;
-        return data; 
-    }
-
-    clone() {
-        const json = this.toJSON();
-        let result = new PlanProjectType();
-        result.init(json);
-        return result;
-    }
-}
-
-export interface IPlanProjectType {
-    planProjectTypeName: string | undefined;
-    planProjects: PlanProject[] | undefined;
-    isDeleted: boolean | undefined;
-    deleterUserId: number | undefined;
-    deletionTime: moment.Moment | undefined;
-    lastModificationTime: moment.Moment | undefined;
-    lastModifierUserId: number | undefined;
-    creationTime: moment.Moment | undefined;
-    creatorUserId: number | undefined;
-    id: number | undefined;
-}
-
-export class SubSpecialPlan implements ISubSpecialPlan {
-    mainContent: string;
-    unit: SubSpecialPlanUnit | undefined;
-    subPlanCost: number | undefined;
-    completeDate: moment.Moment | undefined;
-    description: string | undefined;
-    specialPlanId: number | undefined;
-    specialPlan: SpecialPlan | undefined;
-    isDeleted: boolean | undefined;
-    deleterUserId: number | undefined;
-    deletionTime: moment.Moment | undefined;
-    lastModificationTime: moment.Moment | undefined;
-    lastModifierUserId: number | undefined;
-    creationTime: moment.Moment | undefined;
-    creatorUserId: number | undefined;
-    id: number | undefined;
-
-    constructor(data?: ISubSpecialPlan) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.mainContent = data["mainContent"];
-            this.unit = data["unit"];
-            this.subPlanCost = data["subPlanCost"];
-            this.completeDate = data["completeDate"] ? moment(data["completeDate"].toString()) : <any>undefined;
-            this.description = data["description"];
-            this.specialPlanId = data["specialPlanId"];
-            this.specialPlan = data["specialPlan"] ? SpecialPlan.fromJS(data["specialPlan"]) : <any>undefined;
-            this.isDeleted = data["isDeleted"];
-            this.deleterUserId = data["deleterUserId"];
-            this.deletionTime = data["deletionTime"] ? moment(data["deletionTime"].toString()) : <any>undefined;
-            this.lastModificationTime = data["lastModificationTime"] ? moment(data["lastModificationTime"].toString()) : <any>undefined;
-            this.lastModifierUserId = data["lastModifierUserId"];
-            this.creationTime = data["creationTime"] ? moment(data["creationTime"].toString()) : <any>undefined;
-            this.creatorUserId = data["creatorUserId"];
-            this.id = data["id"];
-        }
-    }
-
-    static fromJS(data: any): SubSpecialPlan {
-        data = typeof data === 'object' ? data : {};
-        let result = new SubSpecialPlan();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["mainContent"] = this.mainContent;
-        data["unit"] = this.unit;
-        data["subPlanCost"] = this.subPlanCost;
-        data["completeDate"] = this.completeDate ? this.completeDate.toISOString() : <any>undefined;
-        data["description"] = this.description;
-        data["specialPlanId"] = this.specialPlanId;
-        data["specialPlan"] = this.specialPlan ? this.specialPlan.toJSON() : <any>undefined;
-        data["isDeleted"] = this.isDeleted;
-        data["deleterUserId"] = this.deleterUserId;
-        data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
-        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
-        data["lastModifierUserId"] = this.lastModifierUserId;
-        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
-        data["creatorUserId"] = this.creatorUserId;
-        data["id"] = this.id;
-        return data; 
-    }
-
-    clone() {
-        const json = this.toJSON();
-        let result = new SubSpecialPlan();
-        result.init(json);
-        return result;
-    }
-}
-
-export interface ISubSpecialPlan {
-    mainContent: string;
-    unit: SubSpecialPlanUnit | undefined;
-    subPlanCost: number | undefined;
-    completeDate: moment.Moment | undefined;
-    description: string | undefined;
-    specialPlanId: number | undefined;
-    specialPlan: SpecialPlan | undefined;
-    isDeleted: boolean | undefined;
-    deleterUserId: number | undefined;
-    deletionTime: moment.Moment | undefined;
-    lastModificationTime: moment.Moment | undefined;
-    lastModifierUserId: number | undefined;
-    creationTime: moment.Moment | undefined;
-    creatorUserId: number | undefined;
-    id: number | undefined;
+    planName: string | undefined;
+    unit: PlanProjectListDtoUnit | undefined;
+    unitTypeDescription: string | undefined;
 }
 
 export class GetPlanForEditOutput implements IGetPlanForEditOutput {
@@ -6211,89 +6027,6 @@ export interface IPagedResultDtoOfPlanProjectListDto {
     items: PlanProjectListDto[] | undefined;
 }
 
-export class PlanProjectListDto implements IPlanProjectListDto {
-    planProjectTypeId: number | undefined;
-    planProjectTypeName: string | undefined;
-    id: number | undefined;
-    subProjectName: string | undefined;
-    plannedWorkLoad: number | undefined;
-    plannedCost: number | undefined;
-    description: string | undefined;
-    planId: number | undefined;
-    planName: string | undefined;
-    unit: PlanProjectEditDtoUnit | undefined;
-    readonly unitTypeDescription: string | undefined;
-
-    constructor(data?: IPlanProjectListDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.planProjectTypeId = data["planProjectTypeId"];
-            this.planProjectTypeName = data["planProjectTypeName"];
-            this.id = data["id"];
-            this.subProjectName = data["subProjectName"];
-            this.plannedWorkLoad = data["plannedWorkLoad"];
-            this.plannedCost = data["plannedCost"];
-            this.description = data["description"];
-            this.planId = data["planId"];
-            this.planName = data["planName"];
-            this.unit = data["unit"];
-            (<any>this).unitTypeDescription = data["unitTypeDescription"];
-        }
-    }
-
-    static fromJS(data: any): PlanProjectListDto {
-        data = typeof data === 'object' ? data : {};
-        let result = new PlanProjectListDto();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["planProjectTypeId"] = this.planProjectTypeId;
-        data["planProjectTypeName"] = this.planProjectTypeName;
-        data["id"] = this.id;
-        data["subProjectName"] = this.subProjectName;
-        data["plannedWorkLoad"] = this.plannedWorkLoad;
-        data["plannedCost"] = this.plannedCost;
-        data["description"] = this.description;
-        data["planId"] = this.planId;
-        data["planName"] = this.planName;
-        data["unit"] = this.unit;
-        data["unitTypeDescription"] = this.unitTypeDescription;
-        return data; 
-    }
-
-    clone() {
-        const json = this.toJSON();
-        let result = new PlanProjectListDto();
-        result.init(json);
-        return result;
-    }
-}
-
-export interface IPlanProjectListDto {
-    planProjectTypeId: number | undefined;
-    planProjectTypeName: string | undefined;
-    id: number | undefined;
-    subProjectName: string | undefined;
-    plannedWorkLoad: number | undefined;
-    plannedCost: number | undefined;
-    description: string | undefined;
-    planId: number | undefined;
-    planName: string | undefined;
-    unit: PlanProjectEditDtoUnit | undefined;
-    unitTypeDescription: string | undefined;
-}
-
 export class GetPlanProjectForEditOutput implements IGetPlanProjectForEditOutput {
     planProject: PlanProjectEditDto | undefined;
 
@@ -6343,7 +6076,7 @@ export class PlanProjectEditDto implements IPlanProjectEditDto {
     subProjectName: string;
     plannedWorkLoad: number | undefined;
     plannedCost: number | undefined;
-    unit: PlanProjectEditDtoUnit | undefined;
+    unit: PlanProjectListDtoUnit | undefined;
     readonly unitTypeDescription: string | undefined;
     description: string | undefined;
     planId: number | undefined;
@@ -6406,7 +6139,7 @@ export interface IPlanProjectEditDto {
     subProjectName: string;
     plannedWorkLoad: number | undefined;
     plannedCost: number | undefined;
-    unit: PlanProjectEditDtoUnit | undefined;
+    unit: PlanProjectListDtoUnit | undefined;
     unitTypeDescription: string | undefined;
     description: string | undefined;
     planId: number | undefined;
@@ -8890,23 +8623,12 @@ export enum IsTenantAvailableOutputState {
     _3 = 3, 
 }
 
-export enum PlanProjectUnit {
+export enum PlanProjectListDtoUnit {
     _0 = 0, 
     _1 = 1, 
     _2 = 2, 
 }
 
-export enum SubSpecialPlanUnit {
-    _0 = 0, 
-    _1 = 1, 
-    _2 = 2, 
-}
-
-export enum PlanProjectEditDtoUnit {
-    _0 = 0, 
-    _1 = 1, 
-    _2 = 2, 
-}
 
 export class SwaggerException extends Error {
     message: string;

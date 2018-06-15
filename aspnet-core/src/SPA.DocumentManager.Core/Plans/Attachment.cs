@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
+using Newtonsoft.Json;
 
 namespace SPA.DocumentManager.Plans
 {
@@ -25,6 +26,7 @@ namespace SPA.DocumentManager.Plans
 
         public int PlanId { get; set; }
 
-        public Plan Plan { get; set; }
+        [JsonIgnore]
+        public virtual Plan Plan { get; set; }
     }
 }

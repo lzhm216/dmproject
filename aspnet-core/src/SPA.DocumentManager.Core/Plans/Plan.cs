@@ -64,10 +64,10 @@ namespace SPA.DocumentManager.Plans
         [StringLength(DocumentManagerConsts.MaxFinancialSourceLength)]
         public string FinancialSource { get; set; }
 
-        public ICollection<PlanProject> PlanProjects { get; set; }
+        public virtual ICollection<PlanProject> PlanProjects { get; set; }
 
-        public ICollection<SpecialPlan> SpecialPlans { get; set; }
+        public virtual ICollection<SpecialPlan> SpecialPlans { get; set; }
 
-        public ICollection<Attachment> Attachments { get; set; }
+        public virtual ICollection<Attachment> Attachments { get; set; }
     }
 }
