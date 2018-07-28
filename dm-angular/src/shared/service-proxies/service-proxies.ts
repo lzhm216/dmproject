@@ -6456,7 +6456,7 @@ export class PlanProjectListDto implements IPlanProjectListDto {
     description: string | undefined;
     planId: number | undefined;
     planName: string | undefined;
-    unit: PlanProjectListDtoUnit | undefined;
+    unit: PlanProjectEditDtoUnit | undefined;
     readonly unitTypeDescription: string | undefined;
 
     constructor(data?: IPlanProjectListDto) {
@@ -6525,7 +6525,7 @@ export interface IPlanProjectListDto {
     description: string | undefined;
     planId: number | undefined;
     planName: string | undefined;
-    unit: PlanProjectListDtoUnit | undefined;
+    unit: PlanProjectEditDtoUnit | undefined;
     unitTypeDescription: string | undefined;
 }
 
@@ -10252,11 +10252,6 @@ export enum IsTenantAvailableOutputState {
     _3 = 3, 
 }
 
-export enum PlanProjectListDtoUnit {
-    _0 = 0, 
-    _1 = 1, 
-    _2 = 2, 
-}
 
 export enum PlanProjectEditDtoUnit {
     _0 = 0, 

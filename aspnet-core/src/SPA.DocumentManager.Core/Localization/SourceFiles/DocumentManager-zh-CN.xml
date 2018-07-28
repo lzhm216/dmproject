@@ -108,11 +108,6 @@
     <text name="Description" value="备注" />
 
 
-    //测绘项目类型
-    <text name="PlanProjectTypes" value="测绘计划项目名称" />
-    <text name="PlanProjectTypeName" value="测绘计划项目名称" />
-    <text name="EditProjectType" value="编辑测绘计划项目名称" />
-    <text name="CreateNewProjectType" value="新建测绘计划项目名称" />
 
 
     //分页
@@ -126,6 +121,36 @@
     //专项计划
     <text name="SpecialPlans" value="测绘专项计划" />
     
+    //测绘项目类型
+    <text name="PlanProjectType" value="测绘计划项目名称" />
+    <text name="PlanProjectTypes" value="测绘计划项目名称列表" />
+    <text name="PlanProjectTypeName" value="测绘计划项目名称" />
+    <text name="EditProjectType" value="编辑测绘计划项目名称" />
+    <text name="CreateNewProjectType" value="新建测绘计划项目名称" />
+
+  //测绘专项计划名称
+    <text name="SpecialPlanType" value="测绘专项计划名称" />
+    <text name="SpecialPlanTypes" value="测绘专项计划名称列表" />
+    <text name="SpecialPlanTypeName" value="测绘专项计划名称" />
+    <text name="CreateNewSpecialPlanType" value="新建测绘专项计划名称" />
+    <text name="EditSpecialPlanType" value="编辑测绘专项计划名称" />
+  
+  //测绘计划任务书
+    <text name="TaskBook" value="测绘计划任务书" />
+    <text name="TaskBooks" value="测绘计划任务书列表" />
+    <text name="CreateNewTaskBook" value="新建任务书" />
+    <text name="EditTaskBook" value="编辑任务书" />
+  
+  
+  
+  //承担单位
+    <text name="UnitGroup" value="承担单位" />
+    <text name="UnitGroups" value="承担单位列表" />
+    <text name="UnitGroupName" value="承担单位名称" />   
+    <text name="Contact" value="联系人" />
+    <text name="ContactPhone" value="联系人电话" />
+    <text name="CreateNewUnitGroup" value="新建承担单位" />
+    <text name="EditNewUnitGroup" value="编辑承担单位" />
 
   </texts>
 </localizationDictionary>

@@ -1,0 +1,60 @@
+<div bsModal #createUnitGroupModal="bs-modal" class="modal fade" (onShown)="onShown()" tabindex="-1" role="dialog" aria-labelledby="createUnitGroupModal"
+  aria-hidden="true" [config]="{backdrop: 'static'}">
+  <div class="modal-dialog">
+
+    <div #modalContent class="modal-content">
+
+      <form *ngIf="active" #createUnitGroupForm="ngForm" id="frm_create_unitGroup" novalidate (ngSubmit)="save()">
+        <div class="modal-header">
+          <button type="button" class="close" (click)="close()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <h4 class="modal-title">
+            <span>{{l("CreateNewUnitGroup")}}</span>
+          </h4>
+        </div>
+        <div class="modal-body">
+          <div class="row clearfix" style="margin-top:10px;">
+            <div class="col-sm-12">
+              <div class="form-group form-float">
+                <div class="form-line">
+                  <input id="unitGroupName" type="text" name="UnitGroupName" [(ngModel)]="unitGroup.unitGroupName" required class="validate form-control">
+                  <label for="unitGroupName" class="form-label">{{l("UnitGroupName")}}</label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row clearfix" style="margin-top:10px;">
+            <div class="col-sm-12">
+              <div class="form-group form-float">
+                <div class="form-line">
+                  <input id="contact" type="text" name="Contact" [(ngModel)]="unitGroup.contact" required class="validate form-control">
+                  <label for="contact" class="form-label">{{l("Contact")}}</label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row clearfix" style="margin-top:10px;">
+            <div class="col-sm-12">
+              <div class="form-group form-float">
+                <div class="form-line">
+                  <input id="contactPhone" type="text" name="ContactPhone" [(ngModel)]="unitGroup.contactPhone" required class="validate form-control">
+                  <label for="contactPhone" class="form-label">{{l("ContactPhone")}}</label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button [disabled]="saving" type="button" class="btn btn-default waves-effect" (click)="close()">
+            {{l("Cancel")}}
+          </button>
+          <button [disabled]="!createUnitGroupForm.form.valid || saving" type="submit" class="btn btn-primary waves-effect">
+            {{l("Save")}}
+          </button>
+        </div>
+
+      </form>
+    </div>
+  </div>
+</div>

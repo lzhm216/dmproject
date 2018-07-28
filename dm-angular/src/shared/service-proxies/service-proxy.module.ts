@@ -20,6 +20,9 @@ import * as ApiServiceProxies from './service-proxies';
         ApiServiceProxies.PlanProjectTypeServiceProxy,
         ApiServiceProxies.EnumServiceProxy,
         ApiServiceProxies.AttachmentServiceProxy,
+        ApiServiceProxies.TaskBookServiceProxy,
+        ApiServiceProxies.UnitGroupServiceProxy,
+        ApiServiceProxies.SpecialPlanTypeServiceProxy,
         { provide: HTTP_INTERCEPTORS, useClass: AbpHttpInterceptor, multi: true }
     ]
 })

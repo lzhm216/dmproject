@@ -18,10 +18,13 @@ export class SideBarNavComponent extends AppComponentBase {
         new MenuItem(this.l("Plans"), "", "menu", "", [
             new MenuItem(this.l("Plans"), "Pages.Plan", "local_offer", "/app/plans"),            
             new MenuItem(this.l("PlanProjects"), "Pages.PlanProject", "local_offer", "/app/planprojects"),
-            new MenuItem("PlanProjects", "Pages.SpecialPlan", "local_offer", "/app/specialplans")
+            new MenuItem("SpecialPlans", "Pages.SpecialPlan", "local_offer", "/app/specialplans")
         ]),
+        new MenuItem(this.l("TaskBooks"), "Pages.TaskBook", "local_offer", "/app/taskbooks"),
         new MenuItem(this.l("Settings"), "", "menu", "", [
-            new MenuItem(this.l("PlanProjectTypes"), "", "local_offer", "/app/projecttypes")
+            new MenuItem(this.l("PlanProjectType"), "", "local_offer", "/app/projecttypes"),
+            new MenuItem(this.l("SpecialPlanType"), "", "local_offer", "/app/specialplantypes"),
+            new MenuItem(this.l("UnitGroup"), "Pages.UnitGroup", "local_offer", "/app/unitgroups")
         ]),
         new MenuItem(this.l("About"), "", "info", "/app/about"),
         new MenuItem(this.l("Upload"), "", "info", "/app/uploads")

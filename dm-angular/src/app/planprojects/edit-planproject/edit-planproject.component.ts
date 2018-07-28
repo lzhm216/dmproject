@@ -54,10 +54,10 @@ export class EditPlanprojectComponent extends AppComponentBase implements OnInit
 
   show(id: number): void {
 
-    this._planProjectService.getPlanProjectByIdAsync(id).finally(() => {
+    this._planProjectService.getPlanProjectForEdit(id).finally(() => {
 
     }).subscribe((result) => {
-      this.planProject = result;
+      this.planProject = result.planProject;
 
       this.active = true;
       this.modal.show();

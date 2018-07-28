@@ -12,6 +12,8 @@ import { PlanprojectsComponent } from '@app/planprojects/planprojects.component'
 import { ProjecttypesComponent } from '@app/projecttypes/projecttypes.component';
 import { UploadsComponent } from '@app/uploads/uploads.component';
 import { SpecialplansComponent } from '@app/specialplans/specialplans.component';
+import { SpecialplantypesComponent } from '@app/specialplantypes/specialplantypes.component';
+import { UnitgroupsComponent } from '@app/unitgroups/unitgroups.component';
 
 @NgModule({
     imports: [
@@ -25,8 +27,10 @@ import { SpecialplansComponent } from '@app/specialplans/specialplans.component'
                     { path: 'roles', component: RolesComponent, data: { permission: 'Pages.Roles' }, canActivate: [AppRouteGuard] },
                     { path: 'plans', component: PlansComponent, data: { permission: 'Pages.Plan' }, canActivate: [AppRouteGuard] },
                     { path: 'projecttypes', component: ProjecttypesComponent, data: { }, canActivate: [AppRouteGuard] },
+                    { path: 'specialplantypes', component: SpecialplantypesComponent, data: { }, canActivate: [AppRouteGuard] },
                     { path: 'planprojects', component: PlanprojectsComponent, data: { permission: 'Pages.PlanProject' }, canActivate: [AppRouteGuard] },
                     { path: 'specialplans', component: SpecialplansComponent, data: { permission: 'Pages.SpecialPlan' }, canActivate: [AppRouteGuard] },
+                    { path: 'unitgroups', component: UnitgroupsComponent, data: { permission: 'Pages.UnitGroup' }, canActivate: [AppRouteGuard] },
                     { path: 'tenants', component: TenantsComponent, data: { permission: 'Pages.Tenants' }, canActivate: [AppRouteGuard] },
                     { path: 'about', component: AboutComponent },
                     { path: 'upload', component: UploadsComponent }

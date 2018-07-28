@@ -32,10 +32,10 @@ export class EditProjecttypeComponent extends AppComponentBase {
   }
 
   show(id: number): void {
-    this._projectTypeService.getPlanProjectTypeByIdAsync(id).finally(()=>{
+    this._projectTypeService.getPlanProjectTypeForEdit(id).finally(()=>{
 
     }).subscribe((result)=>{
-      this.projectType = result;
+      this.projectType = result.planProjectType;
       this.active = true;
       this.modal.show();
     })

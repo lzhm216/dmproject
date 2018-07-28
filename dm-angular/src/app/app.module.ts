@@ -51,6 +51,15 @@ import { PlanAttachmentComponent } from './plans/plan-attachment/plan-attachment
 import { SpecialplansComponent } from './specialplans/specialplans.component';
 import { CreateSpecialplanComponent } from './specialplans/create-specialplan/create-specialplan.component';
 import { EditSpecialplanComponent } from './specialplans/edit-specialplan/edit-specialplan.component';
+import { SpecialplantypesComponent } from './specialplantypes/specialplantypes.component';
+import { CreateSpecialplantypeComponent } from './specialplantypes/create-specialplantype/create-specialplantype.component';
+import { EditSpecialplantypepeComponent } from './specialplantypes/edit-specialplantypepe/edit-specialplantypepe.component';
+import { UnitgroupsComponent } from './unitgroups/unitgroups.component';
+import { CreateUnitgroupsComponent } from './unitgroups/create-unitgroups/create-unitgroups.component';
+import { EditUnitgroupsComponent } from './unitgroups/edit-unitgroups/edit-unitgroups.component';
+import { TaskbooksComponent } from './taskbooks/taskbooks.component';
+import { CreatTaskbookComponent } from './taskbooks/creat-taskbook/creat-taskbook.component';
+import { EditTaskbookComponent } from './taskbooks/edit-taskbook/edit-taskbook.component';
 
 @NgModule({
     declarations: [
@@ -87,7 +96,16 @@ import { EditSpecialplanComponent } from './specialplans/edit-specialplan/edit-s
         PlanAttachmentComponent,
         SpecialplansComponent,
         CreateSpecialplanComponent,
-        EditSpecialplanComponent
+        EditSpecialplanComponent,
+        SpecialplantypesComponent,
+        CreateSpecialplantypeComponent,
+        EditSpecialplantypepeComponent,
+        UnitgroupsComponent,
+        CreateUnitgroupsComponent,
+        EditUnitgroupsComponent,
+        TaskbooksComponent,
+        CreatTaskbookComponent,
+        EditTaskbookComponent
     ],
     imports: [
         CommonModule,

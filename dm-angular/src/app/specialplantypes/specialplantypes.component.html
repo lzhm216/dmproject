@@ -1,0 +1,66 @@
+<div class="row clearfix" [@routerTransition]>
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+      <div class="card main-content">
+          <div class="header">
+              <h2>
+                  {{l('SpecialPlanTypes')}}
+              </h2>
+              <ul class="header-dropdown m-r--5">
+                  <i class="fa fa-spin fa-spinner" *ngIf="isTableLoading"></i>
+                  <li class="dropdown">
+                      <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                          <i class="material-icons">more_vert</i>
+                      </a>
+                      <ul class="dropdown-menu pull-right">
+                          <li>
+                              <a href="javascript:void(0);" class=" waves-effect waves-block()" (click)="refresh();">
+                                  <i class="material-icons">refresh</i> {{l('Refresh')}}</a>
+                          </li>
+                      </ul>
+                  </li>
+              </ul>
+          </div>
+          <div class="body table-responsive">
+              <table class="table table-hover table-striped">
+                  <thead>
+                      <tr>
+                          <th>{{l('SpecialPlanTypeName')}}</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      <tr *ngFor="let specialPlanType of specialPlanTypes | paginate: { id: 'server', itemsPerPage: pageSize, currentPage: pageNumber, totalItems: totalItems }">
+                          <td>{{specialPlanType.specialPlanTypeName}}</td>
+                          <td class="dropdown">
+                              <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                  <i class="material-icons">menu</i>
+                              </a>
+                              <ul class="dropdown-menu pull-right">
+                                  <li>
+                                      <a href="javascript:void(0);" class="waves-effect waves-block" (click)="editSpecialPlanType(specialPlanType)">
+                                          <i class="material-icons">create</i>{{l('Edit')}}</a>
+                                  </li>
+                                  <li>
+                                      <a href="javascript:void(0);" class="waves-effect waves-block" (click)="delete(specialPlanType)">
+                                          <i class="material-icons">delete_sweep</i>{{l('Delete')}}</a>
+                                  </li>
+                              </ul>
+                          </td>
+                      </tr>
+                  </tbody>
+              </table>
+
+              <div class="text-align: center;" *ngIf="totalItems > pageSize">
+                  <pagination-controls (pageChange)="getDataPage($event)" id="server"></pagination-controls>
+              </div>
+              <button type="button" data-toggle="modal" class="btn btn-primary btn-circle waves-effect waves-circle waves-float pull-right"
+                  (click)="createSpecialPlanType()">
+                  <i class="material-icons">add</i>
+              </button>
+          </div>
+      </div>
+
+  </div>
+</div>
+
+<app-create-specialplantype #createSpecialPlanTypeModal (modalSave)="refresh()"></app-create-specialplantype>
+<app-edit-specialplantypepe #editSpecialPlanTypeModal (modalSave)="refresh()"></app-edit-specialplantypepe>
