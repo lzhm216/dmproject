@@ -9,6 +9,7 @@ using SPA.DocumentManager.Plans;
 using SPA.DocumentManager.SpecialPlans;
 using SPA.DocumentManager.SubSpecialPlans;
 using SPA.DocumentManager.TaskBooks;
+using SPA.DocumentManager.UnitGroups;
 
 namespace SPA.DocumentManager.EntityFrameworkCore
 {
@@ -22,6 +23,8 @@ namespace SPA.DocumentManager.EntityFrameworkCore
         public DbSet<SubSpecialPlan> SubSpecialPlans { get; set; }
         public DbSet<TaskBook> TaskBooks { get; set; }
         public DbSet<Attachment> Attachments { get; set; }
+        public DbSet<UnitGroup> UnitGroups { get; set; }
+        public DbSet<SpecialPlanType> SpecialPlanTypes { get; set; }
 
         public DocumentManagerDbContext(DbContextOptions<DocumentManagerDbContext> options)
             : base(options)
@@ -38,6 +41,10 @@ namespace SPA.DocumentManager.EntityFrameworkCore
             modelBuilder.Entity<SubSpecialPlan>().ToTable("SubSpecialPlan");
             modelBuilder.Entity<TaskBook>().ToTable("TaskBook");
             modelBuilder.Entity<Attachment>().ToTable("Attachment");
+            modelBuilder.Entity<UnitGroup>().ToTable("UnitGroup");
+            modelBuilder.Entity<SpecialPlanType>().ToTable("SpecialPlanType");
+
+
             base.OnModelCreating(modelBuilder);
         }
     }

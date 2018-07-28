@@ -2933,6 +2933,347 @@ export class SpecialPlanServiceProxy {
 }
 
 @Injectable()
+export class SpecialPlanTypeServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ? baseUrl : "";
+    }
+
+    /**
+     * @filter (optional) 
+     * @sorting (optional) 
+     * @maxResultCount (optional) 
+     * @skipCount (optional) 
+     * @return Success
+     */
+    getPagedSpecialPlanTypes(filter: string | null | undefined, sorting: string | null | undefined, maxResultCount: number | null | undefined, skipCount: number | null | undefined): Observable<PagedResultDtoOfSpecialPlanTypeListDto> {
+        let url_ = this.baseUrl + "/api/services/app/SpecialPlanType/GetPagedSpecialPlanTypes?";
+        if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).flatMap((response_ : any) => {
+            return this.processGetPagedSpecialPlanTypes(response_);
+        }).catch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetPagedSpecialPlanTypes(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfSpecialPlanTypeListDto>><any>Observable.throw(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfSpecialPlanTypeListDto>><any>Observable.throw(response_);
+        });
+    }
+
+    protected processGetPagedSpecialPlanTypes(response: HttpResponseBase): Observable<PagedResultDtoOfSpecialPlanTypeListDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).flatMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? PagedResultDtoOfSpecialPlanTypeListDto.fromJS(resultData200) : new PagedResultDtoOfSpecialPlanTypeListDto();
+            return Observable.of(result200);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).flatMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Observable.of<PagedResultDtoOfSpecialPlanTypeListDto>(<any>null);
+    }
+
+    /**
+     * @id (optional) 
+     * @return Success
+     */
+    getSpecialPlanTypeByIdAsync(id: number | null | undefined): Observable<SpecialPlanTypeListDto> {
+        let url_ = this.baseUrl + "/api/services/app/SpecialPlanType/GetSpecialPlanTypeByIdAsync?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).flatMap((response_ : any) => {
+            return this.processGetSpecialPlanTypeByIdAsync(response_);
+        }).catch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetSpecialPlanTypeByIdAsync(<any>response_);
+                } catch (e) {
+                    return <Observable<SpecialPlanTypeListDto>><any>Observable.throw(e);
+                }
+            } else
+                return <Observable<SpecialPlanTypeListDto>><any>Observable.throw(response_);
+        });
+    }
+
+    protected processGetSpecialPlanTypeByIdAsync(response: HttpResponseBase): Observable<SpecialPlanTypeListDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).flatMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? SpecialPlanTypeListDto.fromJS(resultData200) : new SpecialPlanTypeListDto();
+            return Observable.of(result200);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).flatMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Observable.of<SpecialPlanTypeListDto>(<any>null);
+    }
+
+    /**
+     * @id (optional) 
+     * @return Success
+     */
+    getSpecialPlanTypeForEdit(id: number | null | undefined): Observable<GetSpecialPlanTypeForEditOutput> {
+        let url_ = this.baseUrl + "/api/services/app/SpecialPlanType/GetSpecialPlanTypeForEdit?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).flatMap((response_ : any) => {
+            return this.processGetSpecialPlanTypeForEdit(response_);
+        }).catch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetSpecialPlanTypeForEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<GetSpecialPlanTypeForEditOutput>><any>Observable.throw(e);
+                }
+            } else
+                return <Observable<GetSpecialPlanTypeForEditOutput>><any>Observable.throw(response_);
+        });
+    }
+
+    protected processGetSpecialPlanTypeForEdit(response: HttpResponseBase): Observable<GetSpecialPlanTypeForEditOutput> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).flatMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? GetSpecialPlanTypeForEditOutput.fromJS(resultData200) : new GetSpecialPlanTypeForEditOutput();
+            return Observable.of(result200);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).flatMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Observable.of<GetSpecialPlanTypeForEditOutput>(<any>null);
+    }
+
+    /**
+     * @input (optional) 
+     * @return Success
+     */
+    createOrUpdateSpecialPlanType(input: CreateOrUpdateSpecialPlanTypeInput | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/SpecialPlanType/CreateOrUpdateSpecialPlanType";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(input);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return this.http.request("post", url_, options_).flatMap((response_ : any) => {
+            return this.processCreateOrUpdateSpecialPlanType(response_);
+        }).catch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreateOrUpdateSpecialPlanType(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>Observable.throw(e);
+                }
+            } else
+                return <Observable<void>><any>Observable.throw(response_);
+        });
+    }
+
+    protected processCreateOrUpdateSpecialPlanType(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).flatMap(_responseText => {
+            return Observable.of<void>(<any>null);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).flatMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Observable.of<void>(<any>null);
+    }
+
+    /**
+     * @id (optional) 
+     * @return Success
+     */
+    deleteSpecialPlanType(id: number | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/SpecialPlanType/DeleteSpecialPlanType?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return this.http.request("delete", url_, options_).flatMap((response_ : any) => {
+            return this.processDeleteSpecialPlanType(response_);
+        }).catch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDeleteSpecialPlanType(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>Observable.throw(e);
+                }
+            } else
+                return <Observable<void>><any>Observable.throw(response_);
+        });
+    }
+
+    protected processDeleteSpecialPlanType(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).flatMap(_responseText => {
+            return Observable.of<void>(<any>null);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).flatMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Observable.of<void>(<any>null);
+    }
+
+    /**
+     * @input (optional) 
+     * @return Success
+     */
+    batchDeleteSpecialPlanTypesAsync(input: number[] | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/SpecialPlanType/BatchDeleteSpecialPlanTypesAsync";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(input);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return this.http.request("post", url_, options_).flatMap((response_ : any) => {
+            return this.processBatchDeleteSpecialPlanTypesAsync(response_);
+        }).catch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processBatchDeleteSpecialPlanTypesAsync(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>Observable.throw(e);
+                }
+            } else
+                return <Observable<void>><any>Observable.throw(response_);
+        });
+    }
+
+    protected processBatchDeleteSpecialPlanTypesAsync(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).flatMap(_responseText => {
+            return Observable.of<void>(<any>null);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).flatMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Observable.of<void>(<any>null);
+    }
+}
+
+@Injectable()
 export class SubSpecialPlanServiceProxy {
     private http: HttpClient;
     private baseUrl: string;
@@ -4215,6 +4556,395 @@ export class TokenAuthServiceProxy {
             });
         }
         return Observable.of<ExternalAuthenticateResultModel>(<any>null);
+    }
+}
+
+@Injectable()
+export class UnitGroupServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ? baseUrl : "";
+    }
+
+    /**
+     * @filter (optional) 
+     * @sorting (optional) 
+     * @maxResultCount (optional) 
+     * @skipCount (optional) 
+     * @return Success
+     */
+    getPagedUnitGroups(filter: string | null | undefined, sorting: string | null | undefined, maxResultCount: number | null | undefined, skipCount: number | null | undefined): Observable<PagedResultDtoOfUnitGroupListDto> {
+        let url_ = this.baseUrl + "/api/services/app/UnitGroup/GetPagedUnitGroups?";
+        if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).flatMap((response_ : any) => {
+            return this.processGetPagedUnitGroups(response_);
+        }).catch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetPagedUnitGroups(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfUnitGroupListDto>><any>Observable.throw(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfUnitGroupListDto>><any>Observable.throw(response_);
+        });
+    }
+
+    protected processGetPagedUnitGroups(response: HttpResponseBase): Observable<PagedResultDtoOfUnitGroupListDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).flatMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? PagedResultDtoOfUnitGroupListDto.fromJS(resultData200) : new PagedResultDtoOfUnitGroupListDto();
+            return Observable.of(result200);
+            });
+        } else if (status === 401) {
+            return blobToText(responseBlob).flatMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 403) {
+            return blobToText(responseBlob).flatMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).flatMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Observable.of<PagedResultDtoOfUnitGroupListDto>(<any>null);
+    }
+
+    /**
+     * @id (optional) 
+     * @return Success
+     */
+    getUnitGroupByIdAsync(id: number | null | undefined): Observable<UnitGroupListDto> {
+        let url_ = this.baseUrl + "/api/services/app/UnitGroup/GetUnitGroupByIdAsync?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).flatMap((response_ : any) => {
+            return this.processGetUnitGroupByIdAsync(response_);
+        }).catch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetUnitGroupByIdAsync(<any>response_);
+                } catch (e) {
+                    return <Observable<UnitGroupListDto>><any>Observable.throw(e);
+                }
+            } else
+                return <Observable<UnitGroupListDto>><any>Observable.throw(response_);
+        });
+    }
+
+    protected processGetUnitGroupByIdAsync(response: HttpResponseBase): Observable<UnitGroupListDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).flatMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? UnitGroupListDto.fromJS(resultData200) : new UnitGroupListDto();
+            return Observable.of(result200);
+            });
+        } else if (status === 401) {
+            return blobToText(responseBlob).flatMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 403) {
+            return blobToText(responseBlob).flatMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).flatMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Observable.of<UnitGroupListDto>(<any>null);
+    }
+
+    /**
+     * @id (optional) 
+     * @return Success
+     */
+    getUnitGroupForEdit(id: number | null | undefined): Observable<GetUnitGroupForEditOutput> {
+        let url_ = this.baseUrl + "/api/services/app/UnitGroup/GetUnitGroupForEdit?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).flatMap((response_ : any) => {
+            return this.processGetUnitGroupForEdit(response_);
+        }).catch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetUnitGroupForEdit(<any>response_);
+                } catch (e) {
+                    return <Observable<GetUnitGroupForEditOutput>><any>Observable.throw(e);
+                }
+            } else
+                return <Observable<GetUnitGroupForEditOutput>><any>Observable.throw(response_);
+        });
+    }
+
+    protected processGetUnitGroupForEdit(response: HttpResponseBase): Observable<GetUnitGroupForEditOutput> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).flatMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? GetUnitGroupForEditOutput.fromJS(resultData200) : new GetUnitGroupForEditOutput();
+            return Observable.of(result200);
+            });
+        } else if (status === 401) {
+            return blobToText(responseBlob).flatMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 403) {
+            return blobToText(responseBlob).flatMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).flatMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Observable.of<GetUnitGroupForEditOutput>(<any>null);
+    }
+
+    /**
+     * @input (optional) 
+     * @return Success
+     */
+    createOrUpdateUnitGroup(input: CreateOrUpdateUnitGroupInput | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/UnitGroup/CreateOrUpdateUnitGroup";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(input);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return this.http.request("post", url_, options_).flatMap((response_ : any) => {
+            return this.processCreateOrUpdateUnitGroup(response_);
+        }).catch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreateOrUpdateUnitGroup(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>Observable.throw(e);
+                }
+            } else
+                return <Observable<void>><any>Observable.throw(response_);
+        });
+    }
+
+    protected processCreateOrUpdateUnitGroup(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).flatMap(_responseText => {
+            return Observable.of<void>(<any>null);
+            });
+        } else if (status === 401) {
+            return blobToText(responseBlob).flatMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 403) {
+            return blobToText(responseBlob).flatMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).flatMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Observable.of<void>(<any>null);
+    }
+
+    /**
+     * @id (optional) 
+     * @return Success
+     */
+    deleteUnitGroup(id: number | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/UnitGroup/DeleteUnitGroup?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return this.http.request("delete", url_, options_).flatMap((response_ : any) => {
+            return this.processDeleteUnitGroup(response_);
+        }).catch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDeleteUnitGroup(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>Observable.throw(e);
+                }
+            } else
+                return <Observable<void>><any>Observable.throw(response_);
+        });
+    }
+
+    protected processDeleteUnitGroup(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).flatMap(_responseText => {
+            return Observable.of<void>(<any>null);
+            });
+        } else if (status === 401) {
+            return blobToText(responseBlob).flatMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 403) {
+            return blobToText(responseBlob).flatMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).flatMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Observable.of<void>(<any>null);
+    }
+
+    /**
+     * @input (optional) 
+     * @return Success
+     */
+    batchDeleteUnitGroupsAsync(input: number[] | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/UnitGroup/BatchDeleteUnitGroupsAsync";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(input);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return this.http.request("post", url_, options_).flatMap((response_ : any) => {
+            return this.processBatchDeleteUnitGroupsAsync(response_);
+        }).catch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processBatchDeleteUnitGroupsAsync(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>Observable.throw(e);
+                }
+            } else
+                return <Observable<void>><any>Observable.throw(response_);
+        });
+    }
+
+    protected processBatchDeleteUnitGroupsAsync(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).flatMap(_responseText => {
+            return Observable.of<void>(<any>null);
+            });
+        } else if (status === 401) {
+            return blobToText(responseBlob).flatMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 403) {
+            return blobToText(responseBlob).flatMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).flatMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Observable.of<void>(<any>null);
     }
 }
 
@@ -6076,7 +6806,7 @@ export class PlanProjectEditDto implements IPlanProjectEditDto {
     subProjectName: string;
     plannedWorkLoad: number | undefined;
     plannedCost: number | undefined;
-    unit: PlanProjectListDtoUnit | undefined;
+    unit: PlanProjectEditDtoUnit | undefined;
     readonly unitTypeDescription: string | undefined;
     description: string | undefined;
     planId: number | undefined;
@@ -6139,7 +6869,7 @@ export interface IPlanProjectEditDto {
     subProjectName: string;
     plannedWorkLoad: number | undefined;
     plannedCost: number | undefined;
-    unit: PlanProjectListDtoUnit | undefined;
+    unit: PlanProjectEditDtoUnit | undefined;
     unitTypeDescription: string | undefined;
     description: string | undefined;
     planId: number | undefined;
@@ -7312,6 +8042,570 @@ export interface ICreateOrUpdateSpecialPlanInput {
     specialPlan: SpecialPlanEditDto;
 }
 
+export class PagedResultDtoOfSpecialPlanTypeListDto implements IPagedResultDtoOfSpecialPlanTypeListDto {
+    totalCount: number | undefined;
+    items: SpecialPlanTypeListDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfSpecialPlanTypeListDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalCount = data["totalCount"];
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [];
+                for (let item of data["items"])
+                    this.items.push(SpecialPlanTypeListDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfSpecialPlanTypeListDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfSpecialPlanTypeListDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+
+    clone() {
+        const json = this.toJSON();
+        let result = new PagedResultDtoOfSpecialPlanTypeListDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IPagedResultDtoOfSpecialPlanTypeListDto {
+    totalCount: number | undefined;
+    items: SpecialPlanTypeListDto[] | undefined;
+}
+
+export class SpecialPlanTypeListDto implements ISpecialPlanTypeListDto {
+    id: number | undefined;
+    specialPlanTypeName: string | undefined;
+    taskBooks: TaskBook[] | undefined;
+    isDeleted: boolean | undefined;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    creationTime: moment.Moment | undefined;
+    creatorUserId: number | undefined;
+
+    constructor(data?: ISpecialPlanTypeListDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.id = data["id"];
+            this.specialPlanTypeName = data["specialPlanTypeName"];
+            if (data["taskBooks"] && data["taskBooks"].constructor === Array) {
+                this.taskBooks = [];
+                for (let item of data["taskBooks"])
+                    this.taskBooks.push(TaskBook.fromJS(item));
+            }
+            this.isDeleted = data["isDeleted"];
+            this.deleterUserId = data["deleterUserId"];
+            this.deletionTime = data["deletionTime"] ? moment(data["deletionTime"].toString()) : <any>undefined;
+            this.lastModificationTime = data["lastModificationTime"] ? moment(data["lastModificationTime"].toString()) : <any>undefined;
+            this.lastModifierUserId = data["lastModifierUserId"];
+            this.creationTime = data["creationTime"] ? moment(data["creationTime"].toString()) : <any>undefined;
+            this.creatorUserId = data["creatorUserId"];
+        }
+    }
+
+    static fromJS(data: any): SpecialPlanTypeListDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new SpecialPlanTypeListDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["specialPlanTypeName"] = this.specialPlanTypeName;
+        if (this.taskBooks && this.taskBooks.constructor === Array) {
+            data["taskBooks"] = [];
+            for (let item of this.taskBooks)
+                data["taskBooks"].push(item.toJSON());
+        }
+        data["isDeleted"] = this.isDeleted;
+        data["deleterUserId"] = this.deleterUserId;
+        data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
+        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
+        data["lastModifierUserId"] = this.lastModifierUserId;
+        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
+        data["creatorUserId"] = this.creatorUserId;
+        return data; 
+    }
+
+    clone() {
+        const json = this.toJSON();
+        let result = new SpecialPlanTypeListDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface ISpecialPlanTypeListDto {
+    id: number | undefined;
+    specialPlanTypeName: string | undefined;
+    taskBooks: TaskBook[] | undefined;
+    isDeleted: boolean | undefined;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    creationTime: moment.Moment | undefined;
+    creatorUserId: number | undefined;
+}
+
+export class TaskBook implements ITaskBook {
+    specialPlanType: SpecialPlanType = new SpecialPlanType();
+    taskBookNo: string;
+    taskName: string;
+    funds: number | undefined;
+    undertakingUnitGroup: UnitGroup = new UnitGroup();
+    signDate: moment.Moment | undefined;
+    completeDate: moment.Moment | undefined;
+    taskContent: string | undefined;
+    description: string | undefined;
+    isDeleted: boolean | undefined;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    creationTime: moment.Moment | undefined;
+    creatorUserId: number | undefined;
+    id: number | undefined;
+
+    constructor(data?: ITaskBook) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.specialPlanType = data["specialPlanType"] ? SpecialPlanType.fromJS(data["specialPlanType"]) : new SpecialPlanType();
+            this.taskBookNo = data["taskBookNo"];
+            this.taskName = data["taskName"];
+            this.funds = data["funds"];
+            this.undertakingUnitGroup = data["undertakingUnitGroup"] ? UnitGroup.fromJS(data["undertakingUnitGroup"]) : new UnitGroup();
+            this.signDate = data["signDate"] ? moment(data["signDate"].toString()) : <any>undefined;
+            this.completeDate = data["completeDate"] ? moment(data["completeDate"].toString()) : <any>undefined;
+            this.taskContent = data["taskContent"];
+            this.description = data["description"];
+            this.isDeleted = data["isDeleted"];
+            this.deleterUserId = data["deleterUserId"];
+            this.deletionTime = data["deletionTime"] ? moment(data["deletionTime"].toString()) : <any>undefined;
+            this.lastModificationTime = data["lastModificationTime"] ? moment(data["lastModificationTime"].toString()) : <any>undefined;
+            this.lastModifierUserId = data["lastModifierUserId"];
+            this.creationTime = data["creationTime"] ? moment(data["creationTime"].toString()) : <any>undefined;
+            this.creatorUserId = data["creatorUserId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): TaskBook {
+        data = typeof data === 'object' ? data : {};
+        let result = new TaskBook();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["specialPlanType"] = this.specialPlanType ? this.specialPlanType.toJSON() : <any>undefined;
+        data["taskBookNo"] = this.taskBookNo;
+        data["taskName"] = this.taskName;
+        data["funds"] = this.funds;
+        data["undertakingUnitGroup"] = this.undertakingUnitGroup ? this.undertakingUnitGroup.toJSON() : <any>undefined;
+        data["signDate"] = this.signDate ? this.signDate.toISOString() : <any>undefined;
+        data["completeDate"] = this.completeDate ? this.completeDate.toISOString() : <any>undefined;
+        data["taskContent"] = this.taskContent;
+        data["description"] = this.description;
+        data["isDeleted"] = this.isDeleted;
+        data["deleterUserId"] = this.deleterUserId;
+        data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
+        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
+        data["lastModifierUserId"] = this.lastModifierUserId;
+        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
+        data["creatorUserId"] = this.creatorUserId;
+        data["id"] = this.id;
+        return data; 
+    }
+
+    clone() {
+        const json = this.toJSON();
+        let result = new TaskBook();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface ITaskBook {
+    specialPlanType: SpecialPlanType;
+    taskBookNo: string;
+    taskName: string;
+    funds: number | undefined;
+    undertakingUnitGroup: UnitGroup;
+    signDate: moment.Moment | undefined;
+    completeDate: moment.Moment | undefined;
+    taskContent: string | undefined;
+    description: string | undefined;
+    isDeleted: boolean | undefined;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    creationTime: moment.Moment | undefined;
+    creatorUserId: number | undefined;
+    id: number | undefined;
+}
+
+export class SpecialPlanType implements ISpecialPlanType {
+    specialPlanTypeName: string | undefined;
+    taskBooks: TaskBook[] | undefined;
+    isDeleted: boolean | undefined;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    creationTime: moment.Moment | undefined;
+    creatorUserId: number | undefined;
+    id: number | undefined;
+
+    constructor(data?: ISpecialPlanType) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.specialPlanTypeName = data["specialPlanTypeName"];
+            if (data["taskBooks"] && data["taskBooks"].constructor === Array) {
+                this.taskBooks = [];
+                for (let item of data["taskBooks"])
+                    this.taskBooks.push(TaskBook.fromJS(item));
+            }
+            this.isDeleted = data["isDeleted"];
+            this.deleterUserId = data["deleterUserId"];
+            this.deletionTime = data["deletionTime"] ? moment(data["deletionTime"].toString()) : <any>undefined;
+            this.lastModificationTime = data["lastModificationTime"] ? moment(data["lastModificationTime"].toString()) : <any>undefined;
+            this.lastModifierUserId = data["lastModifierUserId"];
+            this.creationTime = data["creationTime"] ? moment(data["creationTime"].toString()) : <any>undefined;
+            this.creatorUserId = data["creatorUserId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): SpecialPlanType {
+        data = typeof data === 'object' ? data : {};
+        let result = new SpecialPlanType();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["specialPlanTypeName"] = this.specialPlanTypeName;
+        if (this.taskBooks && this.taskBooks.constructor === Array) {
+            data["taskBooks"] = [];
+            for (let item of this.taskBooks)
+                data["taskBooks"].push(item.toJSON());
+        }
+        data["isDeleted"] = this.isDeleted;
+        data["deleterUserId"] = this.deleterUserId;
+        data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
+        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
+        data["lastModifierUserId"] = this.lastModifierUserId;
+        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
+        data["creatorUserId"] = this.creatorUserId;
+        data["id"] = this.id;
+        return data; 
+    }
+
+    clone() {
+        const json = this.toJSON();
+        let result = new SpecialPlanType();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface ISpecialPlanType {
+    specialPlanTypeName: string | undefined;
+    taskBooks: TaskBook[] | undefined;
+    isDeleted: boolean | undefined;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    creationTime: moment.Moment | undefined;
+    creatorUserId: number | undefined;
+    id: number | undefined;
+}
+
+export class UnitGroup implements IUnitGroup {
+    unitGroupName: string;
+    contact: string;
+    contactPhone: string;
+    isDeleted: boolean | undefined;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    creationTime: moment.Moment | undefined;
+    creatorUserId: number | undefined;
+    id: number | undefined;
+
+    constructor(data?: IUnitGroup) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.unitGroupName = data["unitGroupName"];
+            this.contact = data["contact"];
+            this.contactPhone = data["contactPhone"];
+            this.isDeleted = data["isDeleted"];
+            this.deleterUserId = data["deleterUserId"];
+            this.deletionTime = data["deletionTime"] ? moment(data["deletionTime"].toString()) : <any>undefined;
+            this.lastModificationTime = data["lastModificationTime"] ? moment(data["lastModificationTime"].toString()) : <any>undefined;
+            this.lastModifierUserId = data["lastModifierUserId"];
+            this.creationTime = data["creationTime"] ? moment(data["creationTime"].toString()) : <any>undefined;
+            this.creatorUserId = data["creatorUserId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): UnitGroup {
+        data = typeof data === 'object' ? data : {};
+        let result = new UnitGroup();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["unitGroupName"] = this.unitGroupName;
+        data["contact"] = this.contact;
+        data["contactPhone"] = this.contactPhone;
+        data["isDeleted"] = this.isDeleted;
+        data["deleterUserId"] = this.deleterUserId;
+        data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
+        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
+        data["lastModifierUserId"] = this.lastModifierUserId;
+        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
+        data["creatorUserId"] = this.creatorUserId;
+        data["id"] = this.id;
+        return data; 
+    }
+
+    clone() {
+        const json = this.toJSON();
+        let result = new UnitGroup();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IUnitGroup {
+    unitGroupName: string;
+    contact: string;
+    contactPhone: string;
+    isDeleted: boolean | undefined;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    creationTime: moment.Moment | undefined;
+    creatorUserId: number | undefined;
+    id: number | undefined;
+}
+
+export class GetSpecialPlanTypeForEditOutput implements IGetSpecialPlanTypeForEditOutput {
+    specialPlanType: SpecialPlanTypeEditDto | undefined;
+
+    constructor(data?: IGetSpecialPlanTypeForEditOutput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.specialPlanType = data["specialPlanType"] ? SpecialPlanTypeEditDto.fromJS(data["specialPlanType"]) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): GetSpecialPlanTypeForEditOutput {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetSpecialPlanTypeForEditOutput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["specialPlanType"] = this.specialPlanType ? this.specialPlanType.toJSON() : <any>undefined;
+        return data; 
+    }
+
+    clone() {
+        const json = this.toJSON();
+        let result = new GetSpecialPlanTypeForEditOutput();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IGetSpecialPlanTypeForEditOutput {
+    specialPlanType: SpecialPlanTypeEditDto | undefined;
+}
+
+export class SpecialPlanTypeEditDto implements ISpecialPlanTypeEditDto {
+    id: number | undefined;
+    specialPlanTypeName: string | undefined;
+    taskBooks: TaskBook[] | undefined;
+
+    constructor(data?: ISpecialPlanTypeEditDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.id = data["id"];
+            this.specialPlanTypeName = data["specialPlanTypeName"];
+            if (data["taskBooks"] && data["taskBooks"].constructor === Array) {
+                this.taskBooks = [];
+                for (let item of data["taskBooks"])
+                    this.taskBooks.push(TaskBook.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): SpecialPlanTypeEditDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new SpecialPlanTypeEditDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["specialPlanTypeName"] = this.specialPlanTypeName;
+        if (this.taskBooks && this.taskBooks.constructor === Array) {
+            data["taskBooks"] = [];
+            for (let item of this.taskBooks)
+                data["taskBooks"].push(item.toJSON());
+        }
+        return data; 
+    }
+
+    clone() {
+        const json = this.toJSON();
+        let result = new SpecialPlanTypeEditDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface ISpecialPlanTypeEditDto {
+    id: number | undefined;
+    specialPlanTypeName: string | undefined;
+    taskBooks: TaskBook[] | undefined;
+}
+
+export class CreateOrUpdateSpecialPlanTypeInput implements ICreateOrUpdateSpecialPlanTypeInput {
+    specialPlanType: SpecialPlanTypeEditDto = new SpecialPlanTypeEditDto();
+
+    constructor(data?: ICreateOrUpdateSpecialPlanTypeInput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.specialPlanType = data["specialPlanType"] ? SpecialPlanTypeEditDto.fromJS(data["specialPlanType"]) : new SpecialPlanTypeEditDto();
+        }
+    }
+
+    static fromJS(data: any): CreateOrUpdateSpecialPlanTypeInput {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateOrUpdateSpecialPlanTypeInput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["specialPlanType"] = this.specialPlanType ? this.specialPlanType.toJSON() : <any>undefined;
+        return data; 
+    }
+
+    clone() {
+        const json = this.toJSON();
+        let result = new CreateOrUpdateSpecialPlanTypeInput();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface ICreateOrUpdateSpecialPlanTypeInput {
+    specialPlanType: SpecialPlanTypeEditDto;
+}
+
 export class PagedResultDtoOfSubSpecialPlanListDto implements IPagedResultDtoOfSubSpecialPlanListDto {
     totalCount: number | undefined;
     items: SubSpecialPlanListDto[] | undefined;
@@ -7663,8 +8957,16 @@ export interface IPagedResultDtoOfTaskBookListDto {
 }
 
 export class TaskBookListDto implements ITaskBookListDto {
-    taskName: string | undefined;
-    taskMainContent: string | undefined;
+    id: number | undefined;
+    specialPlanType: SpecialPlanType = new SpecialPlanType();
+    taskBookNo: string;
+    taskName: string;
+    funds: number | undefined;
+    undertakingUnitGroup: UnitGroup = new UnitGroup();
+    signDate: moment.Moment | undefined;
+    completeDate: moment.Moment | undefined;
+    taskContent: string | undefined;
+    description: string | undefined;
     isDeleted: boolean | undefined;
     deleterUserId: number | undefined;
     deletionTime: moment.Moment | undefined;
@@ -7672,7 +8974,6 @@ export class TaskBookListDto implements ITaskBookListDto {
     lastModifierUserId: number | undefined;
     creationTime: moment.Moment | undefined;
     creatorUserId: number | undefined;
-    id: number | undefined;
 
     constructor(data?: ITaskBookListDto) {
         if (data) {
@@ -7685,8 +8986,16 @@ export class TaskBookListDto implements ITaskBookListDto {
 
     init(data?: any) {
         if (data) {
+            this.id = data["id"];
+            this.specialPlanType = data["specialPlanType"] ? SpecialPlanType.fromJS(data["specialPlanType"]) : new SpecialPlanType();
+            this.taskBookNo = data["taskBookNo"];
             this.taskName = data["taskName"];
-            this.taskMainContent = data["taskMainContent"];
+            this.funds = data["funds"];
+            this.undertakingUnitGroup = data["undertakingUnitGroup"] ? UnitGroup.fromJS(data["undertakingUnitGroup"]) : new UnitGroup();
+            this.signDate = data["signDate"] ? moment(data["signDate"].toString()) : <any>undefined;
+            this.completeDate = data["completeDate"] ? moment(data["completeDate"].toString()) : <any>undefined;
+            this.taskContent = data["taskContent"];
+            this.description = data["description"];
             this.isDeleted = data["isDeleted"];
             this.deleterUserId = data["deleterUserId"];
             this.deletionTime = data["deletionTime"] ? moment(data["deletionTime"].toString()) : <any>undefined;
@@ -7694,7 +9003,6 @@ export class TaskBookListDto implements ITaskBookListDto {
             this.lastModifierUserId = data["lastModifierUserId"];
             this.creationTime = data["creationTime"] ? moment(data["creationTime"].toString()) : <any>undefined;
             this.creatorUserId = data["creatorUserId"];
-            this.id = data["id"];
         }
     }
 
@@ -7707,8 +9015,16 @@ export class TaskBookListDto implements ITaskBookListDto {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["specialPlanType"] = this.specialPlanType ? this.specialPlanType.toJSON() : <any>undefined;
+        data["taskBookNo"] = this.taskBookNo;
         data["taskName"] = this.taskName;
-        data["taskMainContent"] = this.taskMainContent;
+        data["funds"] = this.funds;
+        data["undertakingUnitGroup"] = this.undertakingUnitGroup ? this.undertakingUnitGroup.toJSON() : <any>undefined;
+        data["signDate"] = this.signDate ? this.signDate.toISOString() : <any>undefined;
+        data["completeDate"] = this.completeDate ? this.completeDate.toISOString() : <any>undefined;
+        data["taskContent"] = this.taskContent;
+        data["description"] = this.description;
         data["isDeleted"] = this.isDeleted;
         data["deleterUserId"] = this.deleterUserId;
         data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
@@ -7716,7 +9032,6 @@ export class TaskBookListDto implements ITaskBookListDto {
         data["lastModifierUserId"] = this.lastModifierUserId;
         data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
         data["creatorUserId"] = this.creatorUserId;
-        data["id"] = this.id;
         return data; 
     }
 
@@ -7729,8 +9044,16 @@ export class TaskBookListDto implements ITaskBookListDto {
 }
 
 export interface ITaskBookListDto {
-    taskName: string | undefined;
-    taskMainContent: string | undefined;
+    id: number | undefined;
+    specialPlanType: SpecialPlanType;
+    taskBookNo: string;
+    taskName: string;
+    funds: number | undefined;
+    undertakingUnitGroup: UnitGroup;
+    signDate: moment.Moment | undefined;
+    completeDate: moment.Moment | undefined;
+    taskContent: string | undefined;
+    description: string | undefined;
     isDeleted: boolean | undefined;
     deleterUserId: number | undefined;
     deletionTime: moment.Moment | undefined;
@@ -7738,7 +9061,6 @@ export interface ITaskBookListDto {
     lastModifierUserId: number | undefined;
     creationTime: moment.Moment | undefined;
     creatorUserId: number | undefined;
-    id: number | undefined;
 }
 
 export class GetTaskBookForEditOutput implements IGetTaskBookForEditOutput {
@@ -7786,8 +9108,15 @@ export interface IGetTaskBookForEditOutput {
 
 export class TaskBookEditDto implements ITaskBookEditDto {
     id: number | undefined;
+    specialPlanType: SpecialPlanType = new SpecialPlanType();
+    taskBookNo: string;
     taskName: string;
-    taskMainContent: string;
+    funds: number | undefined;
+    undertakingUnitGroup: UnitGroup = new UnitGroup();
+    signDate: moment.Moment | undefined;
+    completeDate: moment.Moment | undefined;
+    taskContent: string | undefined;
+    description: string | undefined;
 
     constructor(data?: ITaskBookEditDto) {
         if (data) {
@@ -7801,8 +9130,15 @@ export class TaskBookEditDto implements ITaskBookEditDto {
     init(data?: any) {
         if (data) {
             this.id = data["id"];
+            this.specialPlanType = data["specialPlanType"] ? SpecialPlanType.fromJS(data["specialPlanType"]) : new SpecialPlanType();
+            this.taskBookNo = data["taskBookNo"];
             this.taskName = data["taskName"];
-            this.taskMainContent = data["taskMainContent"];
+            this.funds = data["funds"];
+            this.undertakingUnitGroup = data["undertakingUnitGroup"] ? UnitGroup.fromJS(data["undertakingUnitGroup"]) : new UnitGroup();
+            this.signDate = data["signDate"] ? moment(data["signDate"].toString()) : <any>undefined;
+            this.completeDate = data["completeDate"] ? moment(data["completeDate"].toString()) : <any>undefined;
+            this.taskContent = data["taskContent"];
+            this.description = data["description"];
         }
     }
 
@@ -7816,8 +9152,15 @@ export class TaskBookEditDto implements ITaskBookEditDto {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["id"] = this.id;
+        data["specialPlanType"] = this.specialPlanType ? this.specialPlanType.toJSON() : <any>undefined;
+        data["taskBookNo"] = this.taskBookNo;
         data["taskName"] = this.taskName;
-        data["taskMainContent"] = this.taskMainContent;
+        data["funds"] = this.funds;
+        data["undertakingUnitGroup"] = this.undertakingUnitGroup ? this.undertakingUnitGroup.toJSON() : <any>undefined;
+        data["signDate"] = this.signDate ? this.signDate.toISOString() : <any>undefined;
+        data["completeDate"] = this.completeDate ? this.completeDate.toISOString() : <any>undefined;
+        data["taskContent"] = this.taskContent;
+        data["description"] = this.description;
         return data; 
     }
 
@@ -7831,8 +9174,15 @@ export class TaskBookEditDto implements ITaskBookEditDto {
 
 export interface ITaskBookEditDto {
     id: number | undefined;
+    specialPlanType: SpecialPlanType;
+    taskBookNo: string;
     taskName: string;
-    taskMainContent: string;
+    funds: number | undefined;
+    undertakingUnitGroup: UnitGroup;
+    signDate: moment.Moment | undefined;
+    completeDate: moment.Moment | undefined;
+    taskContent: string | undefined;
+    description: string | undefined;
 }
 
 export class CreateOrUpdateTaskBookInput implements ICreateOrUpdateTaskBookInput {
@@ -8306,6 +9656,285 @@ export interface IExternalAuthenticateResultModel {
     waitingForActivation: boolean | undefined;
 }
 
+export class PagedResultDtoOfUnitGroupListDto implements IPagedResultDtoOfUnitGroupListDto {
+    totalCount: number | undefined;
+    items: UnitGroupListDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfUnitGroupListDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalCount = data["totalCount"];
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [];
+                for (let item of data["items"])
+                    this.items.push(UnitGroupListDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfUnitGroupListDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfUnitGroupListDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+
+    clone() {
+        const json = this.toJSON();
+        let result = new PagedResultDtoOfUnitGroupListDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IPagedResultDtoOfUnitGroupListDto {
+    totalCount: number | undefined;
+    items: UnitGroupListDto[] | undefined;
+}
+
+export class UnitGroupListDto implements IUnitGroupListDto {
+    id: number | undefined;
+    unitGroupName: string;
+    contact: string;
+    contactPhone: string;
+    isDeleted: boolean | undefined;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    creationTime: moment.Moment | undefined;
+    creatorUserId: number | undefined;
+
+    constructor(data?: IUnitGroupListDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.id = data["id"];
+            this.unitGroupName = data["unitGroupName"];
+            this.contact = data["contact"];
+            this.contactPhone = data["contactPhone"];
+            this.isDeleted = data["isDeleted"];
+            this.deleterUserId = data["deleterUserId"];
+            this.deletionTime = data["deletionTime"] ? moment(data["deletionTime"].toString()) : <any>undefined;
+            this.lastModificationTime = data["lastModificationTime"] ? moment(data["lastModificationTime"].toString()) : <any>undefined;
+            this.lastModifierUserId = data["lastModifierUserId"];
+            this.creationTime = data["creationTime"] ? moment(data["creationTime"].toString()) : <any>undefined;
+            this.creatorUserId = data["creatorUserId"];
+        }
+    }
+
+    static fromJS(data: any): UnitGroupListDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new UnitGroupListDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["unitGroupName"] = this.unitGroupName;
+        data["contact"] = this.contact;
+        data["contactPhone"] = this.contactPhone;
+        data["isDeleted"] = this.isDeleted;
+        data["deleterUserId"] = this.deleterUserId;
+        data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
+        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
+        data["lastModifierUserId"] = this.lastModifierUserId;
+        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
+        data["creatorUserId"] = this.creatorUserId;
+        return data; 
+    }
+
+    clone() {
+        const json = this.toJSON();
+        let result = new UnitGroupListDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IUnitGroupListDto {
+    id: number | undefined;
+    unitGroupName: string;
+    contact: string;
+    contactPhone: string;
+    isDeleted: boolean | undefined;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    creationTime: moment.Moment | undefined;
+    creatorUserId: number | undefined;
+}
+
+export class GetUnitGroupForEditOutput implements IGetUnitGroupForEditOutput {
+    unitGroup: UnitGroupEditDto | undefined;
+
+    constructor(data?: IGetUnitGroupForEditOutput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.unitGroup = data["unitGroup"] ? UnitGroupEditDto.fromJS(data["unitGroup"]) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): GetUnitGroupForEditOutput {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetUnitGroupForEditOutput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["unitGroup"] = this.unitGroup ? this.unitGroup.toJSON() : <any>undefined;
+        return data; 
+    }
+
+    clone() {
+        const json = this.toJSON();
+        let result = new GetUnitGroupForEditOutput();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IGetUnitGroupForEditOutput {
+    unitGroup: UnitGroupEditDto | undefined;
+}
+
+export class UnitGroupEditDto implements IUnitGroupEditDto {
+    id: number | undefined;
+    unitGroupName: string;
+    contact: string;
+    contactPhone: string;
+
+    constructor(data?: IUnitGroupEditDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.id = data["id"];
+            this.unitGroupName = data["unitGroupName"];
+            this.contact = data["contact"];
+            this.contactPhone = data["contactPhone"];
+        }
+    }
+
+    static fromJS(data: any): UnitGroupEditDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new UnitGroupEditDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["unitGroupName"] = this.unitGroupName;
+        data["contact"] = this.contact;
+        data["contactPhone"] = this.contactPhone;
+        return data; 
+    }
+
+    clone() {
+        const json = this.toJSON();
+        let result = new UnitGroupEditDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IUnitGroupEditDto {
+    id: number | undefined;
+    unitGroupName: string;
+    contact: string;
+    contactPhone: string;
+}
+
+export class CreateOrUpdateUnitGroupInput implements ICreateOrUpdateUnitGroupInput {
+    unitGroup: UnitGroupEditDto = new UnitGroupEditDto();
+
+    constructor(data?: ICreateOrUpdateUnitGroupInput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.unitGroup = data["unitGroup"] ? UnitGroupEditDto.fromJS(data["unitGroup"]) : new UnitGroupEditDto();
+        }
+    }
+
+    static fromJS(data: any): CreateOrUpdateUnitGroupInput {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateOrUpdateUnitGroupInput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["unitGroup"] = this.unitGroup ? this.unitGroup.toJSON() : <any>undefined;
+        return data; 
+    }
+
+    clone() {
+        const json = this.toJSON();
+        let result = new CreateOrUpdateUnitGroupInput();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface ICreateOrUpdateUnitGroupInput {
+    unitGroup: UnitGroupEditDto;
+}
+
 export class CreateUserDto implements ICreateUserDto {
     userName: string;
     name: string;
@@ -8629,6 +10258,11 @@ export enum PlanProjectListDtoUnit {
     _2 = 2, 
 }
 
+export enum PlanProjectEditDtoUnit {
+    _0 = 0, 
+    _1 = 1, 
+    _2 = 2, 
+}
 
 export class SwaggerException extends Error {
     message: string;

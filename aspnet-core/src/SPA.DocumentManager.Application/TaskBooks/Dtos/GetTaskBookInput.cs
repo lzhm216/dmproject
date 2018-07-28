@@ -1,17 +1,19 @@
-﻿using Abp.Runtime.Validation;
+using Abp.Runtime.Validation;
 using SPA.DocumentManager.Dto;
-using SPA.DocumentManager.TaskBooks;
 
 namespace SPA.DocumentManager.TaskBooks.Dtos
 {
     public class GetTaskBooksInput : PagedAndSortedInputDto, IShouldNormalize
     {
-        ////BCC/ BEGIN CUSTOM CODE SECTION
-        ////ECC/ END CUSTOM CODE SECTION
         /// <summary>
         /// 模糊搜索使用的关键字
         /// </summary>
         public string Filter { get; set; }
+
+		
+		//// custom codes 
+		
+        //// custom codes end
 
         /// <summary>
         /// 正常化排序使用
@@ -24,5 +26,6 @@ namespace SPA.DocumentManager.TaskBooks.Dtos
             }
         }
 
+       
     }
 }

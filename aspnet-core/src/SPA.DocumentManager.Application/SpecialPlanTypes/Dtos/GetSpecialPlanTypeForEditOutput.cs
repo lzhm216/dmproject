@@ -2,11 +2,11 @@ using System.Collections.Generic;
 using Abp.Application.Services.Dto;
 using SPA.DocumentManager.TaskBooks;
 
-namespace SPA.DocumentManager.TaskBooks.Dtos
+namespace SPA.DocumentManager.SpecialPlanTypes.Dtos
 {
-    public class GetTaskBookForEditOutput
+    public class GetSpecialPlanTypeForEditOutput
     {
-        public TaskBookEditDto TaskBook { get; set; }
+        public SpecialPlanTypeEditDto SpecialPlanType { get; set; }
 
     
 		

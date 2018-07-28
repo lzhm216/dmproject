@@ -1,5 +1,3 @@
-﻿
-
 /**
  
 推荐将文件后缀更改为.md格式
@@ -46,7 +44,7 @@
 
 ```
   
-  Configuration.Modules.AbpAutoMapper().Configurators.Add(CustomerSpecialPlanMapper.CreateMappings);
+  Configuration.Modules.AbpAutoMapper().Configurators.Add(CustomerTaskBookMapper.CreateMappings);
 ```
 
 **配置权限功能**  : 
@@ -55,7 +53,7 @@
 中的 PreInitialize 方法中:
 
 ```
-Configuration.Authorization.Providers.Add<SpecialPlanAppAuthorizationProvider>();
+Configuration.Authorization.Providers.Add<TaskBookAppAuthorizationProvider>();
 ```
 
  **路线图**
@@ -80,3 +78,4 @@ todo: 目前优先完成SPA 以angular 为主，
 *
  * 
  */
+

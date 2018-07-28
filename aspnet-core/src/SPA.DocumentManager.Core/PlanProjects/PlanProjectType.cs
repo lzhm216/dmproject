@@ -8,7 +8,7 @@ namespace SPA.DocumentManager.PlanProjects
     public class PlanProjectType : FullAuditedEntity<int>
     {
 
-        [MaxLength(DocumentManagerConsts.MaxPlanProjectTypeNameLength)]
+        [MaxLength(DocumentManagerConsts.Max100Length)]
         public string PlanProjectTypeName { get; set; }
 
         public ICollection<PlanProject> PlanProjects { get; set; }

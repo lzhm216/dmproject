@@ -2,12 +2,12 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using SPA.DocumentManager.TaskBooks;
 
-namespace SPA.DocumentManager.TaskBooks.Dtos
+namespace SPA.DocumentManager.SpecialPlanTypes.Dtos
 {
-    public class CreateOrUpdateTaskBookInput
+    public class CreateOrUpdateSpecialPlanTypeInput
     {
         [Required]
-        public TaskBookEditDto TaskBook { get; set; }
+        public SpecialPlanTypeEditDto SpecialPlanType { get; set; }
 
 
 		

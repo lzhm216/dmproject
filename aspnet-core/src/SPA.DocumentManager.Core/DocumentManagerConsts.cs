@@ -32,18 +32,18 @@
 
         public const int MaxSpecialPlanMainContentLength = 100;
 
-
-
-        public const int MaxTaskNameLength = 100;
-        public const int MaxTaskMainContentLength = 200;
-
-        public const int MaxPlanProjectTypeNameLength = 100;
-
         //文件
         public const int MaxNewFileNameLength = 80;
         public const int MaxFileNameLength = 80;
         public const int MaxFileFormatLength = 20;
 
+
+        //任务书
+        public const int Max50Length = 50;
+        public const int Max100Length = 100;
+        public const int Max200Length = 200;
+        public const int Max500Length = 500;
+        public const int Max1000Length = 1000;
 
 
     }

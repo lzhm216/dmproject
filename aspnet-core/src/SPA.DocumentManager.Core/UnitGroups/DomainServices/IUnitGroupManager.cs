@@ -2,18 +2,18 @@ using System;
 using System.Threading.Tasks;
 using Abp;
 using Abp.Domain.Services;
-using SPA.DocumentManager.TaskBooks;
+using SPA.DocumentManager.UnitGroups;
 
 
-namespace SPA.DocumentManager.TaskBooks.DomainServices
+namespace SPA.DocumentManager.UnitGroups.DomainServices
 {
-    public interface ITaskBookManager : IDomainService
+    public interface IUnitGroupManager : IDomainService
     {
         
         /// <summary>
         /// 初始化方法
         /// </summary>
-        void InitTaskBook();
+        void InitUnitGroup();
 
 
 		

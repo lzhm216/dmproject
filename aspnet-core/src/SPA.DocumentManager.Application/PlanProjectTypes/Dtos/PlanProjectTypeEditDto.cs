@@ -10,7 +10,7 @@ namespace SPA.DocumentManager.PlanProjectTypes.Dtos
         ////ECC/ END CUSTOM CODE SECTION
         public int? Id { get; set; }
 
-        [MaxLength(DocumentManagerConsts.MaxPlanProjectTypeNameLength)]
+        [MaxLength(DocumentManagerConsts.Max100Length)]
         public string PlanProjectTypeName { get; set; }
     }
 }
