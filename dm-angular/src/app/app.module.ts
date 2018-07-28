@@ -48,6 +48,9 @@ import { UploadsComponent } from './uploads/uploads.component';
 
 import { FileDownloadService } from '@shared/utils/file-download.service';
 import { PlanAttachmentComponent } from './plans/plan-attachment/plan-attachment.component';
+import { SpecialplansComponent } from './specialplans/specialplans.component';
+import { CreateSpecialplanComponent } from './specialplans/create-specialplan/create-specialplan.component';
+import { EditSpecialplanComponent } from './specialplans/edit-specialplan/edit-specialplan.component';
 
 @NgModule({
     declarations: [
@@ -81,7 +84,10 @@ import { PlanAttachmentComponent } from './plans/plan-attachment/plan-attachment
         TestsComponent,
         DetailPlanComponent,
         UploadsComponent,
-        PlanAttachmentComponent
+        PlanAttachmentComponent,
+        SpecialplansComponent,
+        CreateSpecialplanComponent,
+        EditSpecialplanComponent
     ],
     imports: [
         CommonModule,

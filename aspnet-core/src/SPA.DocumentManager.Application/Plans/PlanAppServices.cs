@@ -15,6 +15,7 @@ using Microsoft.EntityFrameworkCore;
 using SPA.DocumentManager.Plans.Authorization;
 using SPA.DocumentManager.Plans.Dtos;
 using SPA.DocumentManager.Plans.DomainServices;
+using SPA.DocumentManager.PlanProjects;
 
 namespace SPA.DocumentManager.Plans
 {
@@ -27,17 +28,20 @@ namespace SPA.DocumentManager.Plans
         ////BCC/ BEGIN CUSTOM CODE SECTION
         ////ECC/ END CUSTOM CODE SECTION
         private readonly IRepository<Plan, int> _planRepository;
+        private readonly IRepository<PlanProjectType, int> _planProjectTypeRepository;
         private readonly IPlanManager _planManager;
 
         /// <summary>
         /// 构造函数
         /// </summary>
-        public PlanAppService(IRepository<Plan, int> planRepository
+        public PlanAppService(IRepository<Plan, int> planRepository, 
+            IRepository<PlanProjectType, int> planProjectTypeRepository
       , IPlanManager planManager
         )
         {
             _planRepository = planRepository;
             _planManager = planManager;
+            _planProjectTypeRepository = planProjectTypeRepository;
         }
 
         /// <summary>
@@ -101,6 +105,15 @@ namespace SPA.DocumentManager.Plans
                     .PageBy(input)
                     .ToListAsync();
 
+                var projectTypes = _planProjectTypeRepository.GetAll();
+
+                foreach (var plan in plans)
+                {
+                    foreach (var planProject in plan.PlanProjects)
+                    {
+                        planProject.PlanProjectType = projectTypes.First(t => t.Id == planProject.PlanProjectTypeId);
+                    }
+                }
                 //var planListDtos = ObjectMapper.Map<List <PlanListDto>>(plans);
                 var planListDtos = plans.MapTo<List<PlanListWithProjectDto>>();
 
@@ -111,7 +124,7 @@ namespace SPA.DocumentManager.Plans
             }
             catch (Exception ex)
             {
-                
+
                 return new PagedResultDto<PlanListWithProjectDto>(
                     0,
                     null

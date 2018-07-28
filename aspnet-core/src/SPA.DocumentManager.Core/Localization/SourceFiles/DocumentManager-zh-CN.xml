@@ -123,7 +123,9 @@
     //操作
     <text name="Detail" value="详情" />
     
-
+    //专项计划
+    <text name="SpecialPlans" value="测绘专项计划" />
+    
 
   </texts>
 </localizationDictionary>
