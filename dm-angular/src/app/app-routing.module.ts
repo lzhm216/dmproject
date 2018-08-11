@@ -14,6 +14,7 @@ import { UploadsComponent } from '@app/uploads/uploads.component';
 import { SpecialplansComponent } from '@app/specialplans/specialplans.component';
 import { SpecialplantypesComponent } from '@app/specialplantypes/specialplantypes.component';
 import { UnitgroupsComponent } from '@app/unitgroups/unitgroups.component';
+import { TaskbooksComponent } from '@app/taskbooks/taskbooks.component';
 
 @NgModule({
     imports: [
@@ -31,6 +32,7 @@ import { UnitgroupsComponent } from '@app/unitgroups/unitgroups.component';
                     { path: 'planprojects', component: PlanprojectsComponent, data: { permission: 'Pages.PlanProject' }, canActivate: [AppRouteGuard] },
                     { path: 'specialplans', component: SpecialplansComponent, data: { permission: 'Pages.SpecialPlan' }, canActivate: [AppRouteGuard] },
                     { path: 'unitgroups', component: UnitgroupsComponent, data: { permission: 'Pages.UnitGroup' }, canActivate: [AppRouteGuard] },
+                    { path: 'taskbooks', component: TaskbooksComponent, data: { permission: 'Pages.TaskBook' }, canActivate: [AppRouteGuard] },
                     { path: 'tenants', component: TenantsComponent, data: { permission: 'Pages.Tenants' }, canActivate: [AppRouteGuard] },
                     { path: 'about', component: AboutComponent },
                     { path: 'upload', component: UploadsComponent }

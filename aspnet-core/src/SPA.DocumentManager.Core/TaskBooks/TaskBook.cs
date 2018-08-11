@@ -8,9 +8,12 @@ namespace SPA.DocumentManager.TaskBooks
     public class TaskBook : FullAuditedEntity<int>
     {
         /// <summary>
-        /// 任务所属专项名称
+        /// 任务所属专项ID
         /// </summary>
         [Required]
+        public int SpecialPlanTypeId { get; set; }
+
+
         public SpecialPlanType SpecialPlanType { get; set; }
 
         /// <summary>
@@ -19,7 +22,6 @@ namespace SPA.DocumentManager.TaskBooks
         [Required]
         [StringLength(DocumentManagerConsts.Max50Length)]
         public string TaskBookNo { get; set; }
-
         /// <summary>
         /// 任务名称
         /// </summary>
@@ -33,7 +35,13 @@ namespace SPA.DocumentManager.TaskBooks
         [Required]
         public double Funds { get; set; }
         
-
+        [DisplayFormat(DataFormatString = "yyyy")]
+        public DateTime Year { get; set; }
+        /// <summary>
+        /// 承担单位ID
+        /// </summary>
+        [Required(ErrorMessage = "UndertakingUnitGroupId不能为空")]
+        public int UndertakingUnitGroupId { get; set; }
         /// <summary>
         /// 承担单位
         /// </summary>

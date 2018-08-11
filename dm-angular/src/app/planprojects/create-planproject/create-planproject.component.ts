@@ -1,6 +1,6 @@
 import { Component, OnInit, Injector, ViewChild, Output, EventEmitter, ElementRef } from '@angular/core';
 import { PlanProjectServiceProxy, PlanProjectTypeServiceProxy, PlanProjectListDto, PlanProjectEditDto, CreateOrUpdatePlanProjectInput, PlanProjectTypeListDto, EnumServiceProxy, PlanListDto } from '@shared/service-proxies/service-proxies';
-import { ModalDirective } from 'ngx-bootstrap/modal/modal.directive';
+import { ModalDirective } from 'ngx-bootstrap';
 import { AppComponentBase } from '@shared/app-component-base';
 import { RESOURCE_CACHE_PROVIDER } from '@angular/platform-browser-dynamic';
 
@@ -14,7 +14,7 @@ export class CreatePlanprojectComponent extends AppComponentBase implements OnIn
   active: boolean = false;
   saving: boolean = false;
 
-  plans: PlanListDto[]=[];
+  plans: PlanListDto[] = [];
   planProject: PlanProjectEditDto = new PlanProjectEditDto();
   planProject_create: CreateOrUpdatePlanProjectInput = new CreateOrUpdatePlanProjectInput();
   planProjectTypes: PlanProjectTypeListDto[] = [];
@@ -39,11 +39,11 @@ export class CreatePlanprojectComponent extends AppComponentBase implements OnIn
       this.planProjectTypes = result.items;
     });
 
-    this._planProjectService.getAllPlansAsync().subscribe(result=>{
+    this._planProjectService.getAllPlansAsync().subscribe(result => {
       this.plans = result.items;
     });
 
-    this._enumService.getUnitTypeList().subscribe(result=>{
+    this._enumService.getUnitTypeList().subscribe(result => {
       this.unitTypes = result;
     })
   }

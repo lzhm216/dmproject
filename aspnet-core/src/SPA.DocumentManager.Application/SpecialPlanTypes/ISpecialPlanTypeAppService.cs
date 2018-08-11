@@ -18,11 +18,15 @@ namespace SPA.DocumentManager.SpecialPlanTypes
         /// <param name="input"></param>
         /// <returns></returns>
         Task<PagedResultDto<SpecialPlanTypeListDto>> GetPagedSpecialPlanTypes(GetSpecialPlanTypesInput input);
-
-		/// <summary>
-		/// 通过指定id获取SpecialPlanTypeListDto信息
-		/// </summary>
-		Task<SpecialPlanTypeListDto> GetSpecialPlanTypeByIdAsync(EntityDto<int> input);
+        /// <summary>
+        /// 获取所有的SpecialPlanType信息
+        /// </summary>
+        /// <returns></returns>
+        Task<ListResultDto<SpecialPlanTypeListDto>> GetAllSpecialPlanType();
+        /// <summary>
+        /// 通过指定id获取SpecialPlanTypeListDto信息
+        /// </summary>
+        Task<SpecialPlanTypeListDto> GetSpecialPlanTypeByIdAsync(EntityDto<int> input);
 
 
         /// <summary>

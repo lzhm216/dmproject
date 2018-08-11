@@ -10,7 +10,7 @@ import { FileDownloadService } from '@shared/utils/file-download.service';
 })
 export class DetailPlanComponent extends AppComponentBase {
 
-  @ViewChild('detailPlanModal') modal: ModalDirective;
+  @ViewChild('detailPlanModal') modal: ModalDirective;  
 
   plan: PlanListDto = new PlanListDto();
   active: boolean = false;

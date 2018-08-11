@@ -179,23 +179,30 @@ namespace SPA.DocumentManager.UnitGroups
 			await _unitgroupRepository.DeleteAsync(s => input.Contains(s.Id));
 		}
 
+        public async Task<ListResultDto<UnitGroupListDto>> GetAllUnitGroups()
+        {
 
-		/// <summary>
-		/// 导出UnitGroup为excel表
-		/// </summary>
-		/// <returns></returns>
-		//public async Task<FileDto> GetUnitGroupsToExcel()
-		//{
-		//	var users = await UserManager.Users.ToListAsync();
-		//	var userListDtos = ObjectMapper.Map<List<UserListDto>>(users);
-		//	await FillRoleNames(userListDtos);
-		//	return _userListExcelExporter.ExportToFile(userListDtos);
-		//}
+            var unitGroups = await _unitgroupRepository.GetAllListAsync();
+
+            return new ListResultDto<UnitGroupListDto>(unitGroups.MapTo<List<UnitGroupListDto>>());
+        }
+
+        /// <summary>
+        /// 导出UnitGroup为excel表
+        /// </summary>
+        /// <returns></returns>
+        //public async Task<FileDto> GetUnitGroupsToExcel()
+        //{
+        //	var users = await UserManager.Users.ToListAsync();
+        //	var userListDtos = ObjectMapper.Map<List<UserListDto>>(users);
+        //	await FillRoleNames(userListDtos);
+        //	return _userListExcelExporter.ExportToFile(userListDtos);
+        //}
 
 
-		
-		//// custom codes 
-		
+
+        //// custom codes 
+
         //// custom codes end
 
     }

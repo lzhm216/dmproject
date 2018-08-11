@@ -12,7 +12,13 @@ namespace SPA.DocumentManager.TaskBooks.Dtos
     {
         public static void CreateMappings(IMapperConfigurationExpression configuration)
         {
-            configuration.CreateMap <TaskBook, TaskBookListDto>();
+            configuration.CreateMap<TaskBook, TaskBookListDto>()
+                .ForMember(dest => dest.SpecialPlanTypeName,
+                    opt => opt.MapFrom(src => src.SpecialPlanType.SpecialPlanTypeName))
+                .ForMember(dest => dest.UndertakingUnitGroupName,
+                    opt => opt.MapFrom(src => src.UndertakingUnitGroup.UnitGroupName));
+
+
             configuration.CreateMap <TaskBookEditDto, TaskBook>();
 		
 		    

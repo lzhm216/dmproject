@@ -18,9 +18,11 @@ namespace SPA.DocumentManager.TaskBooks.Dtos
         /// <summary>
         /// SpecialPlanType
         /// </summary>
-        [Required(ErrorMessage = "SpecialPlanType不能为空")]
-        public SpecialPlanType SpecialPlanType { get; set; }
+        [Required(ErrorMessage = "SpecialPlanTypeId不能为空")]
+        public int SpecialPlanTypeId { get; set; }
 
+        [Required(ErrorMessage = "SpecialPlanTypeName不能为空")]
+        public string SpecialPlanTypeName { get; set; }
 
         /// <summary>
         /// TaskBookNo
@@ -46,11 +48,21 @@ namespace SPA.DocumentManager.TaskBooks.Dtos
 
 
         /// <summary>
-        /// UndertakingUnitGroup
+        /// Year
         /// </summary>
-        [Required(ErrorMessage = "UndertakingUnitGroup不能为空")]
-        public UnitGroup UndertakingUnitGroup { get; set; }
-
+        public DateTime Year { get; set; }
+        
+        /// <summary>
+        /// 承担单位Id
+        /// </summary>
+        [Required(ErrorMessage = "UndertakingUnitGroupId不能为空")]
+        public int UndertakingUnitGroupId { get; set; }
+        
+        /// <summary>
+        /// 承担单位名称
+        /// </summary>
+        [Required(ErrorMessage = "UndertakingUnitGroupName不能为空")]
+        public string UndertakingUnitGroupName { get; set; }
 
         /// <summary>
         /// SignDate

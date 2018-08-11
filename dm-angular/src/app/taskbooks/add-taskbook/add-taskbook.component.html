@@ -1,16 +1,15 @@
-<div bsModal #editTaskBookModal="bs-modal" class="modal fade" (onShown)="onShown()" tabindex="-1" role="dialog" aria-labelledby="editTaskBookModal"
+<div bsModal #addTaskBookModal="bs-modal" class="modal fade"  (onShown)="onShown()"  tabindex="-1" role="dialog" aria-labelledby="addTaskBookModal"
   aria-hidden="true" [config]="{backdrop: 'static'}">
   <div class="modal-dialog">
 
     <div #modalContent class="modal-content">
-
-      <form *ngIf="active" #editTaskBookForm="ngForm" id="frm_edit_taskbook" novalidate (ngSubmit)="save()">
+      <form *ngIf="active" #createTaskBookForm="ngForm" id="frm_create_taskbook" novalidate (ngSubmit)="save()">
         <div class="modal-header">
           <button type="button" class="close" (click)="close()" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
           <h4 class="modal-title">
-            <span>{{l("EditTaskBook")}}</span>
+            <span>{{l("CreateNewTaskBook")}}</span>
           </h4>
         </div>
         <div class="modal-body">
@@ -83,7 +82,7 @@
                   <select id="unitGroupId" name="UnitGroupId" [(ngModel)]="taskbook.undertakingUnitGroupId" class="form-control">
                     <option *ngFor="let unitGroup of unitGroups" [value]=unitGroup.id>{{unitGroup.unitGroupName}}</option>
                   </select>
-                  <label for="unitGroupId" class="form-label">{{l("UnitGroupName")}}</label>
+                  <label for="unitGroupName" class="form-label">{{l("UnitGroupName")}}</label>
                 </div>
               </div>
             </div>
@@ -123,7 +122,7 @@
           <button [disabled]="saving" type="button" class="btn btn-default waves-effect" (click)="close()">
             {{l("Cancel")}}
           </button>
-          <button [disabled]="!editTaskBookForm.form.valid || saving" type="submit" class="btn btn-primary waves-effect">
+          <button [disabled]="!createTaskBookForm.form.valid || saving" type="submit" class="btn btn-primary waves-effect">
             {{l("Save")}}
           </button>
         </div>

@@ -179,23 +179,29 @@ namespace SPA.DocumentManager.SpecialPlanTypes
 			await _specialplantypeRepository.DeleteAsync(s => input.Contains(s.Id));
 		}
 
+        public async Task<ListResultDto<SpecialPlanTypeListDto>> GetAllSpecialPlanType()
+        {
+            var specialPlanTypes = await _specialplantypeRepository.GetAllListAsync();
 
-		/// <summary>
-		/// 导出SpecialPlanType为excel表
-		/// </summary>
-		/// <returns></returns>
-		//public async Task<FileDto> GetSpecialPlanTypesToExcel()
-		//{
-		//	var users = await UserManager.Users.ToListAsync();
-		//	var userListDtos = ObjectMapper.Map<List<UserListDto>>(users);
-		//	await FillRoleNames(userListDtos);
-		//	return _userListExcelExporter.ExportToFile(userListDtos);
-		//}
+            return new ListResultDto<SpecialPlanTypeListDto>(specialPlanTypes.MapTo<List<SpecialPlanTypeListDto>>());
+        }
+
+        /// <summary>
+        /// 导出SpecialPlanType为excel表
+        /// </summary>
+        /// <returns></returns>
+        //public async Task<FileDto> GetSpecialPlanTypesToExcel()
+        //{
+        //	var users = await UserManager.Users.ToListAsync();
+        //	var userListDtos = ObjectMapper.Map<List<UserListDto>>(users);
+        //	await FillRoleNames(userListDtos);
+        //	return _userListExcelExporter.ExportToFile(userListDtos);
+        //}
 
 
-		
-		//// custom codes 
-		
+
+        //// custom codes 
+
         //// custom codes end
 
     }

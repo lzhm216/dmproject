@@ -3271,6 +3271,58 @@ export class SpecialPlanTypeServiceProxy {
         }
         return Observable.of<void>(<any>null);
     }
+
+    /**
+     * @return Success
+     */
+    getAllSpecialPlanType(): Observable<ListResultDtoOfSpecialPlanTypeListDto> {
+        let url_ = this.baseUrl + "/api/services/app/SpecialPlanType/GetAllSpecialPlanType";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).flatMap((response_ : any) => {
+            return this.processGetAllSpecialPlanType(response_);
+        }).catch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllSpecialPlanType(<any>response_);
+                } catch (e) {
+                    return <Observable<ListResultDtoOfSpecialPlanTypeListDto>><any>Observable.throw(e);
+                }
+            } else
+                return <Observable<ListResultDtoOfSpecialPlanTypeListDto>><any>Observable.throw(response_);
+        });
+    }
+
+    protected processGetAllSpecialPlanType(response: HttpResponseBase): Observable<ListResultDtoOfSpecialPlanTypeListDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).flatMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? ListResultDtoOfSpecialPlanTypeListDto.fromJS(resultData200) : new ListResultDtoOfSpecialPlanTypeListDto();
+            return Observable.of(result200);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).flatMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Observable.of<ListResultDtoOfSpecialPlanTypeListDto>(<any>null);
+    }
 }
 
 @Injectable()
@@ -3779,6 +3831,69 @@ export class TaskBookServiceProxy {
     }
 
     protected processGetTaskBookByIdAsync(response: HttpResponseBase): Observable<TaskBookListDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).flatMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? TaskBookListDto.fromJS(resultData200) : new TaskBookListDto();
+            return Observable.of(result200);
+            });
+        } else if (status === 401) {
+            return blobToText(responseBlob).flatMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 403) {
+            return blobToText(responseBlob).flatMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).flatMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Observable.of<TaskBookListDto>(<any>null);
+    }
+
+    /**
+     * @id (optional) 
+     * @return Success
+     */
+    getTaskBookDetailByIdAsync(id: number | null | undefined): Observable<TaskBookListDto> {
+        let url_ = this.baseUrl + "/api/services/app/TaskBook/GetTaskBookDetailByIdAsync?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).flatMap((response_ : any) => {
+            return this.processGetTaskBookDetailByIdAsync(response_);
+        }).catch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetTaskBookDetailByIdAsync(<any>response_);
+                } catch (e) {
+                    return <Observable<TaskBookListDto>><any>Observable.throw(e);
+                }
+            } else
+                return <Observable<TaskBookListDto>><any>Observable.throw(response_);
+        });
+    }
+
+    protected processGetTaskBookDetailByIdAsync(response: HttpResponseBase): Observable<TaskBookListDto> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -4945,6 +5060,66 @@ export class UnitGroupServiceProxy {
             });
         }
         return Observable.of<void>(<any>null);
+    }
+
+    /**
+     * @return Success
+     */
+    getAllUnitGroups(): Observable<ListResultDtoOfUnitGroupListDto> {
+        let url_ = this.baseUrl + "/api/services/app/UnitGroup/GetAllUnitGroups";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).flatMap((response_ : any) => {
+            return this.processGetAllUnitGroups(response_);
+        }).catch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllUnitGroups(<any>response_);
+                } catch (e) {
+                    return <Observable<ListResultDtoOfUnitGroupListDto>><any>Observable.throw(e);
+                }
+            } else
+                return <Observable<ListResultDtoOfUnitGroupListDto>><any>Observable.throw(response_);
+        });
+    }
+
+    protected processGetAllUnitGroups(response: HttpResponseBase): Observable<ListResultDtoOfUnitGroupListDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).flatMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? ListResultDtoOfUnitGroupListDto.fromJS(resultData200) : new ListResultDtoOfUnitGroupListDto();
+            return Observable.of(result200);
+            });
+        } else if (status === 401) {
+            return blobToText(responseBlob).flatMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 403) {
+            return blobToText(responseBlob).flatMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).flatMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Observable.of<ListResultDtoOfUnitGroupListDto>(<any>null);
     }
 }
 
@@ -8185,10 +8360,13 @@ export interface ISpecialPlanTypeListDto {
 }
 
 export class TaskBook implements ITaskBook {
-    specialPlanType: SpecialPlanType = new SpecialPlanType();
+    specialPlanTypeId: number | undefined;
+    specialPlanType: SpecialPlanType | undefined;
     taskBookNo: string;
     taskName: string;
     funds: number | undefined;
+    year: moment.Moment | undefined;
+    undertakingUnitGroupId: number | undefined;
     undertakingUnitGroup: UnitGroup = new UnitGroup();
     signDate: moment.Moment | undefined;
     completeDate: moment.Moment | undefined;
@@ -8214,10 +8392,13 @@ export class TaskBook implements ITaskBook {
 
     init(data?: any) {
         if (data) {
-            this.specialPlanType = data["specialPlanType"] ? SpecialPlanType.fromJS(data["specialPlanType"]) : new SpecialPlanType();
+            this.specialPlanTypeId = data["specialPlanTypeId"];
+            this.specialPlanType = data["specialPlanType"] ? SpecialPlanType.fromJS(data["specialPlanType"]) : <any>undefined;
             this.taskBookNo = data["taskBookNo"];
             this.taskName = data["taskName"];
             this.funds = data["funds"];
+            this.year = data["year"] ? moment(data["year"].toString()) : <any>undefined;
+            this.undertakingUnitGroupId = data["undertakingUnitGroupId"];
             this.undertakingUnitGroup = data["undertakingUnitGroup"] ? UnitGroup.fromJS(data["undertakingUnitGroup"]) : new UnitGroup();
             this.signDate = data["signDate"] ? moment(data["signDate"].toString()) : <any>undefined;
             this.completeDate = data["completeDate"] ? moment(data["completeDate"].toString()) : <any>undefined;
@@ -8243,10 +8424,13 @@ export class TaskBook implements ITaskBook {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
+        data["specialPlanTypeId"] = this.specialPlanTypeId;
         data["specialPlanType"] = this.specialPlanType ? this.specialPlanType.toJSON() : <any>undefined;
         data["taskBookNo"] = this.taskBookNo;
         data["taskName"] = this.taskName;
         data["funds"] = this.funds;
+        data["year"] = this.year ? this.year.toISOString() : <any>undefined;
+        data["undertakingUnitGroupId"] = this.undertakingUnitGroupId;
         data["undertakingUnitGroup"] = this.undertakingUnitGroup ? this.undertakingUnitGroup.toJSON() : <any>undefined;
         data["signDate"] = this.signDate ? this.signDate.toISOString() : <any>undefined;
         data["completeDate"] = this.completeDate ? this.completeDate.toISOString() : <any>undefined;
@@ -8272,10 +8456,13 @@ export class TaskBook implements ITaskBook {
 }
 
 export interface ITaskBook {
-    specialPlanType: SpecialPlanType;
+    specialPlanTypeId: number | undefined;
+    specialPlanType: SpecialPlanType | undefined;
     taskBookNo: string;
     taskName: string;
     funds: number | undefined;
+    year: moment.Moment | undefined;
+    undertakingUnitGroupId: number | undefined;
     undertakingUnitGroup: UnitGroup;
     signDate: moment.Moment | undefined;
     completeDate: moment.Moment | undefined;
@@ -8604,6 +8791,57 @@ export class CreateOrUpdateSpecialPlanTypeInput implements ICreateOrUpdateSpecia
 
 export interface ICreateOrUpdateSpecialPlanTypeInput {
     specialPlanType: SpecialPlanTypeEditDto;
+}
+
+export class ListResultDtoOfSpecialPlanTypeListDto implements IListResultDtoOfSpecialPlanTypeListDto {
+    items: SpecialPlanTypeListDto[] | undefined;
+
+    constructor(data?: IListResultDtoOfSpecialPlanTypeListDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [];
+                for (let item of data["items"])
+                    this.items.push(SpecialPlanTypeListDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): ListResultDtoOfSpecialPlanTypeListDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new ListResultDtoOfSpecialPlanTypeListDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+
+    clone() {
+        const json = this.toJSON();
+        let result = new ListResultDtoOfSpecialPlanTypeListDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IListResultDtoOfSpecialPlanTypeListDto {
+    items: SpecialPlanTypeListDto[] | undefined;
 }
 
 export class PagedResultDtoOfSubSpecialPlanListDto implements IPagedResultDtoOfSubSpecialPlanListDto {
@@ -8958,11 +9196,14 @@ export interface IPagedResultDtoOfTaskBookListDto {
 
 export class TaskBookListDto implements ITaskBookListDto {
     id: number | undefined;
-    specialPlanType: SpecialPlanType = new SpecialPlanType();
+    specialPlanTypeId: number | undefined;
+    specialPlanTypeName: string;
     taskBookNo: string;
     taskName: string;
     funds: number | undefined;
-    undertakingUnitGroup: UnitGroup = new UnitGroup();
+    year: moment.Moment | undefined;
+    undertakingUnitGroupId: number | undefined;
+    undertakingUnitGroupName: string;
     signDate: moment.Moment | undefined;
     completeDate: moment.Moment | undefined;
     taskContent: string | undefined;
@@ -8987,11 +9228,16 @@ export class TaskBookListDto implements ITaskBookListDto {
     init(data?: any) {
         if (data) {
             this.id = data["id"];
-            this.specialPlanType = data["specialPlanType"] ? SpecialPlanType.fromJS(data["specialPlanType"]) : new SpecialPlanType();
+            this.specialPlanTypeId = data["specialPlanTypeId"];
+            this.specialPlanTypeName = data["specialPlanTypeName"];
             this.taskBookNo = data["taskBookNo"];
             this.taskName = data["taskName"];
             this.funds = data["funds"];
-            this.undertakingUnitGroup = data["undertakingUnitGroup"] ? UnitGroup.fromJS(data["undertakingUnitGroup"]) : new UnitGroup();
+            //this.year = data["year"] ? moment(data["year"].toString()) : <any>undefined;
+            this.year = data["year"] ? moment(data["year"].toString()).format("YYYY") : <any>undefined;
+
+            this.undertakingUnitGroupId = data["undertakingUnitGroupId"];
+            this.undertakingUnitGroupName = data["undertakingUnitGroupName"];
             this.signDate = data["signDate"] ? moment(data["signDate"].toString()) : <any>undefined;
             this.completeDate = data["completeDate"] ? moment(data["completeDate"].toString()) : <any>undefined;
             this.taskContent = data["taskContent"];
@@ -9016,11 +9262,14 @@ export class TaskBookListDto implements ITaskBookListDto {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["id"] = this.id;
-        data["specialPlanType"] = this.specialPlanType ? this.specialPlanType.toJSON() : <any>undefined;
+        data["specialPlanTypeId"] = this.specialPlanTypeId;
+        data["specialPlanTypeName"] = this.specialPlanTypeName;
         data["taskBookNo"] = this.taskBookNo;
         data["taskName"] = this.taskName;
         data["funds"] = this.funds;
-        data["undertakingUnitGroup"] = this.undertakingUnitGroup ? this.undertakingUnitGroup.toJSON() : <any>undefined;
+        data["year"] = this.year ? this.year.toISOString() : <any>undefined;
+        data["undertakingUnitGroupId"] = this.undertakingUnitGroupId;
+        data["undertakingUnitGroupName"] = this.undertakingUnitGroupName;
         data["signDate"] = this.signDate ? this.signDate.toISOString() : <any>undefined;
         data["completeDate"] = this.completeDate ? this.completeDate.toISOString() : <any>undefined;
         data["taskContent"] = this.taskContent;
@@ -9045,11 +9294,14 @@ export class TaskBookListDto implements ITaskBookListDto {
 
 export interface ITaskBookListDto {
     id: number | undefined;
-    specialPlanType: SpecialPlanType;
+    specialPlanTypeId: number | undefined;
+    specialPlanTypeName: string;
     taskBookNo: string;
     taskName: string;
     funds: number | undefined;
-    undertakingUnitGroup: UnitGroup;
+    year: moment.Moment | undefined;
+    undertakingUnitGroupId: number | undefined;
+    undertakingUnitGroupName: string;
     signDate: moment.Moment | undefined;
     completeDate: moment.Moment | undefined;
     taskContent: string | undefined;
@@ -9108,11 +9360,12 @@ export interface IGetTaskBookForEditOutput {
 
 export class TaskBookEditDto implements ITaskBookEditDto {
     id: number | undefined;
-    specialPlanType: SpecialPlanType = new SpecialPlanType();
+    specialPlanTypeId: number | undefined;
     taskBookNo: string;
     taskName: string;
     funds: number | undefined;
-    undertakingUnitGroup: UnitGroup = new UnitGroup();
+    year: moment.Moment | undefined;
+    undertakingUnitGroupId: number | undefined;
     signDate: moment.Moment | undefined;
     completeDate: moment.Moment | undefined;
     taskContent: string | undefined;
@@ -9130,11 +9383,12 @@ export class TaskBookEditDto implements ITaskBookEditDto {
     init(data?: any) {
         if (data) {
             this.id = data["id"];
-            this.specialPlanType = data["specialPlanType"] ? SpecialPlanType.fromJS(data["specialPlanType"]) : new SpecialPlanType();
+            this.specialPlanTypeId = data["specialPlanTypeId"];
             this.taskBookNo = data["taskBookNo"];
             this.taskName = data["taskName"];
             this.funds = data["funds"];
-            this.undertakingUnitGroup = data["undertakingUnitGroup"] ? UnitGroup.fromJS(data["undertakingUnitGroup"]) : new UnitGroup();
+            this.year = data["year"] ? moment(data["year"].toString()) : <any>undefined;
+            this.undertakingUnitGroupId = data["undertakingUnitGroupId"];
             this.signDate = data["signDate"] ? moment(data["signDate"].toString()) : <any>undefined;
             this.completeDate = data["completeDate"] ? moment(data["completeDate"].toString()) : <any>undefined;
             this.taskContent = data["taskContent"];
@@ -9152,11 +9406,12 @@ export class TaskBookEditDto implements ITaskBookEditDto {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["id"] = this.id;
-        data["specialPlanType"] = this.specialPlanType ? this.specialPlanType.toJSON() : <any>undefined;
+        data["specialPlanTypeId"] = this.specialPlanTypeId;
         data["taskBookNo"] = this.taskBookNo;
         data["taskName"] = this.taskName;
         data["funds"] = this.funds;
-        data["undertakingUnitGroup"] = this.undertakingUnitGroup ? this.undertakingUnitGroup.toJSON() : <any>undefined;
+        data["year"] = this.year ? this.year.toISOString() : <any>undefined;
+        data["undertakingUnitGroupId"] = this.undertakingUnitGroupId;
         data["signDate"] = this.signDate ? this.signDate.toISOString() : <any>undefined;
         data["completeDate"] = this.completeDate ? this.completeDate.toISOString() : <any>undefined;
         data["taskContent"] = this.taskContent;
@@ -9174,11 +9429,12 @@ export class TaskBookEditDto implements ITaskBookEditDto {
 
 export interface ITaskBookEditDto {
     id: number | undefined;
-    specialPlanType: SpecialPlanType;
+    specialPlanTypeId: number | undefined;
     taskBookNo: string;
     taskName: string;
     funds: number | undefined;
-    undertakingUnitGroup: UnitGroup;
+    year: moment.Moment | undefined;
+    undertakingUnitGroupId: number | undefined;
     signDate: moment.Moment | undefined;
     completeDate: moment.Moment | undefined;
     taskContent: string | undefined;
@@ -9933,6 +10189,57 @@ export class CreateOrUpdateUnitGroupInput implements ICreateOrUpdateUnitGroupInp
 
 export interface ICreateOrUpdateUnitGroupInput {
     unitGroup: UnitGroupEditDto;
+}
+
+export class ListResultDtoOfUnitGroupListDto implements IListResultDtoOfUnitGroupListDto {
+    items: UnitGroupListDto[] | undefined;
+
+    constructor(data?: IListResultDtoOfUnitGroupListDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [];
+                for (let item of data["items"])
+                    this.items.push(UnitGroupListDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): ListResultDtoOfUnitGroupListDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new ListResultDtoOfUnitGroupListDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+
+    clone() {
+        const json = this.toJSON();
+        let result = new ListResultDtoOfUnitGroupListDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IListResultDtoOfUnitGroupListDto {
+    items: UnitGroupListDto[] | undefined;
 }
 
 export class CreateUserDto implements ICreateUserDto {

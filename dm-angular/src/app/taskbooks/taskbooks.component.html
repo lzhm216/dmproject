@@ -1,3 +1,86 @@
-<p>
-  taskbooks works!
-</p>
+<div class="row clearfix" [@routerTransition]>
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+      <div class="card main-content">
+          <div class="header">
+              <h2>
+                  {{l('TaskBooks')}}
+              </h2>
+              <ul class="header-dropdown m-r--5">
+                  <i class="fa fa-spin fa-spinner" *ngIf="isTableLoading"></i>
+                  <li class="dropdown">
+                      <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                          <i class="material-icons">more_vert</i>
+                      </a>
+                      <ul class="dropdown-menu pull-right">
+                          <li>
+                              <a href="javascript:void(0);" class=" waves-effect waves-block()" (click)="refresh();">
+                                  <i class="material-icons">refresh</i> {{l('Refresh')}}</a>
+                          </li>
+                      </ul>
+                  </li>
+              </ul>
+          </div>
+          <div class="body">
+              <div class="row clearfix" style="padding-left: 15px;">
+                  <div class="btn-group">
+                      <button type="button" data-toggle="modal" class="btn btn-outline btn-primary" (click)="createTaskbook()">
+                          <i class="fa fa-plus"></i>
+                          添加测绘项目任务书
+                      </button>
+                  </div>
+              </div>
+              <div class="table-responsive" style="padding-top: 10px;">
+                  <table class="table table-hover table-striped table-bordered">
+                      <thead>
+                          <tr>
+                              <th>{{l('SpecialPlanTypeName')}}</th>
+                              <th>{{l('TaskBookNo')}}</th>
+                              <th>{{l('TaskName')}}</th>
+                              <th>{{l('Funds')}}</th>
+                              <th>{{l('Year')}}</th>
+                              <th>{{l('UnitGroupName')}}</th>
+                              <th>{{l('Actions')}}</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                          <tr *ngFor="let taskbook of taskbooks | paginate: { id: 'server', itemsPerPage: pageSize, currentPage: pageNumber, totalItems: totalItems }">
+                              <td>{{taskbook.specialPlanTypeName}}</td>
+                              <td>{{taskbook.taskBookNo}}</td>
+                              <td>{{taskbook.taskName}}</td>
+                              <td>{{taskbook.funds}} 万元</td>
+                              <td>{{taskbook.year}}</td>
+                              <td>{{taskbook.undertakingUnitGroupName}}</td>
+                              <td style="text-align: center;">
+                                  <div class="btn-group">
+                                      <button type="button" data-toggle="modal" class="btn btn-outline btn-primary" (click)="edit(taskbook)">
+                                          <i class="fa fa-edit"></i>
+                                          编辑
+                                      </button>
+                                      <button type="button" data-toggle="modal" class="btn btn-outline btn-danger" (click)="delete(taskbook)">
+                                          <i class="fa fa-close"></i>
+                                          删除
+                                      </button>
+                                      <button type="button" data-toggle="modal" class="btn btn-outline btn-info" (click)="detail(taskbook)">
+                                          <i class="fa fa-info"></i>
+                                          详情
+                                      </button>
+                                  </div>
+
+                              </td>
+                          </tr>
+                      </tbody>
+                  </table>
+
+                  <div class="text-align: center;" *ngIf="totalItems > pageSize">
+                      <pagination-controls (pageChange)="getDataPage($event)" id="server"></pagination-controls>
+                  </div>
+
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+
+<app-add-taskbook #addTaskBookModal (modalSave)="refresh()"></app-add-taskbook>
+<app-edit-taskbook #editTaskBookModal (modalSave)="refresh()"></app-edit-taskbook>
+<app-detail-taskbook #detailTaskBookModal></app-detail-taskbook>

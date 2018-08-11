@@ -19,10 +19,16 @@ namespace SPA.DocumentManager.UnitGroups
         /// <returns></returns>
         Task<PagedResultDto<UnitGroupListDto>> GetPagedUnitGroups(GetUnitGroupsInput input);
 
-		/// <summary>
-		/// 通过指定id获取UnitGroupListDto信息
-		/// </summary>
-		Task<UnitGroupListDto> GetUnitGroupByIdAsync(EntityDto<int> input);
+        /// <summary>
+        /// 获取所有的UnitGroup信息
+        /// </summary>
+        /// <returns></returns>
+        Task<ListResultDto<UnitGroupListDto>> GetAllUnitGroups();
+
+        /// <summary>
+        /// 通过指定id获取UnitGroupListDto信息
+        /// </summary>
+        Task<UnitGroupListDto> GetUnitGroupByIdAsync(EntityDto<int> input);
 
 
         /// <summary>

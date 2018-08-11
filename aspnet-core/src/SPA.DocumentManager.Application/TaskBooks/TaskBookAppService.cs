@@ -13,6 +13,8 @@ using SPA.DocumentManager.TaskBooks.Authorization;
 using SPA.DocumentManager.TaskBooks.DomainServices;
 using SPA.DocumentManager.TaskBooks.Dtos;
 using SPA.DocumentManager.TaskBooks;
+using Abp.Extensions;
+using SPA.DocumentManager.UnitGroups;
 
 namespace SPA.DocumentManager.TaskBooks
 {
@@ -23,31 +25,42 @@ namespace SPA.DocumentManager.TaskBooks
     public class TaskBookAppService : DocumentManagerAppServiceBase, ITaskBookAppService
     {
 		private readonly IRepository<TaskBook, int> _taskbookRepository;
+		private readonly IRepository<SpecialPlanType, int> _specialPlanTypeRepository;
+		private readonly IRepository<UnitGroup, int> _unitGroupRepository;
 
-		private readonly ITaskBookManager _taskbookManager;
+        private readonly ITaskBookManager _taskbookManager;
 		
 		/// <summary>
 		/// 构造函数
 		/// </summary>
 		public TaskBookAppService(
-			IRepository<TaskBook, int> taskbookRepository
-			,ITaskBookManager taskbookManager
+			IRepository<TaskBook, int> taskbookRepository,
+            IRepository<SpecialPlanType, int> specialPlanTypeRepository,
+            IRepository<UnitGroup, int> unitGroupRepository,
+            ITaskBookManager taskbookManager
 		)
 		{
 			_taskbookRepository = taskbookRepository;
-			 _taskbookManager=taskbookManager;
+            _specialPlanTypeRepository = specialPlanTypeRepository;
+            _unitGroupRepository = unitGroupRepository;
+             _taskbookManager =taskbookManager;
 		}
-		
-		
-		/// <summary>
-		/// 获取TaskBook的分页列表信息
-		/// </summary>
-		/// <param name="input"></param>
-		/// <returns></returns>
-		public  async  Task<PagedResultDto<TaskBookListDto>> GetPagedTaskBooks(GetTaskBooksInput input)
-		{
-		    
-		    var query = _taskbookRepository.GetAll();
+
+
+        /// <summary>
+        /// 获取TaskBook的分页列表信息
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public async Task<PagedResultDto<TaskBookListDto>> GetPagedTaskBooks(GetTaskBooksInput input)
+        {
+
+            var query = _taskbookRepository.GetAll().Include(a => a.SpecialPlanType).Include(a => a.UndertakingUnitGroup)
+                .WhereIf(!input.Filter.IsNullOrWhiteSpace(),
+                t => t.TaskName.Contains(input.Filter)
+                || t.TaskContent.Contains(input.Filter)
+                || t.TaskBookNo.Contains(input.Filter)
+                || t.Description.Contains(input.Filter));
 			// TODO:根据传入的参数添加过滤条件
 		
 			var taskbookCount = await query.CountAsync();
@@ -76,13 +89,27 @@ namespace SPA.DocumentManager.TaskBooks
 		
 		    return entity.MapTo<TaskBookListDto>();
 		}
-		
-		/// <summary>
-		/// MPA版本才会用到的方法
-		/// </summary>
-		/// <param name="input"></param>
-		/// <returns></returns>
-		public async  Task<GetTaskBookForEditOutput> GetTaskBookForEdit(NullableIdDto<int> input)
+
+        public async Task<TaskBookListDto> GetTaskBookDetailByIdAsync(EntityDto<int> input)
+        {
+            var entity = await _taskbookRepository.GetAsync(input.Id);
+            entity.UndertakingUnitGroup = await _unitGroupRepository.GetAll().SingleAsync(t => t.Id == entity.UndertakingUnitGroupId);
+            entity.SpecialPlanType = await _specialPlanTypeRepository.GetAll().SingleAsync(t => t.Id == entity.SpecialPlanTypeId);
+
+            if (entity == null)
+            {
+                return null;
+            }
+
+            return entity.MapTo<TaskBookListDto>();
+        }
+
+        /// <summary>
+        /// MPA版本才会用到的方法
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public async  Task<GetTaskBookForEditOutput> GetTaskBookForEdit(NullableIdDto<int> input)
 		{
 			var output = new GetTaskBookForEditOutput();
 			TaskBookEditDto taskbookEditDto;

@@ -58,8 +58,9 @@ import { UnitgroupsComponent } from './unitgroups/unitgroups.component';
 import { CreateUnitgroupsComponent } from './unitgroups/create-unitgroups/create-unitgroups.component';
 import { EditUnitgroupsComponent } from './unitgroups/edit-unitgroups/edit-unitgroups.component';
 import { TaskbooksComponent } from './taskbooks/taskbooks.component';
-import { CreatTaskbookComponent } from './taskbooks/creat-taskbook/creat-taskbook.component';
 import { EditTaskbookComponent } from './taskbooks/edit-taskbook/edit-taskbook.component';
+import { DetailTaskbookComponent } from './taskbooks/detail-taskbook/detail-taskbook.component';
+import { AddTaskbookComponent } from './taskbooks/add-taskbook/add-taskbook.component';
 
 @NgModule({
     declarations: [
@@ -104,8 +105,9 @@ import { EditTaskbookComponent } from './taskbooks/edit-taskbook/edit-taskbook.c
         CreateUnitgroupsComponent,
         EditUnitgroupsComponent,
         TaskbooksComponent,
-        CreatTaskbookComponent,
-        EditTaskbookComponent
+        EditTaskbookComponent,
+        DetailTaskbookComponent,
+        AddTaskbookComponent
     ],
     imports: [
         CommonModule,

@@ -1,6 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <localizationDictionary culture="zh-CN">
   <texts>
+    <text name="DocumentManager" value="测绘计划项目管理信息系统" />
+    
     <text name="HomePage" value="主页" />
     <text name="About" value="关于我们" />
     <text name="WellcomeMessage" value="欢迎使用 DocumentManager!" />
@@ -78,8 +80,6 @@
     <text name="PlanProject" value="规划项目" />
     <text name="SpecialPlan" value="专项计划" />
 
-    <text name="TaskBook" value="任务书管理" />
-
     //测绘规划与计划
     <text name="CreateNewPlan" value="创建测绘规划与计划" />
     <text name="EditNewPlan" value="编辑测绘规划与计划" />
@@ -129,17 +129,29 @@
     <text name="CreateNewProjectType" value="新建测绘计划项目名称" />
 
   //测绘专项计划名称
-    <text name="SpecialPlanType" value="测绘专项计划名称" />
-    <text name="SpecialPlanTypes" value="测绘专项计划名称列表" />
-    <text name="SpecialPlanTypeName" value="测绘专项计划名称" />
-    <text name="CreateNewSpecialPlanType" value="新建测绘专项计划名称" />
-    <text name="EditSpecialPlanType" value="编辑测绘专项计划名称" />
+    <text name="SpecialPlanType" value="专项计划名称" />
+    <text name="SpecialPlanTypes" value="专项计划名称列表" />
+    <text name="SpecialPlanTypeName" value="专项计划名称" />
+    <text name="CreateNewSpecialPlanType" value="新建专项计划名称" />
+    <text name="EditSpecialPlanType" value="编辑专项计划名称" />
   
   //测绘计划任务书
     <text name="TaskBook" value="测绘计划任务书" />
-    <text name="TaskBooks" value="测绘计划任务书列表" />
+    <text name="TaskBooks" value="任务书管理" />
     <text name="CreateNewTaskBook" value="新建任务书" />
     <text name="EditTaskBook" value="编辑任务书" />
+    
+    <text name="SpecialPlanTypeId" value="专项规划类型ID" />
+    <text name="specialPlanTypeName" value="专项规划类型名称" />
+    <text name="TaskBookNo" value="任务书编号" />
+    <text name="TaskName" value="任务书名称" />
+    <text name="Funds" value="经费" />
+    <text name="Year" value="年度" />
+    <text name="UndertakingUnitGroupId" value="承担单位ID" />
+    <text name="UndertakingUnitGroupName" value="承担单位名称" />
+    <text name="SignDate" value="签订日期" />
+    <text name="CompleteDate" value="完成时限" />
+    <text name="TaskContent" value="任务内容" />
   
   
   

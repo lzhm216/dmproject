@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CreatTaskbookComponent } from './creat-taskbook.component';
+import { AddTaskbookComponent } from './add-taskbook.component';
 
-describe('CreatTaskbookComponent', () => {
-  let component: CreatTaskbookComponent;
-  let fixture: ComponentFixture<CreatTaskbookComponent>;
+describe('AddTaskbookComponent', () => {
+  let component: AddTaskbookComponent;
+  let fixture: ComponentFixture<AddTaskbookComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ CreatTaskbookComponent ]
+      declarations: [ AddTaskbookComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CreatTaskbookComponent);
+    fixture = TestBed.createComponent(AddTaskbookComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
