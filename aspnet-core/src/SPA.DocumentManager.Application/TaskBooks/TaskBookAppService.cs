@@ -62,36 +62,27 @@ namespace SPA.DocumentManager.TaskBooks
                 || t.TaskContent.Contains(input.Filter)
                 || t.TaskBookNo.Contains(input.Filter)
                 || t.Description.Contains(input.Filter));
-
-            var taskbookCount = await query.CountAsync();
-
             query = query.WhereIf(input.FilterSpecialPlanTypeId > 0, t => t.SpecialPlanTypeId == input.FilterSpecialPlanTypeId);
-
-            taskbookCount = await query.CountAsync();
 
             query = query.WhereIf(input.FilterUnitGroupId > 0, t => t.UndertakingUnitGroupId == input.FilterUnitGroupId);
 
-            taskbookCount = await query.CountAsync();
-
             query = query.WhereIf(!input.FilterYear.IsNullOrWhiteSpace(), t => t.Year.ToString("yyyy").Equals(input.FilterYear));
 
-			// TODO:根据传入的参数添加过滤条件
-		
-			taskbookCount = await query.CountAsync();
-		
-			var taskbooks = await query
-					.OrderBy(input.Sorting).AsNoTracking()
-					.PageBy(input)
-					.ToListAsync();
-		
-				// var taskbookListDtos = ObjectMapper.Map<List <TaskBookListDto>>(taskbooks);
-				var taskbookListDtos =taskbooks.MapTo<List<TaskBookListDto>>();
-		
-				return new PagedResultDto<TaskBookListDto>(
-							taskbookCount,
-							taskbookListDtos
-					);
-		}
+            var taskbookCount = await query.CountAsync();
+
+            var taskbooks = await query
+                    .OrderBy(input.Sorting).AsNoTracking()
+                    .PageBy(input)
+                    .ToListAsync();
+
+            // var taskbookListDtos = ObjectMapper.Map<List <TaskBookListDto>>(taskbooks);
+            var taskbookListDtos = taskbooks.MapTo<List<TaskBookListDto>>();
+
+            return new PagedResultDto<TaskBookListDto>(
+                        taskbookCount,
+                        taskbookListDtos
+                );
+        }
 
         public ListResultDto<DateTime> GetTaskBookYears()
         {

@@ -8,7 +8,7 @@ using SPA.DocumentManager.PlanProjectTypes.Dtos.LTMAutoMapper;
 using SPA.DocumentManager.Plans.Authorization;
 using SPA.DocumentManager.Plans.Dtos.LTMAutoMapper;
 using SPA.DocumentManager.SpecialPlans.Authorization;
-using SPA.DocumentManager.SpecialPlans.Dtos.LTMAutoMapper;
+using SPA.DocumentManager.SpecialPlans.Dtos.CustomMapper;
 using SPA.DocumentManager.SpecialPlanTypes.Dtos;
 using SPA.DocumentManager.SubSpecialPlans.Authorization;
 using SPA.DocumentManager.SubSpecialPlans.Dtos.LTMAutoMapper;

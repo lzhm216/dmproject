@@ -1,13 +1,19 @@
-﻿using System.Collections.Generic;
+
+
+using System.Collections.Generic;
 using Abp.Application.Services.Dto;
+using SPA.DocumentManager.SpecialPlans;
 
 namespace SPA.DocumentManager.SpecialPlans.Dtos
 {
     public class GetSpecialPlanForEditOutput
-{
-////BCC/ BEGIN CUSTOM CODE SECTION
-////ECC/ END CUSTOM CODE SECTION
+    {
         public SpecialPlanEditDto SpecialPlan { get; set; }
 
-}
+
+
+		//// custom codes
+ 
+        //// custom codes end
+    }
 }

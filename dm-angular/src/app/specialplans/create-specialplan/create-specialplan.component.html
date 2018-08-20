@@ -1,3 +1,92 @@
-<p>
-  create-specialplan works!
-</p>
+<div bsModal #addSpecialPlanModal="bs-modal" class="modal fade" (onShown)="onShown()" tabindex="-1" role="dialog" aria-labelledby="addSpecialPlanModal" aria-hidden="true" [config]="{backdrop: 'static'}">
+    <div class="modal-dialog">
+
+        <div #modalContent class="modal-content">
+            <form *ngIf="active" #createSpecialPlanForm="ngForm" id="frm_create_specialplan" novalidate (ngSubmit)="save()">
+                <div class="modal-header">
+                    <button type="button" class="close" (click)="close()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+                    <h4 class="modal-title">
+                        <span>{{l("CreateNewSpecialPlan")}}</span>
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row clearfix" style="margin-top:10px;">
+                        <div class="col-sm-12">
+                            <div class="form-group form-float">
+                                <div class="form-line">
+                                    <select id="specialPlanTypeId" name="SpecialPlanTypeId" [(ngModel)]="specialplan.specialPlanTypeId" class="form-control">
+                                      <option *ngFor="let specialPlanType of specialPlanTypes" [value]=specialPlanType.id>{{specialPlanType.specialPlanTypeName}}</option>
+                                    </select>
+                                    <label for="specialPlanTypeId" class="form-label">{{l("SpecialPlanTypeName")}}</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row clearfix" style="margin-top:10px;">
+                        <div class="col-sm-12">
+                            <div class="form-group form-float">
+                                <div class="form-line">
+                                    <input id="plannedWorkLoad" type="text" name="PlannedWorkLoad" [(ngModel)]="specialplan.plannedWorkLoad" required class="validate form-control">
+                                    <label for="plannedWorkLoad" class="form-label">{{l("PlannedWorkLoad")}}</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row clearfix" style="margin-top:10px;">
+                        <div class="col-sm-12">
+                            <div class="form-group form-float">
+                                <div class="form-line">
+                                    <select id="unitType" name="UnitType" [(ngModel)]="specialplan.unit" class="form-control">
+                                    <option *ngFor="let unitType of unitTypes" [value]=unitType.value>{{unitType.key}}</option>
+                                  </select>
+                                    <label for="unitType" class="form-label">{{l("UnitType")}}</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row clearfix" style="margin-top:10px;">
+                        <div class="col-sm-12">
+                            <div class="form-group form-float">
+                                <div class="form-line">
+                                    <input id="plannedCost" type="text" name="PlannedCost" [(ngModel)]="specialplan.plannedCost" class="validate form-control">
+                                    <label for="plannedCost" class="form-label">{{l("PlannedCost")}}单位:"万元"</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row clearfix" style="margin-top:10px;">
+                        <div class="col-sm-12">
+                            <div class="form-group form-float">
+                                <div class="form-line">
+                                    <input id="completeDate" type="text" name="CompleteDate" [(ngModel)]="specialplan.fucompleteDatends" required class="validate form-control">
+                                    <label for="completeDate" class="form-label">{{l("CompleteDate")}} </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row clearfix" style="margin-top:10px;">
+                        <div class="col-sm-12">
+                            <div class="form-group form-float">
+                                <div class="form-line">
+                                    <input id="description" type="text" name="Description" [(ngModel)]="specialplan.description" class="validate form-control">
+                                    <label for="description" class="form-label">{{l("Description")}}</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button [disabled]="saving" type="button" class="btn btn-default waves-effect" (click)="close()">
+            {{l("Cancel")}}
+          </button>
+                    <button [disabled]="!createSpecialPlanForm.form.valid || saving" type="submit" class="btn btn-primary waves-effect">
+            {{l("Save")}}
+          </button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>

@@ -61,7 +61,7 @@
 
                             <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
                                 <div class="form-inline">
-                                    <label for="inputUnitGroup" class="form-label">承担单位:</label>
+                                    <label for="inputUnitGroup" class="form-label">测绘计划:</label>
                                     <span>
                                       <select id="unitGroupId" name="UnitGroupId" [(ngModel)]="filterUnitGroup" class="form-control">
                                           <option *ngFor="let unitGroup of unitGroups" [value]=unitGroup.id>{{unitGroup.unitGroupName}}</option>
@@ -89,22 +89,22 @@
                         <thead>
                             <tr>
                                 <th style="width: 140px;">{{l('SpecialPlanTypeName')}}</th>
-                                <th style="width: 160px;">{{l('TaskBookNo')}}</th>
-                                <th>{{l('TaskName')}}</th>
-                                <th style="width: 100px;">{{l('Funds')}}</th>
-                                <th style="width: 20px;">{{l('Year')}}</th>
-                                <th style="width: 160px;">{{l('UnitGroupName')}}</th>
+                                <th>{{l('MainContent')}}</th>
+                                <th style="width: 100px;">{{l('PlannedWorkLoad')}}</th>
+                                <th style="width: 120px;">{{l('PlannedCost')}}</th>
+                                <th style="width: 120px;">{{l('CompleteDate')}}</th>
+                                <th style="width: 150px;">{{l('PlanName')}}</th>
                                 <th style="width: 250px;">{{l('Actions')}}</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr *ngFor="let taskbook of taskbooks | paginate: { id: 'server', itemsPerPage: pageSize, currentPage: pageNumber, totalItems: totalItems }">
-                                <td>{{taskbook.specialPlanTypeName}}</td>
-                                <td>{{taskbook.taskBookNo}}</td>
-                                <td>{{taskbook.taskName}}</td>
-                                <td>{{taskbook.funds}} 万元</td>
-                                <td>{{taskbook.year.format('YYYY')}}</td>
-                                <td>{{taskbook.undertakingUnitGroupName}}</td>
+                            <tr *ngFor="let specialplan of specialPlans | paginate: { id: 'server', itemsPerPage: pageSize, currentPage: pageNumber, totalItems: totalItems }">
+                                <td>{{specialplan.specialPlanTypeName}}</td>
+                                <td>{{specialplan.mainContent}}</td>
+                                <td>{{specialplan.plannedWorkLoad}}{{specialplan.unitTypeDescription}} </td>
+                                <td>{{specialplan.plannedCost}} 万元</td>
+                                <td>{{specialplan.completeDate.format('YYYY-MM-DD')}} </td>
+                                <td>{{specialplan.planName}} </td>
                                 <td style="text-align: center;">
                                     <div class="btn-group">
                                         <button type="button" data-toggle="modal" class="btn btn-outline btn-primary" (click)="edit(taskbook)">
@@ -136,6 +136,5 @@
     </div>
 </div>
 
-<app-add-taskbook #addTaskBookModal (modalSave)="refresh()"></app-add-taskbook>
-<app-edit-taskbook #editTaskBookModal (modalSave)="refresh()"></app-edit-taskbook>
-<app-detail-taskbook #detailTaskBookModal></app-detail-taskbook>
+<app-create-specialplan #addSpecialPlanModal (modalSave)="refresh()"></app-create-specialplan>
+<app-edit-specialplan #editSpecialPlanModal (modalSave)="refresh()"></app-edit-specialplan>

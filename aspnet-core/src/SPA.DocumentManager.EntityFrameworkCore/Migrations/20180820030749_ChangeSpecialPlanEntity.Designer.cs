@@ -17,9 +17,10 @@ using System;
 namespace SPA.DocumentManager.Migrations
 {
     [DbContext(typeof(DocumentManagerDbContext))]
-    partial class DocumentManagerDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180820030749_ChangeSpecialPlanEntity")]
+    partial class ChangeSpecialPlanEntity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1237,8 +1238,6 @@ namespace SPA.DocumentManager.Migrations
                     b.Property<int>("SpecialPlanTypeId");
 
                     b.Property<int>("Unit");
-
-                    b.Property<DateTime>("Year");
 
                     b.HasKey("Id");
 

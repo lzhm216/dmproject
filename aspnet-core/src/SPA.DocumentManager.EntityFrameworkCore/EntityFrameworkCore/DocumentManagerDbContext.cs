@@ -20,7 +20,7 @@ namespace SPA.DocumentManager.EntityFrameworkCore
         public DbSet<PlanProject> PlanProjects { get; set; }
         public DbSet<SpecialPlan> SpecialPlans { get; set; }
         public DbSet<PlanProjectType> PlanProjectTypes { get; set; }
-        public DbSet<SubSpecialPlan> SubSpecialPlans { get; set; }
+        //public DbSet<SubSpecialPlan> SubSpecialPlans { get; set; }
         public DbSet<TaskBook> TaskBooks { get; set; }
         public DbSet<Attachment> Attachments { get; set; }
         public DbSet<UnitGroup> UnitGroups { get; set; }
