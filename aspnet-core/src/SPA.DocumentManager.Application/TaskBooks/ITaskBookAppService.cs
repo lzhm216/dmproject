@@ -4,6 +4,7 @@ using Abp.Application.Services;
 using Abp.Application.Services.Dto;
 using SPA.DocumentManager.TaskBooks.Dtos;
 using SPA.DocumentManager.TaskBooks;
+using System;
 
 namespace SPA.DocumentManager.TaskBooks
 {
@@ -19,10 +20,16 @@ namespace SPA.DocumentManager.TaskBooks
         /// <returns></returns>
         Task<PagedResultDto<TaskBookListDto>> GetPagedTaskBooks(GetTaskBooksInput input);
 
-		/// <summary>
-		/// 通过指定id获取TaskBookListDto信息
-		/// </summary>
-		Task<TaskBookListDto> GetTaskBookByIdAsync(EntityDto<int> input);
+        /// <summary>
+        /// 获取任务书的年份
+        /// </summary>
+        /// <returns></returns>
+        ListResultDto<DateTime> GetTaskBookYears();
+
+        /// <summary>
+        /// 通过指定id获取TaskBookListDto信息
+        /// </summary>
+        Task<TaskBookListDto> GetTaskBookByIdAsync(EntityDto<int> input);
 
 
         /// <summary>

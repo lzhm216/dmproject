@@ -10,7 +10,11 @@ namespace SPA.DocumentManager.TaskBooks.Dtos
         /// </summary>
         public string Filter { get; set; }
 
+        public int FilterUnitGroupId { get; set; }
 		
+        public string FilterYear { get; set; }
+
+        public int FilterSpecialPlanTypeId { get; set; }
 		//// custom codes 
 		
         //// custom codes end

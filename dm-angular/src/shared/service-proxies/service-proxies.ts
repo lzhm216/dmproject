@@ -3727,15 +3727,24 @@ export class TaskBookServiceProxy {
 
     /**
      * @filter (optional) 
+     * @filterUnitGroupId (optional) 
+     * @filterYear (optional) 
+     * @filterSpecialPlanTypeId (optional) 
      * @sorting (optional) 
      * @maxResultCount (optional) 
      * @skipCount (optional) 
      * @return Success
      */
-    getPagedTaskBooks(filter: string | null | undefined, sorting: string | null | undefined, maxResultCount: number | null | undefined, skipCount: number | null | undefined): Observable<PagedResultDtoOfTaskBookListDto> {
+    getPagedTaskBooks(filter: string | null | undefined, filterUnitGroupId: number | null | undefined, filterYear: string | null | undefined, filterSpecialPlanTypeId: number | null | undefined, sorting: string | null | undefined, maxResultCount: number | null | undefined, skipCount: number | null | undefined): Observable<PagedResultDtoOfTaskBookListDto> {
         let url_ = this.baseUrl + "/api/services/app/TaskBook/GetPagedTaskBooks?";
         if (filter !== undefined)
             url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (filterUnitGroupId !== undefined)
+            url_ += "FilterUnitGroupId=" + encodeURIComponent("" + filterUnitGroupId) + "&"; 
+        if (filterYear !== undefined)
+            url_ += "FilterYear=" + encodeURIComponent("" + filterYear) + "&"; 
+        if (filterSpecialPlanTypeId !== undefined)
+            url_ += "FilterSpecialPlanTypeId=" + encodeURIComponent("" + filterSpecialPlanTypeId) + "&"; 
         if (sorting !== undefined)
             url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
         if (maxResultCount !== undefined)
@@ -3795,6 +3804,66 @@ export class TaskBookServiceProxy {
             });
         }
         return Observable.of<PagedResultDtoOfTaskBookListDto>(<any>null);
+    }
+
+    /**
+     * @return Success
+     */
+    getTaskBookYears(): Observable<ListResultDtoOfDateTime> {
+        let url_ = this.baseUrl + "/api/services/app/TaskBook/GetTaskBookYears";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).flatMap((response_ : any) => {
+            return this.processGetTaskBookYears(response_);
+        }).catch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetTaskBookYears(<any>response_);
+                } catch (e) {
+                    return <Observable<ListResultDtoOfDateTime>><any>Observable.throw(e);
+                }
+            } else
+                return <Observable<ListResultDtoOfDateTime>><any>Observable.throw(response_);
+        });
+    }
+
+    protected processGetTaskBookYears(response: HttpResponseBase): Observable<ListResultDtoOfDateTime> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).flatMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? ListResultDtoOfDateTime.fromJS(resultData200) : new ListResultDtoOfDateTime();
+            return Observable.of(result200);
+            });
+        } else if (status === 401) {
+            return blobToText(responseBlob).flatMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 403) {
+            return blobToText(responseBlob).flatMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).flatMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Observable.of<ListResultDtoOfDateTime>(<any>null);
     }
 
     /**
@@ -6631,7 +6700,7 @@ export class PlanProjectListDto implements IPlanProjectListDto {
     description: string | undefined;
     planId: number | undefined;
     planName: string | undefined;
-    unit: PlanProjectEditDtoUnit | undefined;
+    unit: PlanProjectListDtoUnit | undefined;
     readonly unitTypeDescription: string | undefined;
 
     constructor(data?: IPlanProjectListDto) {
@@ -6700,7 +6769,7 @@ export interface IPlanProjectListDto {
     description: string | undefined;
     planId: number | undefined;
     planName: string | undefined;
-    unit: PlanProjectEditDtoUnit | undefined;
+    unit: PlanProjectListDtoUnit | undefined;
     unitTypeDescription: string | undefined;
 }
 
@@ -8398,6 +8467,8 @@ export class TaskBook implements ITaskBook {
             this.taskName = data["taskName"];
             this.funds = data["funds"];
             this.year = data["year"] ? moment(data["year"].toString()) : <any>undefined;
+            //this.year = data["year"] ? moment(data["year"].toString()).format("YYYY") : <any>undefined;
+
             this.undertakingUnitGroupId = data["undertakingUnitGroupId"];
             this.undertakingUnitGroup = data["undertakingUnitGroup"] ? UnitGroup.fromJS(data["undertakingUnitGroup"]) : new UnitGroup();
             this.signDate = data["signDate"] ? moment(data["signDate"].toString()) : <any>undefined;
@@ -9233,8 +9304,8 @@ export class TaskBookListDto implements ITaskBookListDto {
             this.taskBookNo = data["taskBookNo"];
             this.taskName = data["taskName"];
             this.funds = data["funds"];
-            //this.year = data["year"] ? moment(data["year"].toString()) : <any>undefined;
-            this.year = data["year"] ? moment(data["year"].toString()).format("YYYY") : <any>undefined;
+            this.year = data["year"] ? moment(data["year"].toString()) : <any>undefined;
+            //this.year = data["year"] ? moment(data["year"].toString()).format('YYYY') : <any>undefined;
 
             this.undertakingUnitGroupId = data["undertakingUnitGroupId"];
             this.undertakingUnitGroupName = data["undertakingUnitGroupName"];
@@ -9313,6 +9384,57 @@ export interface ITaskBookListDto {
     lastModifierUserId: number | undefined;
     creationTime: moment.Moment | undefined;
     creatorUserId: number | undefined;
+}
+
+export class ListResultDtoOfDateTime implements IListResultDtoOfDateTime {
+    items: moment.Moment[] | undefined;
+
+    constructor(data?: IListResultDtoOfDateTime) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [];
+                for (let item of data["items"])
+                    this.items.push(moment(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): ListResultDtoOfDateTime {
+        data = typeof data === 'object' ? data : {};
+        let result = new ListResultDtoOfDateTime();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toISOString());
+        }
+        return data; 
+    }
+
+    clone() {
+        const json = this.toJSON();
+        let result = new ListResultDtoOfDateTime();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IListResultDtoOfDateTime {
+    items: moment.Moment[] | undefined;
 }
 
 export class GetTaskBookForEditOutput implements IGetTaskBookForEditOutput {
@@ -10559,6 +10681,11 @@ export enum IsTenantAvailableOutputState {
     _3 = 3, 
 }
 
+export enum PlanProjectListDtoUnit {
+    _0 = 0, 
+    _1 = 1, 
+    _2 = 2, 
+}
 
 export enum PlanProjectEditDtoUnit {
     _0 = 0, 

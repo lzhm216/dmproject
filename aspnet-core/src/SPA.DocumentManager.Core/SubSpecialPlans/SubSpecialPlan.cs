@@ -31,7 +31,7 @@ namespace SPA.DocumentManager.SubSpecialPlans
         /// 完成时间
         /// </summary>
         [Required(AllowEmptyStrings = true)]
-        [DisplayFormat(DataFormatString = "{0:yyyy年MM月dd日}")]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime CompleteDate { get; set; }
 
         /// <summary>

@@ -11,7 +11,7 @@ import * as moment from 'moment';
   styleUrls: ['./add-taskbook.component.css']
 })
 export class AddTaskbookComponent extends AppComponentBase implements OnInit {
-  
+
   @ViewChild('addTaskBookModal') modal: ModalDirective;
   @ViewChild('modalContent') modalContent: ElementRef;
 
@@ -46,7 +46,7 @@ export class AddTaskbookComponent extends AppComponentBase implements OnInit {
     this._specialPlanTypeService.getAllSpecialPlanType().subscribe(result => {
       this.specialPlanTypes = result.items;
     });
-    
+
   }
 
   show(): void {
@@ -61,17 +61,21 @@ export class AddTaskbookComponent extends AppComponentBase implements OnInit {
 
   save(): void {
     this.saving = true;
-    this.taskbook.signDate = moment(this.taskbook.signDate.toString());
-    this.taskbook.completeDate = moment(this.taskbook.completeDate.toString());
-    this.taskbook.year = moment(this.taskbook.year.toString());
+    var localOffset  = new Date().getTimezoneOffset() * 60000;
+
+    this.taskbook.signDate = this.taskbook.signDate ? moment(this.taskbook.signDate.toString()).subtract('milliseconds',localOffset) : <any>undefined;
+    this.taskbook.completeDate = this.taskbook.completeDate ? moment(this.taskbook.completeDate.toString()).subtract('milliseconds',localOffset) : <any>undefined;
+    this.taskbook.year =this.taskbook.year ? moment(this.taskbook.year.toString()).subtract('milliseconds',localOffset) : <any>undefined;
+
     this.taskbook_create.taskBook = this.taskbook;
     this._taskBookService.createOrUpdateTaskBook(this.taskbook_create).finally(() => {
       this.saving = false;
-    }).subscribe((result) => {    
+    }).subscribe(() => {
       this.notify.info(this.l('SavedSuccessfully'));
+      this.taskbook = null;
       this.close();
       this.modalSave.emit(null);
-
+      this.taskbook = new TaskBookEditDto();
     })
   }
 }

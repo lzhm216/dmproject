@@ -3,6 +3,8 @@ import { TaskBookEditDto, CreateOrUpdateTaskBookInput, TaskBookServiceProxy, Uni
 import { AppComponentBase } from '@shared/app-component-base';
 import { ModalDirective } from 'ngx-bootstrap';
 
+import * as moment from 'moment';
+
 @Component({
   selector: 'app-edit-taskbook',
   templateUrl: './edit-taskbook.component.html'
@@ -49,9 +51,7 @@ export class EditTaskbookComponent extends AppComponentBase implements OnInit {
   }
 
   show(id: number): void {
-    this._taskBookService.getTaskBookByIdAsync(id).finally(()=>{
-
-    }).subscribe((result) => {
+    this._taskBookService.getTaskBookByIdAsync(id).subscribe((result) => {
       if(result!=null){
         this.taskbook = result;
       }
@@ -67,9 +67,16 @@ export class EditTaskbookComponent extends AppComponentBase implements OnInit {
 
   save(): void {
     this.saving = true;
+    var localOffset  = new Date().getTimezoneOffset() * 60000;
+
+    this.taskbook.signDate = this.taskbook.signDate ? moment(this.taskbook.signDate.toString()).subtract('milliseconds',localOffset) : <any>undefined;
+    this.taskbook.completeDate = this.taskbook.completeDate ? moment(this.taskbook.completeDate.toString()).subtract('milliseconds',localOffset) : <any>undefined;
+    this.taskbook.year =this.taskbook.year ? moment(this.taskbook.year.toString()).subtract('milliseconds',localOffset) : <any>undefined;
+
     this.taskbook_edit.taskBook = this.taskbook;
     this._taskBookService.createOrUpdateTaskBook(this.taskbook_edit).finally(() => {
       this.saving = false;
+      this.taskbook = new TaskBookEditDto();
     }).subscribe(() => {
       this.notify.info(this.l('SavedSuccessfully'));
       this.close();

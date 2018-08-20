@@ -34,8 +34,9 @@ namespace SPA.DocumentManager.TaskBooks
         /// </summary>
         [Required]
         public double Funds { get; set; }
-        
-        [DisplayFormat(DataFormatString = "yyyy")]
+
+        [DataType(DataType.Date)]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy}")]
         public DateTime Year { get; set; }
         /// <summary>
         /// 承担单位ID
@@ -51,12 +52,14 @@ namespace SPA.DocumentManager.TaskBooks
         /// <summary>
         /// 签订日期
         /// </summary>
-        [Required]
+        [DataType(DataType.Date)]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy/MM/dd}")]
         public DateTime SignDate { get; set; }
         /// <summary>
         /// 完成时间
         /// </summary>
-        [Required]
+        [DataType(DataType.Date)]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy/MM/dd}")]
         public DateTime CompleteDate { get; set; }
         
         [StringLength(DocumentManagerConsts.Max500Length, ErrorMessage = "输入内容长度不能超过250字")]

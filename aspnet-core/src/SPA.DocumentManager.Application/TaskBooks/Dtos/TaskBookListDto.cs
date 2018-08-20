@@ -50,6 +50,9 @@ namespace SPA.DocumentManager.TaskBooks.Dtos
         /// <summary>
         /// Year
         /// </summary>
+        [Required(ErrorMessage = "Year不能为空")]
+        [DataType(DataType.Date)]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy}")]
         public DateTime Year { get; set; }
         
         /// <summary>
@@ -68,6 +71,8 @@ namespace SPA.DocumentManager.TaskBooks.Dtos
         /// SignDate
         /// </summary>
         [Required(ErrorMessage = "SignDate不能为空")]
+        [DataType(DataType.Date)]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy/MM/dd}")]
         public DateTime SignDate { get; set; }
 
 
@@ -75,6 +80,8 @@ namespace SPA.DocumentManager.TaskBooks.Dtos
         /// CompleteDate
         /// </summary>
         [Required(ErrorMessage = "CompleteDate不能为空")]
+        [DataType(DataType.Date)]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy/MM/dd}")]
         public DateTime CompleteDate { get; set; }
 
 

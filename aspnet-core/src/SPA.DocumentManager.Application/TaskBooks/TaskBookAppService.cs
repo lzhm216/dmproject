@@ -15,6 +15,7 @@ using SPA.DocumentManager.TaskBooks.Dtos;
 using SPA.DocumentManager.TaskBooks;
 using Abp.Extensions;
 using SPA.DocumentManager.UnitGroups;
+using System;
 
 namespace SPA.DocumentManager.TaskBooks
 {
@@ -61,9 +62,22 @@ namespace SPA.DocumentManager.TaskBooks
                 || t.TaskContent.Contains(input.Filter)
                 || t.TaskBookNo.Contains(input.Filter)
                 || t.Description.Contains(input.Filter));
+
+            var taskbookCount = await query.CountAsync();
+
+            query = query.WhereIf(input.FilterSpecialPlanTypeId > 0, t => t.SpecialPlanTypeId == input.FilterSpecialPlanTypeId);
+
+            taskbookCount = await query.CountAsync();
+
+            query = query.WhereIf(input.FilterUnitGroupId > 0, t => t.UndertakingUnitGroupId == input.FilterUnitGroupId);
+
+            taskbookCount = await query.CountAsync();
+
+            query = query.WhereIf(!input.FilterYear.IsNullOrWhiteSpace(), t => t.Year.ToString("yyyy").Equals(input.FilterYear));
+
 			// TODO:根据传入的参数添加过滤条件
 		
-			var taskbookCount = await query.CountAsync();
+			taskbookCount = await query.CountAsync();
 		
 			var taskbooks = await query
 					.OrderBy(input.Sorting).AsNoTracking()
@@ -78,12 +92,17 @@ namespace SPA.DocumentManager.TaskBooks
 							taskbookListDtos
 					);
 		}
-		
 
-		/// <summary>
-		/// 通过指定id获取TaskBookListDto信息
-		/// </summary>
-		public async Task<TaskBookListDto> GetTaskBookByIdAsync(EntityDto<int> input)
+        public ListResultDto<DateTime> GetTaskBookYears()
+        {
+            var years = _taskbookRepository.GetAll().Select(t => t.Year).Distinct();
+            return new ListResultDto<DateTime>(years.ToList().AsReadOnly());
+        }
+
+        /// <summary>
+        /// 通过指定id获取TaskBookListDto信息
+        /// </summary>
+        public async Task<TaskBookListDto> GetTaskBookByIdAsync(EntityDto<int> input)
 		{
 			var entity = await _taskbookRepository.GetAsync(input.Id);
 		
