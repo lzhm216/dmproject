@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using Abp.Domain.Entities.Auditing;
 using SPA.DocumentManager.Plans;
-using SPA.DocumentManager.SubSpecialPlans;
 using SPA.DocumentManager.TaskBooks;
 
 namespace SPA.DocumentManager.SpecialPlans

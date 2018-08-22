@@ -7,7 +7,6 @@ using SPA.DocumentManager.MultiTenancy;
 using SPA.DocumentManager.PlanProjects;
 using SPA.DocumentManager.Plans;
 using SPA.DocumentManager.SpecialPlans;
-using SPA.DocumentManager.SubSpecialPlans;
 using SPA.DocumentManager.TaskBooks;
 using SPA.DocumentManager.UnitGroups;
 
@@ -38,7 +37,6 @@ namespace SPA.DocumentManager.EntityFrameworkCore
             modelBuilder.Entity<PlanProject>().ToTable("PlanProject");
             modelBuilder.Entity<PlanProjectType>().ToTable("PlanProjectType");
             modelBuilder.Entity<SpecialPlan>().ToTable("SpecialPlan");
-            modelBuilder.Entity<SubSpecialPlan>().ToTable("SubSpecialPlan");
             modelBuilder.Entity<TaskBook>().ToTable("TaskBook");
             modelBuilder.Entity<Attachment>().ToTable("Attachment");
             modelBuilder.Entity<UnitGroup>().ToTable("UnitGroup");

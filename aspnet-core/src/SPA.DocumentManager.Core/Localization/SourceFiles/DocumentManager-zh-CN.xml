@@ -8,6 +8,7 @@
     <text name="WellcomeMessage" value="欢迎使用 DocumentManager!" />
     <text name="Settings" value="设置" />
     <text name="Colse" value="关闭" />
+
     
     <text name="FormIsNotValidMessage" value="部分输入信息不符合要求，请检查并改正.." />
     <text name="TenantNameCanNotBeEmpty" value="租户名不能为空" />
@@ -35,6 +36,8 @@
     <text name="Actions" value="操作"/>
     <text name="Edit" value="编辑"/>
     <text name="Delete" value="删除"/>
+    <text name="ConfirmPassw" value="确认密码"/>
+    <text name="EditUser" value="编辑用户"/>
     
     <text name="UserDetails" value="用户详情"/>
     <text name="UserRoles" value="用户权限"/>
@@ -51,9 +54,17 @@
 
     <text name="RoleName" value="角色名" />
     <text name="DisplayName" value="显示名称" />
-    <text name="CreateNewRole" value="创建用户" />
+    <text name="CreateNewRole" value="创建角色" />
     <text name="Permissions" value="权限" />
-    <text name="RoleDescription" value="描述信息" />
+    <text name="RoleDescription" value="角色描述" />
+    <text name="EditRole" value="编辑角色" />
+    <text name="static" value="禁止编辑" />
+    
+
+    <text name="Pages" value="页面" />
+    <text name="Administration" value="管理" />
+    
+    
 
     <text name="Tenants" value="租户" />
     <text name="SavedSuccessfully" value="保存成功" />

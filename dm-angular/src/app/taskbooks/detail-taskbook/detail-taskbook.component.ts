@@ -14,6 +14,9 @@ export class DetailTaskbookComponent extends AppComponentBase {
   active: boolean = false;
   taskbook: TaskBookListDto = new TaskBookListDto();
 
+  completeDate: any = null;
+  signDate: any = null;
+
   constructor(injector: Injector,
     private _taskBookService: TaskBookServiceProxy
   ) {
@@ -25,6 +28,9 @@ export class DetailTaskbookComponent extends AppComponentBase {
       if (result != null) {
 
         this.taskbook = result;
+        this.completeDate = this.taskbook.completeDate.format('YYYY-MM-DD');
+        this.signDate = this.taskbook.signDate.format('YYYY-MM-DD');
+        
         this.active = true;
         this.modal.show();
       }

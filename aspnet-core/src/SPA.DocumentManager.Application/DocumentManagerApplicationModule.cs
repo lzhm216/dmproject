@@ -10,8 +10,6 @@ using SPA.DocumentManager.Plans.Dtos.LTMAutoMapper;
 using SPA.DocumentManager.SpecialPlans.Authorization;
 using SPA.DocumentManager.SpecialPlans.Dtos.CustomMapper;
 using SPA.DocumentManager.SpecialPlanTypes.Dtos;
-using SPA.DocumentManager.SubSpecialPlans.Authorization;
-using SPA.DocumentManager.SubSpecialPlans.Dtos.LTMAutoMapper;
 using SPA.DocumentManager.TaskBooks.Authorization;
 using SPA.DocumentManager.TaskBooks.Dtos;
 using SPA.DocumentManager.UnitGroups.Authorization;
@@ -29,8 +27,7 @@ namespace SPA.DocumentManager
             Configuration.Authorization.Providers.Add<DocumentManagerAuthorizationProvider>();
             Configuration.Authorization.Providers.Add<PlanAppAuthorizationProvider>();
             Configuration.Authorization.Providers.Add<PlanProjectAppAuthorizationProvider>();
-
-            Configuration.Authorization.Providers.Add<SubSpecialPlanAppAuthorizationProvider>();
+            
             Configuration.Authorization.Providers.Add<SpecialPlanAppAuthorizationProvider>();
 
             Configuration.Authorization.Providers.Add<TaskBookAppAuthorizationProvider>();
@@ -42,7 +39,6 @@ namespace SPA.DocumentManager
             Configuration.Modules.AbpAutoMapper().Configurators.Add(CustomerPlanProjectMapper.CreateMappings);
             Configuration.Modules.AbpAutoMapper().Configurators.Add(CustomerPlanProjectTypeMapper.CreateMappings);
 
-            Configuration.Modules.AbpAutoMapper().Configurators.Add(CustomerSubSpecialPlanMapper.CreateMappings);
             Configuration.Modules.AbpAutoMapper().Configurators.Add(CustomerSpecialPlanMapper.CreateMappings);
             
             Configuration.Modules.AbpAutoMapper().Configurators.Add(CustomerSpecialPlanTypeMapper.CreateMappings);

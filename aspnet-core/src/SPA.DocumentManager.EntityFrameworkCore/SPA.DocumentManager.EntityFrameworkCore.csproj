@@ -11,6 +11,7 @@
     <Compile Remove="Migrations\20180523040051_addtaskbookentity.cs" />
     <Compile Remove="Migrations\20180812042313_changeyeartype.cs" />
     <Compile Remove="Migrations\20180813043657_changetaskbookentity0813.cs" />
+    <Compile Remove="Migrations\20180822020258_deletesubspecialplanentity.cs" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.0.3" />
