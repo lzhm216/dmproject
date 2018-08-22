@@ -2698,7 +2698,7 @@ export class SpecialPlanServiceProxy {
     /**
      * @return Success
      */
-    getSpecialPlanYears(): Observable<ListResultDtoOfDateTime> {
+    getSpecialPlanYears(): Observable<ListResultDtoOfString> {
         let url_ = this.baseUrl + "/api/services/app/SpecialPlan/GetSpecialPlanYears";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -2718,14 +2718,14 @@ export class SpecialPlanServiceProxy {
                 try {
                     return this.processGetSpecialPlanYears(<any>response_);
                 } catch (e) {
-                    return <Observable<ListResultDtoOfDateTime>><any>Observable.throw(e);
+                    return <Observable<ListResultDtoOfString>><any>Observable.throw(e);
                 }
             } else
-                return <Observable<ListResultDtoOfDateTime>><any>Observable.throw(response_);
+                return <Observable<ListResultDtoOfString>><any>Observable.throw(response_);
         });
     }
 
-    protected processGetSpecialPlanYears(response: HttpResponseBase): Observable<ListResultDtoOfDateTime> {
+    protected processGetSpecialPlanYears(response: HttpResponseBase): Observable<ListResultDtoOfString> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -2736,7 +2736,7 @@ export class SpecialPlanServiceProxy {
             return blobToText(responseBlob).flatMap(_responseText => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? ListResultDtoOfDateTime.fromJS(resultData200) : new ListResultDtoOfDateTime();
+            result200 = resultData200 ? ListResultDtoOfString.fromJS(resultData200) : new ListResultDtoOfString();
             return Observable.of(result200);
             });
         } else if (status === 401) {
@@ -2752,7 +2752,7 @@ export class SpecialPlanServiceProxy {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
-        return Observable.of<ListResultDtoOfDateTime>(<any>null);
+        return Observable.of<ListResultDtoOfString>(<any>null);
     }
 
     /**
@@ -3875,7 +3875,7 @@ export class TaskBookServiceProxy {
     /**
      * @return Success
      */
-    getTaskBookYears(): Observable<ListResultDtoOfDateTime> {
+    getTaskBookYears(): Observable<ListResultDtoOfString> {
         let url_ = this.baseUrl + "/api/services/app/TaskBook/GetTaskBookYears";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -3895,14 +3895,14 @@ export class TaskBookServiceProxy {
                 try {
                     return this.processGetTaskBookYears(<any>response_);
                 } catch (e) {
-                    return <Observable<ListResultDtoOfDateTime>><any>Observable.throw(e);
+                    return <Observable<ListResultDtoOfString>><any>Observable.throw(e);
                 }
             } else
-                return <Observable<ListResultDtoOfDateTime>><any>Observable.throw(response_);
+                return <Observable<ListResultDtoOfString>><any>Observable.throw(response_);
         });
     }
 
-    protected processGetTaskBookYears(response: HttpResponseBase): Observable<ListResultDtoOfDateTime> {
+    protected processGetTaskBookYears(response: HttpResponseBase): Observable<ListResultDtoOfString> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -3913,7 +3913,7 @@ export class TaskBookServiceProxy {
             return blobToText(responseBlob).flatMap(_responseText => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? ListResultDtoOfDateTime.fromJS(resultData200) : new ListResultDtoOfDateTime();
+            result200 = resultData200 ? ListResultDtoOfString.fromJS(resultData200) : new ListResultDtoOfString();
             return Observable.of(result200);
             });
         } else if (status === 401) {
@@ -3929,7 +3929,7 @@ export class TaskBookServiceProxy {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
-        return Observable.of<ListResultDtoOfDateTime>(<any>null);
+        return Observable.of<ListResultDtoOfString>(<any>null);
     }
 
     /**
@@ -8243,10 +8243,10 @@ export interface ISpecialPlanListDto {
     id: number | undefined;
 }
 
-export class ListResultDtoOfDateTime implements IListResultDtoOfDateTime {
-    items: moment.Moment[] | undefined;
+export class ListResultDtoOfString implements IListResultDtoOfString {
+    items: string[] | undefined;
 
-    constructor(data?: IListResultDtoOfDateTime) {
+    constructor(data?: IListResultDtoOfString) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -8260,14 +8260,14 @@ export class ListResultDtoOfDateTime implements IListResultDtoOfDateTime {
             if (data["items"] && data["items"].constructor === Array) {
                 this.items = [];
                 for (let item of data["items"])
-                    this.items.push(moment(item));
+                    this.items.push(item);
             }
         }
     }
 
-    static fromJS(data: any): ListResultDtoOfDateTime {
+    static fromJS(data: any): ListResultDtoOfString {
         data = typeof data === 'object' ? data : {};
-        let result = new ListResultDtoOfDateTime();
+        let result = new ListResultDtoOfString();
         result.init(data);
         return result;
     }
@@ -8277,21 +8277,21 @@ export class ListResultDtoOfDateTime implements IListResultDtoOfDateTime {
         if (this.items && this.items.constructor === Array) {
             data["items"] = [];
             for (let item of this.items)
-                data["items"].push(item.toISOString());
+                data["items"].push(item);
         }
         return data; 
     }
 
     clone() {
         const json = this.toJSON();
-        let result = new ListResultDtoOfDateTime();
+        let result = new ListResultDtoOfString();
         result.init(json);
         return result;
     }
 }
 
-export interface IListResultDtoOfDateTime {
-    items: moment.Moment[] | undefined;
+export interface IListResultDtoOfString {
+    items: string[] | undefined;
 }
 
 export class GetSpecialPlanForEditOutput implements IGetSpecialPlanForEditOutput {

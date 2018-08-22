@@ -27,7 +27,9 @@ export class EditSpecialplanComponent extends AppComponentBase implements OnInit
   unitTypes: any = null;
   plans: PlanListDto[] = [];
 
-  
+  year: any = null;
+  completeDate: any = null;
+
   constructor( injector: Injector,
     private _planService: PlanServiceProxy,
     private _specialPlanService: SpecialPlanServiceProxy,
@@ -43,7 +45,7 @@ export class EditSpecialplanComponent extends AppComponentBase implements OnInit
     this.specialPlanTypes = [];
     this.unitTypes = null;
     
-    this._planService.getPlanList("", "", 100, 0).subscribe(result => {
+    this._planService.getPlanList("", "Id", 20, 0).subscribe(result => {
       this.plans = result;
     });
 
@@ -58,10 +60,16 @@ export class EditSpecialplanComponent extends AppComponentBase implements OnInit
     })
   }
 
+  onShown(): void {
+    $.AdminBSB.input.activate($(this.modalContent.nativeElement));
+  }
+
   show(id: number): void {
     this._specialPlanService.getSpecialPlanByIdAsync(id).subscribe((result) => {
       if(result!=null){
         this.specialplan = result;
+        this.year = this.specialplan.year.format('YYYY');
+        this.completeDate = this.specialplan.completeDate.format('YYYY-MM-DD');
       }
     });
     this.active = true;
@@ -76,10 +84,9 @@ export class EditSpecialplanComponent extends AppComponentBase implements OnInit
   save(): void {
     this.saving = true;
     var localOffset  = new Date().getTimezoneOffset() * 60000;
-
     
-    this.specialplan.completeDate = this.specialplan.completeDate ? moment(this.specialplan.completeDate.toString()).subtract('milliseconds',localOffset) : <any>undefined;
-    this.specialplan.year =this.specialplan.year ? moment(this.specialplan.year.toString()).subtract('milliseconds',localOffset) : <any>undefined;
+    this.specialplan.completeDate = this.completeDate ? moment(this.completeDate.toString()).subtract('milliseconds',localOffset) : <any>undefined;
+    this.specialplan.year =this.year ? moment(this.year.toString()).subtract('milliseconds',localOffset) : <any>undefined;
 
     this.specialplan_edit.specialPlan = this.specialplan;
     this._specialPlanService.createOrUpdateSpecialPlan(this.specialplan_edit).finally(() => {
@@ -90,6 +97,15 @@ export class EditSpecialplanComponent extends AppComponentBase implements OnInit
       this.close();
       this.modalSave.emit(null);
     })
+  }
+
+  transform(transTime): string {
+    let date = new Date(transTime);
+    let year = date.getFullYear();
+    let month = date.getMonth() + 1;
+    let months = month < 10 ? '0' + month : month;
+    let d = date.getDate() < 10 ? '0' + date.getDate() : date.getDate();
+    return year + '-' + months + '-' + d;
   }
 
 }

@@ -19,6 +19,8 @@ export class DetailPlanComponent extends AppComponentBase {
 
   downloadInput: AttachmentDownloadInput= new AttachmentListDto();
 
+  publishDate: any = null;
+
   constructor(
     injector: Injector,
     private _planService: PlanServiceProxy,
@@ -33,10 +35,12 @@ export class DetailPlanComponent extends AppComponentBase {
       if (result != null) {
         this._attachmentService.getPagedAttachmentsByPlanId(this.filter, result.id, "Id", 20, 0).subscribe(result1 => {
           this.attachments = result1.items;
-          this.plan = result;
+          
+        });
+        this.plan = result;
+        this.publishDate = this.plan.publishDate.format('YYYY-MM-DD');
           this.active = true;
           this.modal.show();
-        })
       }
     })
   }

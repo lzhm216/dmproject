@@ -53,9 +53,7 @@ export class TaskbooksComponent extends PagedListingComponentBase<TaskBookListDt
     });
 
     this._taskBookService.getTaskBookYears().subscribe(result => {
-      result.items.forEach(element => {
-        this.years.push(element.format('YYYY'));
-      });
+      this.years = result.items;
     });
 
     this.refresh();

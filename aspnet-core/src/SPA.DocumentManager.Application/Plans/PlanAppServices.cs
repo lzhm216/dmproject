@@ -53,6 +53,9 @@ namespace SPA.DocumentManager.Plans
         {
 
             var query = _planRepository.GetAll();
+
+            query = query.WhereIf(!string.IsNullOrEmpty(input.Filter), t => t.PlanName.Contains(input.Filter)
+             || t.MainContent.Contains(input.Filter) || t.FileNo.Contains(input.Filter));
             
             var planCount = await query.CountAsync();
 

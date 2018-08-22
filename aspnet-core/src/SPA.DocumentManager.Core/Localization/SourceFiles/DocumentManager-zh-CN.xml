@@ -76,13 +76,20 @@
     //菜单
     <text name="Users" value="用户" />
     <text name="Roles" value="角色" />
-    <text name="Plans" value="规划与计划" />
-    <text name="PlanProject" value="规划项目" />
-    <text name="SpecialPlan" value="专项计划" />
+    <text name="Plan" value="规划与计划管理" />
+    <text name="PlanProject" value="测绘计划管理" />
+    <text name="SpecialPlan" value="专项计划管理" />
+    <text name="TaskBook" value="测绘计划任务书" />
+        <text name="UnitGroup" value="承担单位管理" />
+    <text name="PlanProjectType" value="项目名称管理" />
+    <text name="SpecialPlanType" value="专项名称管理" />
 
     //测绘规划与计划
-    <text name="CreateNewPlan" value="创建测绘规划与计划" />
-    <text name="EditNewPlan" value="编辑测绘规划与计划" />
+    <text name="Plans" value="测绘规划与计划列表" />
+    <text name="CreatePlan" value="创建测绘规划与计划" />
+    <text name="EditPlan" value="编辑测绘规划与计划" />
+    <text name="DeletePlan" value="删除测绘规划与计划" />
+    <text name="BatchDeletePlans" value="批量删除测绘规划与计划" />
     <text name="DetailPlan" value="测绘规划与计划详情" />
 
     <text name="PlanName" value="规划名称" />
@@ -96,9 +103,11 @@
 
 
     //测绘计划
-    <text name="PlanProjects" value="测绘计划项目" />
+    <text name="PlanProjects" value="测绘计划项目列表" />
     <text name="EditPlanProject" value="编辑测绘计划项目" />
-    <text name="CreateNewPlanProject" value="新建测绘计划项目" />
+    <text name="CreatePlanProject" value="新建测绘计划项目" />
+    <text name="DeletePlanProject" value="删除测绘计划项目" />
+    <text name="BatchDeletePlanProjects" value="批量删除测绘计划项目" />
     <text name="ProjectType" value="测绘计划项目名称" />
     <text name="ProjectTypeName" value="测绘计划项目名称" />
     <text name="SubProjectName" value="综合工序及成果成图" />
@@ -119,27 +128,41 @@
     <text name="Detail" value="详情" />
     
     //专项计划
-    <text name="SpecialPlans" value="测绘专项计划" />
+    <text name="SpecialPlans" value="专项计划列表" />
+    <text name="EditSpecialPlan" value="编辑专项计划" />
+    <text name="CreateSpecialPlan" value="新建测绘专项计划" />
+    <text name="DeleteSpecialPlan" value="删除测绘专项计划" />
+    <text name="BatchDeleteSpecialPlans" value="批量删除测绘专项计划" />
+    
+    
     
     //测绘项目类型
-    <text name="PlanProjectType" value="测绘计划项目名称" />
+    
     <text name="PlanProjectTypes" value="测绘计划项目名称列表" />
     <text name="PlanProjectTypeName" value="测绘计划项目名称" />
     <text name="EditProjectType" value="编辑测绘计划项目名称" />
-    <text name="CreateNewProjectType" value="新建测绘计划项目名称" />
+    <text name="CreateProjectType" value="新建测绘计划项目名称" />
+    <text name="DeleteProjectType" value="删除测绘计划项目名称" />
+    <text name="BatchDeleteProjectType" value="批量删除测绘计划项目名称" />
 
   //测绘专项计划名称
-    <text name="SpecialPlanType" value="专项计划名称" />
+    
     <text name="SpecialPlanTypes" value="专项计划名称列表" />
     <text name="SpecialPlanTypeName" value="专项计划名称" />
-    <text name="CreateNewSpecialPlanType" value="新建专项计划名称" />
+    <text name="CreateSpecialPlanType" value="新建专项计划名称" />
     <text name="EditSpecialPlanType" value="编辑专项计划名称" />
+    <text name="DeleteSpecialPlanType" value="删除专项计划名称" />
+    <text name="BatchDeleteSpecialPlanType" value="批量删除专项计划名称" />
+    
   
   //测绘计划任务书
-    <text name="TaskBook" value="测绘计划任务书" />
+    
     <text name="TaskBooks" value="任务书管理" />
-    <text name="CreateNewTaskBook" value="新建任务书" />
+    <text name="CreateTaskBook" value="新建任务书" />
     <text name="EditTaskBook" value="编辑任务书" />
+    <text name="DeleteTaskBook" value="删除任务书" />
+    <text name="BatchDeleteTaskBooks" value="批量删除任务书" />
+    
     
     <text name="SpecialPlanTypeId" value="专项规划类型ID" />
     <text name="specialPlanTypeName" value="专项规划类型名称" />
@@ -156,13 +179,15 @@
   
   
   //承担单位
-    <text name="UnitGroup" value="承担单位" />
+
     <text name="UnitGroups" value="承担单位列表" />
     <text name="UnitGroupName" value="承担单位名称" />   
     <text name="Contact" value="联系人" />
     <text name="ContactPhone" value="联系人电话" />
-    <text name="CreateNewUnitGroup" value="新建承担单位" />
-    <text name="EditNewUnitGroup" value="编辑承担单位" />
+    <text name="CreateUnitGroup" value="新建承担单位" />
+    <text name="EditUnitGroup" value="编辑承担单位" />
+    <text name="DeleteUnitGroup" value="删除承担单位" />
+    <text name="BatchDeleteUnitGroups" value="批量删除承担单位" />
 
   </texts>
 </localizationDictionary>

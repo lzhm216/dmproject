@@ -32,23 +32,25 @@ export class SpecialplansComponent extends PagedListingComponentBase<SpecialPlan
 
   constructor(
     injector: Injector,
-    private _planService:PlanServiceProxy,
+    private _planService: PlanServiceProxy,
     private _specialPlanService: SpecialPlanServiceProxy,
     private _specialPlanTypeService: SpecialPlanTypeServiceProxy,
     private _enumService: EnumServiceProxy
   ) {
     super(injector);
-   }
+  }
 
   ngOnInit() {
 
     this.plans = [];
     this.specialPlanTypes = [];
     this.unitTypes = null;
-
-    this._planService.getPlanList("", "", 100, 0).subscribe(result => {
-      this.plans = result;
-    });
+    this.years = [];
+    /* this._planService.getPlanList("", "", 30, 0).subscribe(result => {
+      result.forEach(element => {
+        this.years.push(element.planYear);
+      })
+    }); */
 
     this._specialPlanTypeService.getAllSpecialPlanType().subscribe(result => {
       this.specialPlanTypes = result.items;
@@ -59,9 +61,7 @@ export class SpecialplansComponent extends PagedListingComponentBase<SpecialPlan
     });
 
     this._specialPlanService.getSpecialPlanYears().subscribe(result => {
-      result.items.forEach(element => {
-        this.years.push(element.format('YYYY'));
-      });
+      this.years = result.items;
     });
 
     this.refresh();
@@ -125,5 +125,10 @@ export class SpecialplansComponent extends PagedListingComponentBase<SpecialPlan
     this.filterYear = "";
     this.filterUnitGroup = -1;
     this.filterSpecialPlanType = -1;
+  }
+
+  refreshbtn(): void{
+    this.reset();
+    this.refresh();
   }
 }

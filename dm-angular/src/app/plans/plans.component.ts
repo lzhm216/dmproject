@@ -20,7 +20,9 @@ export class PlansComponent extends PagedListingComponentBase<PlanListDto> {
 
   filter: string = '';
   plans: PlanListDto[] = [];
-  cost: any [] = [];
+  cost: any[] = [];
+  years: any[] = [];
+
   constructor(
     injector: Injector,
     private _planService: PlanServiceProxy,
@@ -30,8 +32,8 @@ export class PlansComponent extends PagedListingComponentBase<PlanListDto> {
 
   protected list(request: PagedRequestDto, pageNumber: number, finishedCallback: Function): void {
     this._planService.getPagedPlans(this.filter, 'Id', request.maxResultCount, request.skipCount).finally(() => {
-      
-      $('#line_chart').html(''); 
+
+      $('#line_chart').html('');
       ((window as any).Morris).Line({
         element: 'line_chart',
         data: this.cost,
@@ -43,13 +45,17 @@ export class PlansComponent extends PagedListingComponentBase<PlanListDto> {
 
       finishedCallback();
     }).subscribe((result: PagedResultDtoOfPlanListDto) => {
-     
+
       this.plans = result.items;
+
+      this.plans.forEach(element => {
+        this.years.push(element.planYear);
+      });
 
       this.cost = [];
 
       this.plans.forEach(plan => {
-        this.cost.push({year: plan.planYear, value: plan.fundBudget});
+        this.cost.push({ year: plan.planYear, value: plan.fundBudget });
       });
 
       this.showPaging(result, pageNumber);
@@ -81,5 +87,18 @@ export class PlansComponent extends PagedListingComponentBase<PlanListDto> {
 
   detailPlan(plan: PlanListDto): void {
     this.detailPlanModal.show(plan.id);
+  }
+
+  search(): void{
+    this.refresh();
+  }
+
+  reset(): void{
+    this.filter = '';
+  }
+
+  refreshbtn(): void{
+    this.reset();
+    this.refresh();
   }
 }

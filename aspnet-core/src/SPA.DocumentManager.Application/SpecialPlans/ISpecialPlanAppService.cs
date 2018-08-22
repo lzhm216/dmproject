@@ -32,7 +32,7 @@ namespace SPA.DocumentManager.SpecialPlans
         /// 获取任务书的年份
         /// </summary>
         /// <returns></returns>
-        ListResultDto<DateTime> GetSpecialPlanYears();
+        ListResultDto<string> GetSpecialPlanYears();
 
         /// <summary>
         /// 导出SpecialPlan为excel表

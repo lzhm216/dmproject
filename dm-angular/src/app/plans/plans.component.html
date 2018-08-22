@@ -2,43 +2,60 @@
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <div class="card main-content">
             <div class="header">
-                <h2>
-                    {{l('Plans')}}
-                </h2>
-                <ul class="header-dropdown m-r--5">
-                    <i class="fa fa-spin fa-spinner" *ngIf="isTableLoading"></i>
-                    <li class="dropdown">
-                        <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                            <i class="material-icons">more_vert</i>
-                        </a>
-                        <ul class="dropdown-menu pull-right">
-                            <li>
-                                <a href="javascript:void(0);" class=" waves-effect waves-block()" (click)="refresh();">
-                                    <i class="material-icons">refresh</i> {{l('Refresh')}}</a>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
+                <div class="row">
+
+                    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                        <h2> {{l('Plans')}}</h2>
+                    </div>
+
+                    <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                        <div class="btn-group btn-group-sm pull-right">
+                            <button type="button" class="btn btn-info btn-outline waves-effect waves-float" (click)="search();">
+                                <i class="material-icons">search</i> 搜索
+                            </button>
+                            <button type="button" class="btn btn-danger waves-effect waves-float" (click)="reset();">
+                                <i class="material-icons">cancel</i>重置
+                            </button>
+                            <button type="button" class="btn btn-primary waves-effect waves-float" (click)="createPlan();">
+                                <i class="material-icons">add</i>添加
+                            </button>
+
+                            <button type="button" class="btn btn-success waves-effect waves-float" (click)="refreshbtn();">
+                                <i class="material-icons">refresh</i>刷新
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
             </div>
             <div class="body">
-                <div class="row clearfix" style="padding-left: 15px;">
-                    <div class="btn-group">
-                        <button type="button" data-toggle="modal" class="btn btn-outline btn-primary" (click)="createPlan()">
-                            <i class="fa fa-plus"></i>
-                            添加测绘计划
-                        </button>
+                <div class="card">
+                    <div class="card-body">
+
+                        <div class="row">
+
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="margin-bottom: 0px;">
+                                <div class="input-group p-l-10 p-t-10">
+                                    <div class="form-line">
+                                        <input type="text" [(ngModel)]="filter" class="form-control" id="filterText" placeholder="输入关键词进行搜索...">
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
                     </div>
                 </div>
+
                 <div class="table-responsive" style="padding-top: 10px;">
                     <table class="table table-hover table-striped table-bordered">
                         <thead>
                             <tr>
                                 <th>{{l('PlanName')}}</th>
-                                <th>{{l('PlanYear')}}</th>
-                                <th>{{l('FileNo')}}</th>
-                                <th>{{l('PublishDate')}}</th>
-                                <th>{{l('FundBudget')}}</th>
-                                <th>{{l('Actions')}}</th>
+                                <th style="width: 80px;">{{l('PlanYear')}}</th>
+                                <th style="width: 160px;">{{l('FileNo')}}</th>
+                                <th style="width: 100px;">{{l('PublishDate')}}</th>
+                                <th style="width: 110px;">{{l('FundBudget')}}</th>
+                                <th style="width: 250px;">{{l('Actions')}}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -46,7 +63,7 @@
                                 <td>{{plan.planName}}</td>
                                 <td>{{plan.planYear}}</td>
                                 <td>{{plan.fileNo}}</td>
-                                <td>{{plan.publishDate}}</td>
+                                <td>{{plan.publishDate.format('YYYY-MM-DD')}}</td>
                                 <td>{{plan.fundBudget}} 万元</td>
                                 <td style="text-align: center;">
                                     <div class="btn-group">

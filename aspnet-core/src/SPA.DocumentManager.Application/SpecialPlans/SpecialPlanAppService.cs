@@ -86,10 +86,10 @@ namespace SPA.DocumentManager.SpecialPlans
             return entity.MapTo<SpecialPlanListDto>();
         }
 
-        public ListResultDto<DateTime> GetSpecialPlanYears()
+        public ListResultDto<string> GetSpecialPlanYears()
         {
-            var years = _specialplanRepository.GetAll().Select(t => t.Year).Distinct();
-            return new ListResultDto<DateTime>(years.ToList().AsReadOnly());
+            var years = _specialplanRepository.GetAll().Select(t => t.Year.Year.ToString()).Distinct();
+            return new ListResultDto<string>(years.ToList().AsReadOnly());
         }
 
         /// <summary>

@@ -13,7 +13,7 @@ import * as moment from 'moment';
 export class CreateSpecialplanComponent extends AppComponentBase implements OnInit {
 
 
-  @ViewChild('addTaskBookModal') modal: ModalDirective;
+  @ViewChild('addSpecialPlanModal') modal: ModalDirective;
   @ViewChild('modalContent') modalContent: ElementRef;
 
   @Output() modalSave: EventEmitter<any> = new EventEmitter<any>();
@@ -44,7 +44,7 @@ export class CreateSpecialplanComponent extends AppComponentBase implements OnIn
     this.specialPlanTypes = [];
     this.unitTypes = null;
     
-    this._planService.getPlanList("", "", 100, 0).subscribe(result => {
+    this._planService.getPlanList("", "Id", 20, 0).subscribe(result => {
       this.plans = result;
     });
 
@@ -77,7 +77,8 @@ export class CreateSpecialplanComponent extends AppComponentBase implements OnIn
     this.saving = true;
     var localOffset  = new Date().getTimezoneOffset() * 60000;
 
-   
+    this.specialplan.year = this.specialplan.year ? moment(this.specialplan.year.toString()).subtract('milliseconds', localOffset) : <any>undefined;
+
     this.specialplan.completeDate = this.specialplan.completeDate ? moment(this.specialplan.completeDate.toString()).subtract('milliseconds', localOffset) : <any>undefined;
 
     this.specialplan_create.specialPlan = this.specialplan;

@@ -8,7 +8,6 @@ import { CreateSpecialplantypeComponent } from '@app/specialplantypes/create-spe
 @Component({
   selector: 'app-specialplantypes',
   templateUrl: './specialplantypes.component.html',
-  styleUrls: ['./specialplantypes.component.css'],
   animations: [appModuleAnimation()]
 })
 export class SpecialplantypesComponent extends PagedListingComponentBase<SpecialPlanTypeListDto> {

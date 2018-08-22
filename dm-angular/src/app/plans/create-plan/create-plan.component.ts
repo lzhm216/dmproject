@@ -52,18 +52,19 @@ export class CreatePlanComponent extends AppComponentBase implements OnInit {
 
   save(): void {
     this.saving = true;
-    this.plan.publishDate = moment(this.plan.publishDate.toString());
+    this.plan.publishDate = this.plan.publishDate ? moment(this.plan.publishDate.toString()) : <any>undefined;
     this.plan_create.plan = this.plan;
-    this._planService.createOrUpdatePlan(this.plan_create).finally(() => {
-      this.saving = false;
-    }).subscribe((result) => {    
-      const fileUpload = document.getElementById('attachment') as HTMLInputElement;
-      this._attachmentService.upload(result.id, fileUpload.files[0]).subscribe((result2) => {
-        this.notify.info(this.l('SavedSuccessfully'));
-        this.close();
-        this.modalSave.emit(null);
-      });
 
+    this._planService.createOrUpdatePlan(this.plan_create).subscribe((result) => {
+      const fileUpload = document.getElementById('attachment') as HTMLInputElement;
+      if (fileUpload.files[0]) {
+        this._attachmentService.upload(result.id, fileUpload.files[0]).subscribe((result2) => {
+        });
+      }
+
+      this.notify.info(this.l('SavedSuccessfully'));
+      this.close();
+      this.modalSave.emit(null);
     })
   }
 }

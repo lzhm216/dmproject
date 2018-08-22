@@ -1,114 +1,113 @@
-<div bsModal #editPlanModal="bs-modal" class="modal fade" (onShown)="onShown()" tabindex="-1" role="dialog" aria-labelledby="editPlanModal"
-  aria-hidden="true" [config]="{backdrop: 'static'}">
-  <div class="modal-dialog">
-    <div #modalContent class="modal-content">
-      <form *ngIf="active" #editPlanForm="ngForm" id="frm_edit_plan" novalidate (ngSubmit)="save()">
-        <div class="modal-header">
-          <button type="button" class="close" (click)="close()" aria-label="Close">
+<div bsModal #editPlanModal="bs-modal" class="modal fade" (onShown)="onShown()" tabindex="-1" role="dialog" aria-labelledby="editPlanModal" aria-hidden="true" [config]="{backdrop: 'static'}">
+    <div class="modal-dialog">
+        <div #modalContent class="modal-content">
+            <form *ngIf="active" #editPlanForm="ngForm" id="frm_edit_plan" novalidate (ngSubmit)="save()">
+                <div class="modal-header">
+                    <button type="button" class="close" (click)="close()" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
-          <h4 class="modal-title">
-            <span>{{l("EditNewPlan")}}</span>
-          </h4>
-        </div>
-        <div class="modal-body">
-          <div class="row clearfix" style="margin-top:10px;">
-            <div class="col-sm-12">
-              <div class="form-group form-float">
-                <div class="form-line">
-                  <label for="planName" class="form-label">{{l("PlanName")}}</label>
-                  <input type="text" id="planName" name="PlanName" [(ngModel)]="plan.planName" required class="validate form-control" />
+                    <h4 class="modal-title">
+                        <span>{{l("EditPlan")}}</span>
+                    </h4>
                 </div>
-              </div>
-            </div>
-          </div>
-          <div class="row clearfix" style="margin-top:10px;">
-            <div class="col-sm-12">
-              <div class="form-group form-float">
-                <div class="form-line">
-                  <label for="planYear" class="form-label">{{l("PlanYear")}}</label>
-                  <input type="text" id="planYear" name="PlanYear" [(ngModel)]="plan.planYear" required class="validate form-control">
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="row clearfix" style="margin-top:10px;">
-            <div class="col-sm-12">
-              <div class="form-group form-float">
-                <div class="form-line">
-                  <label for="fileNo" class="form-label">{{l("FileNo")}}</label>
-                  <input type="text" id="fileNo" name="FileNo" [(ngModel)]="plan.fileNo" required class="validate form-control">
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="row clearfix" style="margin-top:10px;">
-            <div class="col-sm-12">
-              <div class="form-group form-float">
-                <div class="form-line">
-                  <label for="publishDate" class="form-label">{{l("PublishDate")}}</label>
-                  <input type="text" id="publishDate" name="PublishDate" [(ngModel)]="plan.publishDate" required class="validate form-control">
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="row clearfix" style="margin-top:10px;">
-            <div class="col-sm-12">
-              <div class="form-group form-float">
-                <div class="form-line">
-                  <label for="compilationBasis" class="form-label">{{l("CompilationBasis")}}</label>
-                  <input type="text" id="compilationBasis" name="CompilationBasis" [(ngModel)]="plan.compilationBasis" class="validate form-control">
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="row clearfix" style="margin-top:10px;">
-            <div class="col-sm-12">
-              <div class="form-group form-float">
-                <div class="form-line">
-                  <label for="mainContent" class="form-label">{{l("MainContent")}}</label>
-                  <input type="text" id="mainContent" name="MainContent" [(ngModel)]="plan.mainContent" class="validate form-control">
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="row clearfix" style="margin-top:10px;">
-            <div class="col-sm-12">
-              <div class="form-group form-float">
-                <div class="form-line">
-                  <label for="fundBudget" class="form-label">{{l("FundBudget")}}</label>
-                  <input type="text" id="fundBudget" name="FundBudget" [(ngModel)]="plan.fundBudget" required class="validate form-control">
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="row clearfix" style="margin-top:10px;">
-            <div class="col-sm-12">
-              <div class="form-group form-float">
-                <div class="form-line">
-                  <label for="financialSource" class="form-label">{{l("FinancialSource")}}</label>
-                  <input type="text" id="financialSource" name="FinancialSource" [(ngModel)]="plan.financialSource" class="validate form-control">
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="row clearfix" style="margin-top:10px;">
-            <div class="col-sm-12">
-              <div class="form-group form-float">
-                <div class="input-group">
-                  <div class="form-line">
-                      <input id="file" type="file" name="file" class="form-control">
-                  </div>
+                <div class="modal-body">
+                    <div class="row clearfix" style="margin-top:10px;">
+                        <div class="col-sm-12">
+                            <div class="form-group form-float">
+                                <div class="form-line">
+                                    <label for="planName" class="form-label">{{l("PlanName")}}</label>
+                                    <input type="text" id="planName" name="PlanName" [(ngModel)]="plan.planName" required class="validate form-control" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row clearfix" style="margin-top:10px;">
+                        <div class="col-sm-12">
+                            <div class="form-group form-float">
+                                <div class="form-line">
+                                    <label for="planYear" class="form-label">{{l("PlanYear")}}</label>
+                                    <input type="text" id="planYear" name="PlanYear" [(ngModel)]="plan.planYear" required class="validate form-control">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row clearfix" style="margin-top:10px;">
+                        <div class="col-sm-12">
+                            <div class="form-group form-float">
+                                <div class="form-line">
+                                    <label for="fileNo" class="form-label">{{l("FileNo")}}</label>
+                                    <input type="text" id="fileNo" name="FileNo" [(ngModel)]="plan.fileNo" required class="validate form-control">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row clearfix" style="margin-top:10px;">
+                        <div class="col-sm-12">
+                            <div class="form-group form-float">
+                                <div class="form-line">
+                                    <label for="publishDate" class="form-label">{{l("PublishDate")}}</label>
+                                    <input type="text" id="publishDate" name="PublishDate" [(ngModel)]="publishDate" required class="validate form-control">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row clearfix" style="margin-top:10px;">
+                        <div class="col-sm-12">
+                            <div class="form-group form-float">
+                                <div class="form-line">
+                                    <label for="compilationBasis" class="form-label">{{l("CompilationBasis")}}</label>
+                                    <input type="text" id="compilationBasis" name="CompilationBasis" [(ngModel)]="plan.compilationBasis" class="validate form-control">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row clearfix" style="margin-top:10px;">
+                        <div class="col-sm-12">
+                            <div class="form-group form-float">
+                                <div class="form-line">
+                                    <label for="mainContent" class="form-label">{{l("MainContent")}}</label>
+                                    <input type="text" id="mainContent" name="MainContent" [(ngModel)]="plan.mainContent" class="validate form-control">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row clearfix" style="margin-top:10px;">
+                        <div class="col-sm-12">
+                            <div class="form-group form-float">
+                                <div class="form-line">
+                                    <label for="fundBudget" class="form-label">{{l("FundBudget")}}</label>
+                                    <input type="text" id="fundBudget" name="FundBudget" [(ngModel)]="plan.fundBudget" required class="validate form-control">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row clearfix" style="margin-top:10px;">
+                        <div class="col-sm-12">
+                            <div class="form-group form-float">
+                                <div class="form-line">
+                                    <label for="financialSource" class="form-label">{{l("FinancialSource")}}</label>
+                                    <input type="text" id="financialSource" name="FinancialSource" [(ngModel)]="plan.financialSource" class="validate form-control">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row clearfix" style="margin-top:10px;">
+                        <div class="col-sm-12">
+                            <div class="form-group form-float">
+                                <div class="input-group">
+                                    <div class="form-line">
+                                        <input id="file" type="file" name="file" class="form-control">
+                                    </div>
 
-                  <span class="input-group-addon">
+                                    <span class="input-group-addon">
                     <i class="material-icons" (click)="uploadattachment()">file_upload </i>
                   </span>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-sm-12">
-            <!-- <div class="list-group" *ngFor="let attachment of attachments | paginate: { id: 'server', itemsPerPage: pageSize, currentPage: pageNumber, totalItems: totalItems }">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <!-- <div class="list-group" *ngFor="let attachment of attachments | paginate: { id: 'server', itemsPerPage: pageSize, currentPage: pageNumber, totalItems: totalItems }">
               <div class="form-line">
                 <span>
                   {{attachment.fileName}}
@@ -118,19 +117,19 @@
                 </button>
               </div>
             </div> -->
-            <app-plan-attachment #attachment [attachments] = "attachments">
-            </app-plan-attachment>
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button [disabled]="saving" type="button" class="btn btn-default waves-effect" (click)="close()">
+                        <app-plan-attachment #attachment [attachments]="attachments">
+                        </app-plan-attachment>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button [disabled]="saving" type="button" class="btn btn-default waves-effect" (click)="close()">
             {{l("Cancel")}}
           </button>
-          <button [disabled]="!editPlanForm.form.valid || saving" type="submit" class="btn btn-primary waves-effect">
+                    <button [disabled]="!editPlanForm.form.valid || saving" type="submit" class="btn btn-primary waves-effect">
             {{l("Save")}}
           </button>
+                </div>
+            </form>
         </div>
-      </form>
     </div>
-  </div>
 </div>

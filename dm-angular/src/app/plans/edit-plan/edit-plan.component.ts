@@ -15,7 +15,7 @@ export class EditPlanComponent extends AppComponentBase implements OnInit {
 
   @ViewChild('editPlanModal') modal: ModalDirective;
   @ViewChild('modalContent') modalContent: ElementRef;
-  @ViewChild('attachment')  attachmentChild: PlanAttachmentComponent;
+  @ViewChild('attachment') attachmentChild: PlanAttachmentComponent;
 
   @Output() modalSave: EventEmitter<any> = new EventEmitter<any>();
 
@@ -24,6 +24,9 @@ export class EditPlanComponent extends AppComponentBase implements OnInit {
   attachments: AttachmentListDto[] = [];
   active: boolean = false;
   saving: boolean = false;
+
+  publishDate: any = null;
+
   constructor(
     injector: Injector,
     private _planService: PlanServiceProxy,
@@ -45,12 +48,14 @@ export class EditPlanComponent extends AppComponentBase implements OnInit {
 
     }).subscribe((result) => {
       if (result != null) {
+
         this._attachmentService.getPagedAttachmentsByPlanId("", result.id, "Id", 20, 0).subscribe(result1 => {
           this.attachments = result1.items;
-          this.plan = result;
-          this.active = true;
-          this.modal.show();
-        })
+        });
+        this.plan = result;
+        this.publishDate = this.plan.publishDate.format('YYYY-MM-DD');
+        this.active = true;
+        this.modal.show();
       }
     })
   }
@@ -62,7 +67,10 @@ export class EditPlanComponent extends AppComponentBase implements OnInit {
 
   save(): void {
     this.saving = true;
-    this.plan.publishDate = moment(this.plan.publishDate.toString());
+    var localOffset  = new Date().getTimezoneOffset() * 60000;
+    
+    this.plan.publishDate =this.publishDate ?  moment(this.publishDate.toString()).subtract('milliseconds', localOffset) : <any>undefined;
+
     this.plan_edit.plan = this.plan;
     this._planService.createOrUpdatePlan(this.plan_edit).finally(() => {
       this.saving = false;
@@ -74,15 +82,15 @@ export class EditPlanComponent extends AppComponentBase implements OnInit {
   }
 
   deleteattachment(entity: AttachmentListDto): void {
-    
+
   }
 
-  uploadattachment():void {
+  uploadattachment(): void {
     const fileUpload = document.getElementById('file') as HTMLInputElement;
     this._attachmentService.upload(this.plan.id, fileUpload.files[0]).finally(() => {
-      
+
       // this.attachmentChild.refresh();
-      
+
     }).subscribe((result2) => {
 
       this.attachments.push(result2);

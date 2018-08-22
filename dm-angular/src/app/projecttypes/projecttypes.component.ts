@@ -1,6 +1,5 @@
 import { Component, OnInit, Injector, ViewChild } from '@angular/core';
 import { PlanProjectTypeServiceProxy, PlanProjectTypeListDto, PlanProjectTypeEditDto } from '@shared/service-proxies/service-proxies';
-import { AppComponentBase } from '@shared/app-component-base';
 import { PagedListingComponentBase, PagedRequestDto } from '@shared/paged-listing-component-base';
 import { CreateProjecttypeComponent } from '@app/projecttypes/create-projecttype/create-projecttype.component';
 import { EditProjecttypeComponent } from '@app/projecttypes/edit-projecttype/edit-projecttype.component';
@@ -11,7 +10,7 @@ import { appModuleAnimation } from '@shared/animations/routerTransition';
   templateUrl: './projecttypes.component.html',
   animations: [appModuleAnimation()]
 })
-export class ProjecttypesComponent extends PagedListingComponentBase<PlanProjectTypeListDto> implements OnInit {
+export class ProjecttypesComponent extends PagedListingComponentBase<PlanProjectTypeListDto> {
 
   @ViewChild('createProjectTypeModal') createProjectTypeModal: CreateProjecttypeComponent;
   @ViewChild('editProjectTypeModal') editProjectTypeModal: EditProjecttypeComponent;
@@ -26,8 +25,6 @@ export class ProjecttypesComponent extends PagedListingComponentBase<PlanProject
     super(injector);
   }
 
-  ngOnInit() {
-  }
 
 
   protected list(request: PagedRequestDto, pageNumber: number, finishedCallback: Function): void {

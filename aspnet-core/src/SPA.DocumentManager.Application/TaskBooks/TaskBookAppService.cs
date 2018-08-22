@@ -84,10 +84,10 @@ namespace SPA.DocumentManager.TaskBooks
                 );
         }
 
-        public ListResultDto<DateTime> GetTaskBookYears()
+        public ListResultDto<string> GetTaskBookYears()
         {
-            var years = _taskbookRepository.GetAll().Select(t => t.Year).Distinct();
-            return new ListResultDto<DateTime>(years.ToList().AsReadOnly());
+            var years = _taskbookRepository.GetAll().Select(t => t.Year.Year.ToString()).Distinct();
+            return new ListResultDto<string>(years.ToList().AsReadOnly());
         }
 
         /// <summary>

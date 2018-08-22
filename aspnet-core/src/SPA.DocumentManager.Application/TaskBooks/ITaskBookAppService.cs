@@ -24,7 +24,7 @@ namespace SPA.DocumentManager.TaskBooks
         /// 获取任务书的年份
         /// </summary>
         /// <returns></returns>
-        ListResultDto<DateTime> GetTaskBookYears();
+        ListResultDto<string> GetTaskBookYears();
 
         /// <summary>
         /// 通过指定id获取TaskBookListDto信息

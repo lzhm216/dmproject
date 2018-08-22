@@ -6,8 +6,8 @@
             <form *ngIf="active" #editSpecialPlanForm="ngForm" id="frm_edit_specialplan" novalidate (ngSubmit)="save()">
                 <div class="modal-header">
                     <button type="button" class="close" (click)="close()" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                     <h4 class="modal-title">
                         <span>{{l("EditSpecialPlan")}}</span>
                     </h4>
@@ -17,10 +17,32 @@
                         <div class="col-sm-12">
                             <div class="form-group form-float">
                                 <div class="form-line">
+                                    <select id="planId" name="PlanId" [(ngModel)]="specialplan.planId" class="form-control">
+                                        <option *ngFor="let plan of plans" [value]=plan.id>{{plan.planName}}</option>
+                                    </select>
+                                    <label for="planId" class="form-label">{{l("PlanName")}}</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row clearfix" style="margin-top:10px;">
+                        <div class="col-sm-12">
+                            <div class="form-group form-float">
+                                <div class="form-line">
                                     <select id="specialPlanTypeId" name="SpecialPlanTypeId" [(ngModel)]="specialplan.specialPlanTypeId" class="form-control">
-                                    <option *ngFor="let specialPlanType of specialPlanTypes" [value]=specialPlanType.id>{{specialPlanType.specialPlanTypeName}}</option>
-                                  </select>
+                                        <option *ngFor="let specialPlanType of specialPlanTypes" [value]=specialPlanType.id>{{specialPlanType.specialPlanTypeName}}</option>
+                                    </select>
                                     <label for="specialPlanTypeId" class="form-label">{{l("SpecialPlanTypeName")}}</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row clearfix" style="margin-top:10px;">
+                        <div class="col-sm-12">
+                            <div class="form-group form-float">
+                                <div class="form-line">
+                                    <input id="mainContent" type="text" name="MainContent" [(ngModel)]="specialplan.mainContent" required class="validate form-control">
+                                    <label for="mainContent" class="form-label">{{l("MainContent")}}</label>
                                 </div>
                             </div>
                         </div>
@@ -40,8 +62,8 @@
                             <div class="form-group form-float">
                                 <div class="form-line">
                                     <select id="unitType" name="UnitType" [(ngModel)]="specialplan.unit" class="form-control">
-                                  <option *ngFor="let unitType of unitTypes" [value]=unitType.value>{{unitType.key}}</option>
-                                </select>
+                                        <option *ngFor="let unitType of unitTypes" [value]=unitType.value>{{unitType.key}}</option>
+                                    </select>
                                     <label for="unitType" class="form-label">{{l("UnitType")}}</label>
                                 </div>
                             </div>
@@ -61,7 +83,17 @@
                         <div class="col-sm-12">
                             <div class="form-group form-float">
                                 <div class="form-line">
-                                    <input id="completeDate" type="text" name="CompleteDate" [(ngModel)]="specialplan.fucompleteDatends" required class="validate form-control">
+                                    <input id="year" type="text" name="Year" [(ngModel)]="year" required class="validate form-control">
+                                    <label for="year" class="form-label">{{l("Year")}}</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row clearfix" style="margin-top:10px;">
+                        <div class="col-sm-12">
+                            <div class="form-group form-float">
+                                <div class="form-line">
+                                    <input id="completeDate" type="date" name="CompleteDate" [(ngModel)]="completeDate" required class="validate form-control date">
                                     <label for="completeDate" class="form-label">{{l("CompleteDate")}} </label>
                                 </div>
                             </div>
@@ -80,11 +112,11 @@
                 </div>
                 <div class="modal-footer">
                     <button [disabled]="saving" type="button" class="btn btn-default waves-effect" (click)="close()">
-            {{l("Cancel")}}
-          </button>
+                        {{l("Cancel")}}
+                    </button>
                     <button [disabled]="!editSpecialPlanForm.form.valid || saving" type="submit" class="btn btn-primary waves-effect">
-            {{l("Save")}}
-          </button>
+                        {{l("Save")}}
+                    </button>
                 </div>
 
             </form>

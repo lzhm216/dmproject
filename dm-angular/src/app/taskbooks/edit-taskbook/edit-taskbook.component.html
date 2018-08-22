@@ -1,134 +1,133 @@
-<div bsModal #editTaskBookModal="bs-modal" class="modal fade" (onShown)="onShown()" tabindex="-1" role="dialog" aria-labelledby="editTaskBookModal"
-  aria-hidden="true" [config]="{backdrop: 'static'}">
-  <div class="modal-dialog">
+<div bsModal #editTaskBookModal="bs-modal" class="modal fade" (onShown)="onShown()" tabindex="-1" role="dialog" aria-labelledby="editTaskBookModal" aria-hidden="true" [config]="{backdrop: 'static'}">
+    <div class="modal-dialog">
 
-    <div #modalContent class="modal-content">
+        <div #modalContent class="modal-content">
 
-      <form *ngIf="active" #editTaskBookForm="ngForm" id="frm_edit_taskbook" novalidate (ngSubmit)="save()">
-        <div class="modal-header">
-          <button type="button" class="close" (click)="close()" aria-label="Close">
+            <form *ngIf="active" #editTaskBookForm="ngForm" id="frm_edit_taskbook" novalidate (ngSubmit)="save()">
+                <div class="modal-header">
+                    <button type="button" class="close" (click)="close()" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
-          <h4 class="modal-title">
-            <span>{{l("EditTaskBook")}}</span>
-          </h4>
-        </div>
-        <div class="modal-body">
-          <div class="row clearfix" style="margin-top:10px;">
-            <div class="col-sm-12">
-              <div class="form-group form-float">
-                <div class="form-line">
-                  <select id="specialPlanTypeId" name="SpecialPlanTypeId" [(ngModel)]="taskbook.specialPlanTypeId" class="form-control">
+                    <h4 class="modal-title">
+                        <span>{{l("EditTaskBook")}}</span>
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row clearfix" style="margin-top:10px;">
+                        <div class="col-sm-12">
+                            <div class="form-group form-float">
+                                <div class="form-line">
+                                    <select id="specialPlanTypeId" name="SpecialPlanTypeId" [(ngModel)]="taskbook.specialPlanTypeId" class="form-control">
                     <option *ngFor="let specialPlanType of specialPlanTypes" [value]=specialPlanType.id>{{specialPlanType.specialPlanTypeName}}</option>
                   </select>
-                  <label for="specialPlanTypeId" class="form-label">{{l("specialPlanTypeName")}}</label>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="row clearfix" style="margin-top:10px;">
-            <div class="col-sm-12">
-              <div class="form-group form-float">
-                <div class="form-line">
-                  <input id="taskBookNo" type="text" name="TaskBookNo" [(ngModel)]="taskbook.taskBookNo" required class="validate form-control">
-                  <label for="taskBookNo" class="form-label">{{l("TaskBookNo")}}</label>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="row clearfix" style="margin-top:10px;">
-            <div class="col-sm-12">
-              <div class="form-group form-float">
-                <div class="form-line">
-                  <input id="taskName" type="text" name="TaskName" [(ngModel)]="taskbook.taskName" required class="validate form-control">
-                  <label for="taskName" class="form-label">{{l("TaskName")}}</label>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="row clearfix" style="margin-top:10px;">
-            <div class="col-sm-12">
-              <div class="form-group form-float">
-                <div class="form-line">
-                  <input id="taskContent" type="text" name="TaskContent" [(ngModel)]="taskbook.taskContent" class="validate form-control">
-                  <label for="taskContent" class="form-label">{{l("TaskContent")}}</label>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="row clearfix" style="margin-top:10px;">
-            <div class="col-sm-12">
-              <div class="form-group form-float">
-                <div class="form-line">
-                  <input id="funds" type="text" name="Funds" [(ngModel)]="taskbook.funds" required class="validate form-control">
-                  <label for="funds" class="form-label">{{l("Funds")}} 单位:"万元"</label>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="row clearfix" style="margin-top:10px;">
-            <div class="col-sm-12">
-              <div class="form-group form-float">
-                <div class="form-line">
-                  <input id="year" type="date" name="Year" [(ngModel)]="taskbook.year"  required class="validate form-control">
-                  <label for="year" class="form-label">{{l("Year")}}</label>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="row clearfix" style="margin-top:10px;">
-            <div class="col-sm-12">
-              <div class="form-group form-float">
-                <div class="form-line">
-                  <select id="unitGroupId" name="UnitGroupId" [(ngModel)]="taskbook.undertakingUnitGroupId" class="form-control">
+                                    <label for="specialPlanTypeId" class="form-label">{{l("specialPlanTypeName")}}</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row clearfix" style="margin-top:10px;">
+                        <div class="col-sm-12">
+                            <div class="form-group form-float">
+                                <div class="form-line">
+                                    <input id="taskBookNo" type="text" name="TaskBookNo" [(ngModel)]="taskbook.taskBookNo" required class="validate form-control">
+                                    <label for="taskBookNo" class="form-label">{{l("TaskBookNo")}}</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row clearfix" style="margin-top:10px;">
+                        <div class="col-sm-12">
+                            <div class="form-group form-float">
+                                <div class="form-line">
+                                    <input id="taskName" type="text" name="TaskName" [(ngModel)]="taskbook.taskName" required class="validate form-control">
+                                    <label for="taskName" class="form-label">{{l("TaskName")}}</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row clearfix" style="margin-top:10px;">
+                        <div class="col-sm-12">
+                            <div class="form-group form-float">
+                                <div class="form-line">
+                                    <input id="taskContent" type="text" name="TaskContent" [(ngModel)]="taskbook.taskContent" class="validate form-control">
+                                    <label for="taskContent" class="form-label">{{l("TaskContent")}}</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row clearfix" style="margin-top:10px;">
+                        <div class="col-sm-12">
+                            <div class="form-group form-float">
+                                <div class="form-line">
+                                    <input id="funds" type="text" name="Funds" [(ngModel)]="taskbook.funds" required class="validate form-control">
+                                    <label for="funds" class="form-label">{{l("Funds")}} 单位:"万元"</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row clearfix" style="margin-top:10px;">
+                        <div class="col-sm-12">
+                            <div class="form-group form-float">
+                                <div class="form-line">
+                                    <input id="year" type="date" name="Year" [(ngModel)]="taskbook.year" required class="validate form-control">
+                                    <label for="year" class="form-label">{{l("Year")}}</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row clearfix" style="margin-top:10px;">
+                        <div class="col-sm-12">
+                            <div class="form-group form-float">
+                                <div class="form-line">
+                                    <select id="unitGroupId" name="UnitGroupId" [(ngModel)]="taskbook.undertakingUnitGroupId" class="form-control">
                     <option *ngFor="let unitGroup of unitGroups" [value]=unitGroup.id>{{unitGroup.unitGroupName}}</option>
                   </select>
-                  <label for="unitGroupId" class="form-label">{{l("UnitGroupName")}}</label>
+                                    <label for="unitGroupId" class="form-label">{{l("UnitGroupName")}}</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row clearfix" style="margin-top:10px;">
+                        <div class="col-sm-12">
+                            <div class="form-group form-float">
+                                <div class="form-line">
+                                    <input id="signDate" type="date" name="SignDate" [value]="taskbook.signDate | date:'YYYY-MM-DD'" class="validate form-control">
+                                    <label for="signDate" class="form-label">{{l("SignDate")}}</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row clearfix" style="margin-top:10px;">
+                        <div class="col-sm-12">
+                            <div class="form-group form-float">
+                                <div class="form-line">
+                                    <input id="completeDate" type="date" name="CompleteDate" [(ngModel)]="taskbook.completeDate" class="validate form-control">
+                                    <label for="completeDate" class="form-label">{{l("CompleteDate")}}</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row clearfix" style="margin-top:10px;">
+                        <div class="col-sm-12">
+                            <div class="form-group form-float">
+                                <div class="form-line">
+                                    <input id="description" type="text" name="Description" [(ngModel)]="taskbook.description" class="validate form-control">
+                                    <label for="description" class="form-label">{{l("Description")}}</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-              </div>
-            </div>
-          </div>
-          <div class="row clearfix" style="margin-top:10px;">
-            <div class="col-sm-12">
-              <div class="form-group form-float">
-                <div class="form-line">
-                  <input id="signDate" type="date" name="SignDate" [value]="taskbook.signDate | date:'YYYY-MM-DD'"  class="validate form-control">
-                  <label for="signDate" class="form-label">{{l("SignDate")}}</label>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="row clearfix" style="margin-top:10px;">
-            <div class="col-sm-12">
-              <div class="form-group form-float">
-                <div class="form-line">
-                  <input id="completeDate" type="date" name="CompleteDate" [(ngModel)]="taskbook.completeDate" class="validate form-control">
-                  <label for="completeDate" class="form-label">{{l("CompleteDate")}}</label>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="row clearfix" style="margin-top:10px;">
-            <div class="col-sm-12">
-              <div class="form-group form-float">
-                <div class="form-line">
-                  <input id="description" type="text" name="Description" [(ngModel)]="taskbook.description" class="validate form-control">
-                  <label for="description" class="form-label">{{l("Description")}}</label>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button [disabled]="saving" type="button" class="btn btn-default waves-effect" (click)="close()">
+                <div class="modal-footer">
+                    <button [disabled]="saving" type="button" class="btn btn-default waves-effect" (click)="close()">
             {{l("Cancel")}}
           </button>
-          <button [disabled]="!editTaskBookForm.form.valid || saving" type="submit" class="btn btn-primary waves-effect">
+                    <button [disabled]="!editTaskBookForm.form.valid || saving" type="submit" class="btn btn-primary waves-effect">
             {{l("Save")}}
           </button>
-        </div>
+                </div>
 
-      </form>
+            </form>
+        </div>
     </div>
-  </div>
 </div>
