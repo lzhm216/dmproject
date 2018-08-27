@@ -86,10 +86,58 @@ namespace SPA.DocumentManager.SpecialPlans
             return entity.MapTo<SpecialPlanListDto>();
         }
 
-        public ListResultDto<string> GetSpecialPlanYears()
+        public async Task<int> GetSpecialPlansCount(GetSpecialPlanCountInput input)
+        {
+
+            var query = _specialplanRepository.GetAll().Include(t => t.SpecialPlanType).Include(t => t.Plan)
+                .WhereIf(!string.IsNullOrEmpty(input.Filter), t => t.MainContent.Contains(input.Filter));
+
+            query = query.WhereIf(input.FilterSpecialPlanTypeId > 0, t => t.SpecialPlanTypeId == input.FilterSpecialPlanTypeId);
+
+            query = query.WhereIf(!string.IsNullOrEmpty(input.FilterYear), t => t.Plan.PlanYear.Equals(input.FilterYear));
+
+            var specialplanCount = await query.CountAsync();
+
+            return specialplanCount;
+        }
+
+            public ListResultDto<string> GetSpecialPlanYears()
         {
             var years = _specialplanRepository.GetAll().Select(t => t.Year.Year.ToString()).Distinct();
             return new ListResultDto<string>(years.ToList().AsReadOnly());
+        }
+
+        public async Task<ListResultDto<SpecialPlanCostStatistic>> GetStatisticCost()
+        {
+            var query = await _specialplanRepository.GetAll().Include(t => t.Plan).Include(t => t.SpecialPlanType)
+                .OrderBy(t => t.Plan.PlanYear)
+                .GroupBy(t => t.Plan.PlanYear).ToListAsync();
+
+            List<SpecialPlanCostStatistic> listResultDto = new List<SpecialPlanCostStatistic>();
+            SpecialPlanCostStatistic specialPlanCostStatistic = null;
+            IGrouping<string, SpecialPlan> groups = null;
+            for (int j = 0; j < query.Count; j++)
+            {
+                groups = query[j];
+                specialPlanCostStatistic = new SpecialPlanCostStatistic();
+                specialPlanCostStatistic.Year = groups.Key;
+                specialPlanCostStatistic.TotalCost = groups.Sum(t => t.PlannedCost);
+
+                var list = groups.ToList().GroupBy(t => t.SpecialPlanTypeId).Select(pp => new SpecialPlanAndCost
+                {
+                    SpecialPlanTypeId = pp.First().SpecialPlanTypeId,
+                    SpecialPlanTypeName = pp.First().SpecialPlanType.SpecialPlanTypeName,
+                    TotalCost = pp.Sum(p => p.PlannedCost),
+                    Count = pp.Count(),
+                    Percent = pp.Sum(p => p.PlannedCost) / specialPlanCostStatistic.TotalCost
+                }).ToList();
+
+                specialPlanCostStatistic.items = list;
+
+                listResultDto.Add(specialPlanCostStatistic);
+            }
+
+            return new ListResultDto<SpecialPlanCostStatistic>(listResultDto);
         }
 
         /// <summary>

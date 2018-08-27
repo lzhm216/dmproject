@@ -1071,6 +1071,61 @@ export class PlanServiceProxy {
     }
 
     /**
+     * @filter (optional) 
+     * @return Success
+     */
+    getPlansCount(filter: string | null | undefined): Observable<number> {
+        let url_ = this.baseUrl + "/api/services/app/Plan/GetPlansCount?";
+        if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).flatMap((response_ : any) => {
+            return this.processGetPlansCount(response_);
+        }).catch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetPlansCount(<any>response_);
+                } catch (e) {
+                    return <Observable<number>><any>Observable.throw(e);
+                }
+            } else
+                return <Observable<number>><any>Observable.throw(response_);
+        });
+    }
+
+    protected processGetPlansCount(response: HttpResponseBase): Observable<number> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).flatMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 !== undefined ? resultData200 : <any>null;
+            return Observable.of(result200);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).flatMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Observable.of<number>(<any>null);
+    }
+
+    /**
      * @id (optional) 
      * @return Success
      */
@@ -1445,6 +1500,129 @@ export class PlanProjectServiceProxy {
             });
         }
         return Observable.of<PlanProjectListDto>(<any>null);
+    }
+
+    /**
+     * @filter (optional) 
+     * @return Success
+     */
+    getPlanProjectsCount(filter: string | null | undefined): Observable<number> {
+        let url_ = this.baseUrl + "/api/services/app/PlanProject/GetPlanProjectsCount?";
+        if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).flatMap((response_ : any) => {
+            return this.processGetPlanProjectsCount(response_);
+        }).catch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetPlanProjectsCount(<any>response_);
+                } catch (e) {
+                    return <Observable<number>><any>Observable.throw(e);
+                }
+            } else
+                return <Observable<number>><any>Observable.throw(response_);
+        });
+    }
+
+    protected processGetPlanProjectsCount(response: HttpResponseBase): Observable<number> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).flatMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 !== undefined ? resultData200 : <any>null;
+            return Observable.of(result200);
+            });
+        } else if (status === 401) {
+            return blobToText(responseBlob).flatMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 403) {
+            return blobToText(responseBlob).flatMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).flatMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Observable.of<number>(<any>null);
+    }
+
+    /**
+     * @return Success
+     */
+    getStatisticCost(): Observable<ListResultDtoOfPlanProjectCostStatistic> {
+        let url_ = this.baseUrl + "/api/services/app/PlanProject/GetStatisticCost";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).flatMap((response_ : any) => {
+            return this.processGetStatisticCost(response_);
+        }).catch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetStatisticCost(<any>response_);
+                } catch (e) {
+                    return <Observable<ListResultDtoOfPlanProjectCostStatistic>><any>Observable.throw(e);
+                }
+            } else
+                return <Observable<ListResultDtoOfPlanProjectCostStatistic>><any>Observable.throw(response_);
+        });
+    }
+
+    protected processGetStatisticCost(response: HttpResponseBase): Observable<ListResultDtoOfPlanProjectCostStatistic> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).flatMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? ListResultDtoOfPlanProjectCostStatistic.fromJS(resultData200) : new ListResultDtoOfPlanProjectCostStatistic();
+            return Observable.of(result200);
+            });
+        } else if (status === 401) {
+            return blobToText(responseBlob).flatMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 403) {
+            return blobToText(responseBlob).flatMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).flatMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Observable.of<ListResultDtoOfPlanProjectCostStatistic>(<any>null);
     }
 
     /**
@@ -2696,6 +2874,75 @@ export class SpecialPlanServiceProxy {
     }
 
     /**
+     * @filter (optional) 
+     * @filterSpecialPlanTypeId (optional) 
+     * @filterYear (optional) 
+     * @return Success
+     */
+    getSpecialPlansCount(filter: string | null | undefined, filterSpecialPlanTypeId: number | null | undefined, filterYear: string | null | undefined): Observable<number> {
+        let url_ = this.baseUrl + "/api/services/app/SpecialPlan/GetSpecialPlansCount?";
+        if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (filterSpecialPlanTypeId !== undefined)
+            url_ += "FilterSpecialPlanTypeId=" + encodeURIComponent("" + filterSpecialPlanTypeId) + "&"; 
+        if (filterYear !== undefined)
+            url_ += "FilterYear=" + encodeURIComponent("" + filterYear) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).flatMap((response_ : any) => {
+            return this.processGetSpecialPlansCount(response_);
+        }).catch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetSpecialPlansCount(<any>response_);
+                } catch (e) {
+                    return <Observable<number>><any>Observable.throw(e);
+                }
+            } else
+                return <Observable<number>><any>Observable.throw(response_);
+        });
+    }
+
+    protected processGetSpecialPlansCount(response: HttpResponseBase): Observable<number> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).flatMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 !== undefined ? resultData200 : <any>null;
+            return Observable.of(result200);
+            });
+        } else if (status === 401) {
+            return blobToText(responseBlob).flatMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 403) {
+            return blobToText(responseBlob).flatMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).flatMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Observable.of<number>(<any>null);
+    }
+
+    /**
      * @return Success
      */
     getSpecialPlanYears(): Observable<ListResultDtoOfString> {
@@ -2753,6 +3000,66 @@ export class SpecialPlanServiceProxy {
             });
         }
         return Observable.of<ListResultDtoOfString>(<any>null);
+    }
+
+    /**
+     * @return Success
+     */
+    getStatisticCost(): Observable<ListResultDtoOfSpecialPlanCostStatistic> {
+        let url_ = this.baseUrl + "/api/services/app/SpecialPlan/GetStatisticCost";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).flatMap((response_ : any) => {
+            return this.processGetStatisticCost(response_);
+        }).catch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetStatisticCost(<any>response_);
+                } catch (e) {
+                    return <Observable<ListResultDtoOfSpecialPlanCostStatistic>><any>Observable.throw(e);
+                }
+            } else
+                return <Observable<ListResultDtoOfSpecialPlanCostStatistic>><any>Observable.throw(response_);
+        });
+    }
+
+    protected processGetStatisticCost(response: HttpResponseBase): Observable<ListResultDtoOfSpecialPlanCostStatistic> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).flatMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? ListResultDtoOfSpecialPlanCostStatistic.fromJS(resultData200) : new ListResultDtoOfSpecialPlanCostStatistic();
+            return Observable.of(result200);
+            });
+        } else if (status === 401) {
+            return blobToText(responseBlob).flatMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 403) {
+            return blobToText(responseBlob).flatMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).flatMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Observable.of<ListResultDtoOfSpecialPlanCostStatistic>(<any>null);
     }
 
     /**
@@ -3392,395 +3699,6 @@ export class SpecialPlanTypeServiceProxy {
 }
 
 @Injectable()
-export class SubSpecialPlanServiceProxy {
-    private http: HttpClient;
-    private baseUrl: string;
-    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
-
-    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
-        this.http = http;
-        this.baseUrl = baseUrl ? baseUrl : "";
-    }
-
-    /**
-     * @filter (optional) 
-     * @sorting (optional) 
-     * @maxResultCount (optional) 
-     * @skipCount (optional) 
-     * @return Success
-     */
-    getPagedSubSpecialPlans(filter: string | null | undefined, sorting: string | null | undefined, maxResultCount: number | null | undefined, skipCount: number | null | undefined): Observable<PagedResultDtoOfSubSpecialPlanListDto> {
-        let url_ = this.baseUrl + "/api/services/app/SubSpecialPlan/GetPagedSubSpecialPlans?";
-        if (filter !== undefined)
-            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
-        if (sorting !== undefined)
-            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
-        if (maxResultCount !== undefined)
-            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
-        if (skipCount !== undefined)
-            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ : any = {
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Content-Type": "application/json", 
-                "Accept": "application/json"
-            })
-        };
-
-        return this.http.request("get", url_, options_).flatMap((response_ : any) => {
-            return this.processGetPagedSubSpecialPlans(response_);
-        }).catch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processGetPagedSubSpecialPlans(<any>response_);
-                } catch (e) {
-                    return <Observable<PagedResultDtoOfSubSpecialPlanListDto>><any>Observable.throw(e);
-                }
-            } else
-                return <Observable<PagedResultDtoOfSubSpecialPlanListDto>><any>Observable.throw(response_);
-        });
-    }
-
-    protected processGetPagedSubSpecialPlans(response: HttpResponseBase): Observable<PagedResultDtoOfSubSpecialPlanListDto> {
-        const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
-        if (status === 200) {
-            return blobToText(responseBlob).flatMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? PagedResultDtoOfSubSpecialPlanListDto.fromJS(resultData200) : new PagedResultDtoOfSubSpecialPlanListDto();
-            return Observable.of(result200);
-            });
-        } else if (status === 401) {
-            return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
-            });
-        } else if (status === 403) {
-            return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
-            });
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            });
-        }
-        return Observable.of<PagedResultDtoOfSubSpecialPlanListDto>(<any>null);
-    }
-
-    /**
-     * @id (optional) 
-     * @return Success
-     */
-    getSubSpecialPlanByIdAsync(id: number | null | undefined): Observable<SubSpecialPlanListDto> {
-        let url_ = this.baseUrl + "/api/services/app/SubSpecialPlan/GetSubSpecialPlanByIdAsync?";
-        if (id !== undefined)
-            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ : any = {
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Content-Type": "application/json", 
-                "Accept": "application/json"
-            })
-        };
-
-        return this.http.request("get", url_, options_).flatMap((response_ : any) => {
-            return this.processGetSubSpecialPlanByIdAsync(response_);
-        }).catch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processGetSubSpecialPlanByIdAsync(<any>response_);
-                } catch (e) {
-                    return <Observable<SubSpecialPlanListDto>><any>Observable.throw(e);
-                }
-            } else
-                return <Observable<SubSpecialPlanListDto>><any>Observable.throw(response_);
-        });
-    }
-
-    protected processGetSubSpecialPlanByIdAsync(response: HttpResponseBase): Observable<SubSpecialPlanListDto> {
-        const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
-        if (status === 200) {
-            return blobToText(responseBlob).flatMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? SubSpecialPlanListDto.fromJS(resultData200) : new SubSpecialPlanListDto();
-            return Observable.of(result200);
-            });
-        } else if (status === 401) {
-            return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
-            });
-        } else if (status === 403) {
-            return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
-            });
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            });
-        }
-        return Observable.of<SubSpecialPlanListDto>(<any>null);
-    }
-
-    /**
-     * @id (optional) 
-     * @return Success
-     */
-    getSubSpecialPlanForEdit(id: number | null | undefined): Observable<GetSubSpecialPlanForEditOutput> {
-        let url_ = this.baseUrl + "/api/services/app/SubSpecialPlan/GetSubSpecialPlanForEdit?";
-        if (id !== undefined)
-            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ : any = {
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Content-Type": "application/json", 
-                "Accept": "application/json"
-            })
-        };
-
-        return this.http.request("get", url_, options_).flatMap((response_ : any) => {
-            return this.processGetSubSpecialPlanForEdit(response_);
-        }).catch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processGetSubSpecialPlanForEdit(<any>response_);
-                } catch (e) {
-                    return <Observable<GetSubSpecialPlanForEditOutput>><any>Observable.throw(e);
-                }
-            } else
-                return <Observable<GetSubSpecialPlanForEditOutput>><any>Observable.throw(response_);
-        });
-    }
-
-    protected processGetSubSpecialPlanForEdit(response: HttpResponseBase): Observable<GetSubSpecialPlanForEditOutput> {
-        const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
-        if (status === 200) {
-            return blobToText(responseBlob).flatMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? GetSubSpecialPlanForEditOutput.fromJS(resultData200) : new GetSubSpecialPlanForEditOutput();
-            return Observable.of(result200);
-            });
-        } else if (status === 401) {
-            return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
-            });
-        } else if (status === 403) {
-            return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
-            });
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            });
-        }
-        return Observable.of<GetSubSpecialPlanForEditOutput>(<any>null);
-    }
-
-    /**
-     * @input (optional) 
-     * @return Success
-     */
-    createOrUpdateSubSpecialPlan(input: CreateOrUpdateSubSpecialPlanInput | null | undefined): Observable<void> {
-        let url_ = this.baseUrl + "/api/services/app/SubSpecialPlan/CreateOrUpdateSubSpecialPlan";
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(input);
-
-        let options_ : any = {
-            body: content_,
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Content-Type": "application/json", 
-            })
-        };
-
-        return this.http.request("post", url_, options_).flatMap((response_ : any) => {
-            return this.processCreateOrUpdateSubSpecialPlan(response_);
-        }).catch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processCreateOrUpdateSubSpecialPlan(<any>response_);
-                } catch (e) {
-                    return <Observable<void>><any>Observable.throw(e);
-                }
-            } else
-                return <Observable<void>><any>Observable.throw(response_);
-        });
-    }
-
-    protected processCreateOrUpdateSubSpecialPlan(response: HttpResponseBase): Observable<void> {
-        const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
-        if (status === 200) {
-            return blobToText(responseBlob).flatMap(_responseText => {
-            return Observable.of<void>(<any>null);
-            });
-        } else if (status === 401) {
-            return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
-            });
-        } else if (status === 403) {
-            return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
-            });
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            });
-        }
-        return Observable.of<void>(<any>null);
-    }
-
-    /**
-     * @id (optional) 
-     * @return Success
-     */
-    deleteSubSpecialPlan(id: number | null | undefined): Observable<void> {
-        let url_ = this.baseUrl + "/api/services/app/SubSpecialPlan/DeleteSubSpecialPlan?";
-        if (id !== undefined)
-            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ : any = {
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Content-Type": "application/json", 
-            })
-        };
-
-        return this.http.request("delete", url_, options_).flatMap((response_ : any) => {
-            return this.processDeleteSubSpecialPlan(response_);
-        }).catch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processDeleteSubSpecialPlan(<any>response_);
-                } catch (e) {
-                    return <Observable<void>><any>Observable.throw(e);
-                }
-            } else
-                return <Observable<void>><any>Observable.throw(response_);
-        });
-    }
-
-    protected processDeleteSubSpecialPlan(response: HttpResponseBase): Observable<void> {
-        const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
-        if (status === 200) {
-            return blobToText(responseBlob).flatMap(_responseText => {
-            return Observable.of<void>(<any>null);
-            });
-        } else if (status === 401) {
-            return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
-            });
-        } else if (status === 403) {
-            return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
-            });
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            });
-        }
-        return Observable.of<void>(<any>null);
-    }
-
-    /**
-     * @input (optional) 
-     * @return Success
-     */
-    batchDeleteSubSpecialPlansAsync(input: number[] | null | undefined): Observable<void> {
-        let url_ = this.baseUrl + "/api/services/app/SubSpecialPlan/BatchDeleteSubSpecialPlansAsync";
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(input);
-
-        let options_ : any = {
-            body: content_,
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Content-Type": "application/json", 
-            })
-        };
-
-        return this.http.request("post", url_, options_).flatMap((response_ : any) => {
-            return this.processBatchDeleteSubSpecialPlansAsync(response_);
-        }).catch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processBatchDeleteSubSpecialPlansAsync(<any>response_);
-                } catch (e) {
-                    return <Observable<void>><any>Observable.throw(e);
-                }
-            } else
-                return <Observable<void>><any>Observable.throw(response_);
-        });
-    }
-
-    protected processBatchDeleteSubSpecialPlansAsync(response: HttpResponseBase): Observable<void> {
-        const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
-        if (status === 200) {
-            return blobToText(responseBlob).flatMap(_responseText => {
-            return Observable.of<void>(<any>null);
-            });
-        } else if (status === 401) {
-            return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
-            });
-        } else if (status === 403) {
-            return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("A server error occurred.", status, _responseText, _headers);
-            });
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).flatMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            });
-        }
-        return Observable.of<void>(<any>null);
-    }
-}
-
-@Injectable()
 export class TaskBookServiceProxy {
     private http: HttpClient;
     private baseUrl: string;
@@ -3993,6 +3911,78 @@ export class TaskBookServiceProxy {
             });
         }
         return Observable.of<TaskBookListDto>(<any>null);
+    }
+
+    /**
+     * @filter (optional) 
+     * @filterUnitGroupId (optional) 
+     * @filterYear (optional) 
+     * @filterSpecialPlanTypeId (optional) 
+     * @return Success
+     */
+    getTaskBooksCount(filter: string | null | undefined, filterUnitGroupId: number | null | undefined, filterYear: string | null | undefined, filterSpecialPlanTypeId: number | null | undefined): Observable<number> {
+        let url_ = this.baseUrl + "/api/services/app/TaskBook/GetTaskBooksCount?";
+        if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&"; 
+        if (filterUnitGroupId !== undefined)
+            url_ += "FilterUnitGroupId=" + encodeURIComponent("" + filterUnitGroupId) + "&"; 
+        if (filterYear !== undefined)
+            url_ += "FilterYear=" + encodeURIComponent("" + filterYear) + "&"; 
+        if (filterSpecialPlanTypeId !== undefined)
+            url_ += "FilterSpecialPlanTypeId=" + encodeURIComponent("" + filterSpecialPlanTypeId) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).flatMap((response_ : any) => {
+            return this.processGetTaskBooksCount(response_);
+        }).catch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetTaskBooksCount(<any>response_);
+                } catch (e) {
+                    return <Observable<number>><any>Observable.throw(e);
+                }
+            } else
+                return <Observable<number>><any>Observable.throw(response_);
+        });
+    }
+
+    protected processGetTaskBooksCount(response: HttpResponseBase): Observable<number> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).flatMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 !== undefined ? resultData200 : <any>null;
+            return Observable.of(result200);
+            });
+        } else if (status === 401) {
+            return blobToText(responseBlob).flatMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status === 403) {
+            return blobToText(responseBlob).flatMap(_responseText => {
+            return throwException("A server error occurred.", status, _responseText, _headers);
+            });
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).flatMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Observable.of<number>(<any>null);
     }
 
     /**
@@ -7067,6 +7057,175 @@ export interface IPagedResultDtoOfPlanProjectListDto {
     items: PlanProjectListDto[] | undefined;
 }
 
+export class ListResultDtoOfPlanProjectCostStatistic implements IListResultDtoOfPlanProjectCostStatistic {
+    items: PlanProjectCostStatistic[] | undefined;
+
+    constructor(data?: IListResultDtoOfPlanProjectCostStatistic) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [];
+                for (let item of data["items"])
+                    this.items.push(PlanProjectCostStatistic.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): ListResultDtoOfPlanProjectCostStatistic {
+        data = typeof data === 'object' ? data : {};
+        let result = new ListResultDtoOfPlanProjectCostStatistic();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+
+    clone() {
+        const json = this.toJSON();
+        let result = new ListResultDtoOfPlanProjectCostStatistic();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IListResultDtoOfPlanProjectCostStatistic {
+    items: PlanProjectCostStatistic[] | undefined;
+}
+
+export class PlanProjectCostStatistic implements IPlanProjectCostStatistic {
+    year: string | undefined;
+    totalCost: number | undefined;
+    items: PlanProjectAndCost[] | undefined;
+
+    constructor(data?: IPlanProjectCostStatistic) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.year = data["year"];
+            this.totalCost = data["totalCost"];
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [];
+                for (let item of data["items"])
+                    this.items.push(PlanProjectAndCost.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PlanProjectCostStatistic {
+        data = typeof data === 'object' ? data : {};
+        let result = new PlanProjectCostStatistic();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["year"] = this.year;
+        data["totalCost"] = this.totalCost;
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+
+    clone() {
+        const json = this.toJSON();
+        let result = new PlanProjectCostStatistic();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IPlanProjectCostStatistic {
+    year: string | undefined;
+    totalCost: number | undefined;
+    items: PlanProjectAndCost[] | undefined;
+}
+
+export class PlanProjectAndCost implements IPlanProjectAndCost {
+    planProjectTypeId: number | undefined;
+    planProjectTypeName: string | undefined;
+    totalCost: number | undefined;
+    count: number | undefined;
+    percent: number | undefined;
+
+    constructor(data?: IPlanProjectAndCost) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.planProjectTypeId = data["planProjectTypeId"];
+            this.planProjectTypeName = data["planProjectTypeName"];
+            this.totalCost = data["totalCost"];
+            this.count = data["count"];
+            this.percent = data["percent"];
+        }
+    }
+
+    static fromJS(data: any): PlanProjectAndCost {
+        data = typeof data === 'object' ? data : {};
+        let result = new PlanProjectAndCost();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["planProjectTypeId"] = this.planProjectTypeId;
+        data["planProjectTypeName"] = this.planProjectTypeName;
+        data["totalCost"] = this.totalCost;
+        data["count"] = this.count;
+        data["percent"] = this.percent;
+        return data; 
+    }
+
+    clone() {
+        const json = this.toJSON();
+        let result = new PlanProjectAndCost();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IPlanProjectAndCost {
+    planProjectTypeId: number | undefined;
+    planProjectTypeName: string | undefined;
+    totalCost: number | undefined;
+    count: number | undefined;
+    percent: number | undefined;
+}
+
 export class GetPlanProjectForEditOutput implements IGetPlanProjectForEditOutput {
     planProject: PlanProjectEditDto | undefined;
 
@@ -8294,6 +8453,175 @@ export interface IListResultDtoOfString {
     items: string[] | undefined;
 }
 
+export class ListResultDtoOfSpecialPlanCostStatistic implements IListResultDtoOfSpecialPlanCostStatistic {
+    items: SpecialPlanCostStatistic[] | undefined;
+
+    constructor(data?: IListResultDtoOfSpecialPlanCostStatistic) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [];
+                for (let item of data["items"])
+                    this.items.push(SpecialPlanCostStatistic.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): ListResultDtoOfSpecialPlanCostStatistic {
+        data = typeof data === 'object' ? data : {};
+        let result = new ListResultDtoOfSpecialPlanCostStatistic();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+
+    clone() {
+        const json = this.toJSON();
+        let result = new ListResultDtoOfSpecialPlanCostStatistic();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IListResultDtoOfSpecialPlanCostStatistic {
+    items: SpecialPlanCostStatistic[] | undefined;
+}
+
+export class SpecialPlanCostStatistic implements ISpecialPlanCostStatistic {
+    year: string | undefined;
+    totalCost: number | undefined;
+    items: SpecialPlanAndCost[] | undefined;
+
+    constructor(data?: ISpecialPlanCostStatistic) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.year = data["year"];
+            this.totalCost = data["totalCost"];
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [];
+                for (let item of data["items"])
+                    this.items.push(SpecialPlanAndCost.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): SpecialPlanCostStatistic {
+        data = typeof data === 'object' ? data : {};
+        let result = new SpecialPlanCostStatistic();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["year"] = this.year;
+        data["totalCost"] = this.totalCost;
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+
+    clone() {
+        const json = this.toJSON();
+        let result = new SpecialPlanCostStatistic();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface ISpecialPlanCostStatistic {
+    year: string | undefined;
+    totalCost: number | undefined;
+    items: SpecialPlanAndCost[] | undefined;
+}
+
+export class SpecialPlanAndCost implements ISpecialPlanAndCost {
+    specialPlanTypeId: number | undefined;
+    specialPlanTypeName: string | undefined;
+    totalCost: number | undefined;
+    count: number | undefined;
+    percent: number | undefined;
+
+    constructor(data?: ISpecialPlanAndCost) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.specialPlanTypeId = data["specialPlanTypeId"];
+            this.specialPlanTypeName = data["specialPlanTypeName"];
+            this.totalCost = data["totalCost"];
+            this.count = data["count"];
+            this.percent = data["percent"];
+        }
+    }
+
+    static fromJS(data: any): SpecialPlanAndCost {
+        data = typeof data === 'object' ? data : {};
+        let result = new SpecialPlanAndCost();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["specialPlanTypeId"] = this.specialPlanTypeId;
+        data["specialPlanTypeName"] = this.specialPlanTypeName;
+        data["totalCost"] = this.totalCost;
+        data["count"] = this.count;
+        data["percent"] = this.percent;
+        return data; 
+    }
+
+    clone() {
+        const json = this.toJSON();
+        let result = new SpecialPlanAndCost();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface ISpecialPlanAndCost {
+    specialPlanTypeId: number | undefined;
+    specialPlanTypeName: string | undefined;
+    totalCost: number | undefined;
+    count: number | undefined;
+    percent: number | undefined;
+}
+
 export class GetSpecialPlanForEditOutput implements IGetSpecialPlanForEditOutput {
     specialPlan: SpecialPlanEditDto | undefined;
 
@@ -9084,301 +9412,6 @@ export class ListResultDtoOfSpecialPlanTypeListDto implements IListResultDtoOfSp
 
 export interface IListResultDtoOfSpecialPlanTypeListDto {
     items: SpecialPlanTypeListDto[] | undefined;
-}
-
-export class PagedResultDtoOfSubSpecialPlanListDto implements IPagedResultDtoOfSubSpecialPlanListDto {
-    totalCount: number | undefined;
-    items: SubSpecialPlanListDto[] | undefined;
-
-    constructor(data?: IPagedResultDtoOfSubSpecialPlanListDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.totalCount = data["totalCount"];
-            if (data["items"] && data["items"].constructor === Array) {
-                this.items = [];
-                for (let item of data["items"])
-                    this.items.push(SubSpecialPlanListDto.fromJS(item));
-            }
-        }
-    }
-
-    static fromJS(data: any): PagedResultDtoOfSubSpecialPlanListDto {
-        data = typeof data === 'object' ? data : {};
-        let result = new PagedResultDtoOfSubSpecialPlanListDto();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["totalCount"] = this.totalCount;
-        if (this.items && this.items.constructor === Array) {
-            data["items"] = [];
-            for (let item of this.items)
-                data["items"].push(item.toJSON());
-        }
-        return data; 
-    }
-
-    clone() {
-        const json = this.toJSON();
-        let result = new PagedResultDtoOfSubSpecialPlanListDto();
-        result.init(json);
-        return result;
-    }
-}
-
-export interface IPagedResultDtoOfSubSpecialPlanListDto {
-    totalCount: number | undefined;
-    items: SubSpecialPlanListDto[] | undefined;
-}
-
-export class SubSpecialPlanListDto implements ISubSpecialPlanListDto {
-    mainContent: string | undefined;
-    subPlanCost: number | undefined;
-    completeDate: moment.Moment | undefined;
-    description: string | undefined;
-    specialPlanId: number | undefined;
-    isDeleted: boolean | undefined;
-    deleterUserId: number | undefined;
-    deletionTime: moment.Moment | undefined;
-    lastModificationTime: moment.Moment | undefined;
-    lastModifierUserId: number | undefined;
-    creationTime: moment.Moment | undefined;
-    creatorUserId: number | undefined;
-    id: number | undefined;
-
-    constructor(data?: ISubSpecialPlanListDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.mainContent = data["mainContent"];
-            this.subPlanCost = data["subPlanCost"];
-            this.completeDate = data["completeDate"] ? moment(data["completeDate"].toString()) : <any>undefined;
-            this.description = data["description"];
-            this.specialPlanId = data["specialPlanId"];
-            this.isDeleted = data["isDeleted"];
-            this.deleterUserId = data["deleterUserId"];
-            this.deletionTime = data["deletionTime"] ? moment(data["deletionTime"].toString()) : <any>undefined;
-            this.lastModificationTime = data["lastModificationTime"] ? moment(data["lastModificationTime"].toString()) : <any>undefined;
-            this.lastModifierUserId = data["lastModifierUserId"];
-            this.creationTime = data["creationTime"] ? moment(data["creationTime"].toString()) : <any>undefined;
-            this.creatorUserId = data["creatorUserId"];
-            this.id = data["id"];
-        }
-    }
-
-    static fromJS(data: any): SubSpecialPlanListDto {
-        data = typeof data === 'object' ? data : {};
-        let result = new SubSpecialPlanListDto();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["mainContent"] = this.mainContent;
-        data["subPlanCost"] = this.subPlanCost;
-        data["completeDate"] = this.completeDate ? this.completeDate.toISOString() : <any>undefined;
-        data["description"] = this.description;
-        data["specialPlanId"] = this.specialPlanId;
-        data["isDeleted"] = this.isDeleted;
-        data["deleterUserId"] = this.deleterUserId;
-        data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
-        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
-        data["lastModifierUserId"] = this.lastModifierUserId;
-        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
-        data["creatorUserId"] = this.creatorUserId;
-        data["id"] = this.id;
-        return data; 
-    }
-
-    clone() {
-        const json = this.toJSON();
-        let result = new SubSpecialPlanListDto();
-        result.init(json);
-        return result;
-    }
-}
-
-export interface ISubSpecialPlanListDto {
-    mainContent: string | undefined;
-    subPlanCost: number | undefined;
-    completeDate: moment.Moment | undefined;
-    description: string | undefined;
-    specialPlanId: number | undefined;
-    isDeleted: boolean | undefined;
-    deleterUserId: number | undefined;
-    deletionTime: moment.Moment | undefined;
-    lastModificationTime: moment.Moment | undefined;
-    lastModifierUserId: number | undefined;
-    creationTime: moment.Moment | undefined;
-    creatorUserId: number | undefined;
-    id: number | undefined;
-}
-
-export class GetSubSpecialPlanForEditOutput implements IGetSubSpecialPlanForEditOutput {
-    subSpecialPlan: SubSpecialPlanEditDto | undefined;
-
-    constructor(data?: IGetSubSpecialPlanForEditOutput) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.subSpecialPlan = data["subSpecialPlan"] ? SubSpecialPlanEditDto.fromJS(data["subSpecialPlan"]) : <any>undefined;
-        }
-    }
-
-    static fromJS(data: any): GetSubSpecialPlanForEditOutput {
-        data = typeof data === 'object' ? data : {};
-        let result = new GetSubSpecialPlanForEditOutput();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["subSpecialPlan"] = this.subSpecialPlan ? this.subSpecialPlan.toJSON() : <any>undefined;
-        return data; 
-    }
-
-    clone() {
-        const json = this.toJSON();
-        let result = new GetSubSpecialPlanForEditOutput();
-        result.init(json);
-        return result;
-    }
-}
-
-export interface IGetSubSpecialPlanForEditOutput {
-    subSpecialPlan: SubSpecialPlanEditDto | undefined;
-}
-
-export class SubSpecialPlanEditDto implements ISubSpecialPlanEditDto {
-    id: number | undefined;
-    mainContent: string;
-    subPlanCost: number | undefined;
-    completeDate: moment.Moment | undefined;
-    description: string | undefined;
-    specialPlanId: number | undefined;
-
-    constructor(data?: ISubSpecialPlanEditDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.id = data["id"];
-            this.mainContent = data["mainContent"];
-            this.subPlanCost = data["subPlanCost"];
-            this.completeDate = data["completeDate"] ? moment(data["completeDate"].toString()) : <any>undefined;
-            this.description = data["description"];
-            this.specialPlanId = data["specialPlanId"];
-        }
-    }
-
-    static fromJS(data: any): SubSpecialPlanEditDto {
-        data = typeof data === 'object' ? data : {};
-        let result = new SubSpecialPlanEditDto();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["id"] = this.id;
-        data["mainContent"] = this.mainContent;
-        data["subPlanCost"] = this.subPlanCost;
-        data["completeDate"] = this.completeDate ? this.completeDate.toISOString() : <any>undefined;
-        data["description"] = this.description;
-        data["specialPlanId"] = this.specialPlanId;
-        return data; 
-    }
-
-    clone() {
-        const json = this.toJSON();
-        let result = new SubSpecialPlanEditDto();
-        result.init(json);
-        return result;
-    }
-}
-
-export interface ISubSpecialPlanEditDto {
-    id: number | undefined;
-    mainContent: string;
-    subPlanCost: number | undefined;
-    completeDate: moment.Moment | undefined;
-    description: string | undefined;
-    specialPlanId: number | undefined;
-}
-
-export class CreateOrUpdateSubSpecialPlanInput implements ICreateOrUpdateSubSpecialPlanInput {
-    subSpecialPlan: SubSpecialPlanEditDto = new SubSpecialPlanEditDto();
-
-    constructor(data?: ICreateOrUpdateSubSpecialPlanInput) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.subSpecialPlan = data["subSpecialPlan"] ? SubSpecialPlanEditDto.fromJS(data["subSpecialPlan"]) : new SubSpecialPlanEditDto();
-        }
-    }
-
-    static fromJS(data: any): CreateOrUpdateSubSpecialPlanInput {
-        data = typeof data === 'object' ? data : {};
-        let result = new CreateOrUpdateSubSpecialPlanInput();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["subSpecialPlan"] = this.subSpecialPlan ? this.subSpecialPlan.toJSON() : <any>undefined;
-        return data; 
-    }
-
-    clone() {
-        const json = this.toJSON();
-        let result = new CreateOrUpdateSubSpecialPlanInput();
-        result.init(json);
-        return result;
-    }
-}
-
-export interface ICreateOrUpdateSubSpecialPlanInput {
-    subSpecialPlan: SubSpecialPlanEditDto;
 }
 
 export class PagedResultDtoOfTaskBookListDto implements IPagedResultDtoOfTaskBookListDto {

@@ -29,10 +29,23 @@ namespace SPA.DocumentManager.SpecialPlans
         Task<SpecialPlanListDto> GetSpecialPlanByIdAsync(EntityDto<int> input);
 
         /// <summary>
+        /// 获取SpecialPlan的数量
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        Task<int> GetSpecialPlansCount(GetSpecialPlanCountInput input);
+
+        /// <summary>
         /// 获取任务书的年份
         /// </summary>
         /// <returns></returns>
         ListResultDto<string> GetSpecialPlanYears();
+
+        /// <summary>
+        /// 获取SpecialPlan的年度专项成本统计数据
+        /// </summary>
+        /// <returns></returns>
+        Task<ListResultDto<SpecialPlanCostStatistic>> GetStatisticCost();
 
         /// <summary>
         /// 导出SpecialPlan为excel表

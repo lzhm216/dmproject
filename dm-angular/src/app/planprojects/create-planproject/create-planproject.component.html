@@ -6,8 +6,8 @@
             <form *ngIf="active" #createPlanProjectForm="ngForm" id="frm_create_plan" novalidate (ngSubmit)="save()">
                 <div class="modal-header">
                     <button type="button" class="close" (click)="close()" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                     <h4 class="modal-title">
                         <span>{{l("CreatePlanProject")}}</span>
                     </h4>
@@ -18,8 +18,8 @@
                             <div class="form-group form-float">
                                 <div class="form-line">
                                     <select id="planId" name="PlanId" [(ngModel)]="planProject.planId" class="form-control">
-                    <option *ngFor="let plan of plans" [value]=plan.id>{{plan.planName}}</option>
-                  </select>
+                                        <option *ngFor="let plan of plans" [value]=plan.id>{{plan.planName}}</option>
+                                    </select>
                                     <label for="planId" class="form-label">{{l("PlanName")}}</label>
                                 </div>
                             </div>
@@ -30,8 +30,8 @@
                             <div class="form-group form-float">
                                 <div class="form-line">
                                     <select id="planProjectTypeId" name="PlanProjectTypeId" [(ngModel)]="planProject.planProjectTypeId" class="form-control">
-                    <option *ngFor="let planProjectType of planProjectTypes" [value]=planProjectType.id>{{planProjectType.planProjectTypeName}}</option>
-                  </select>
+                                        <option *ngFor="let planProjectType of planProjectTypes" [value]=planProjectType.id>{{planProjectType.planProjectTypeName}}</option>
+                                    </select>
                                     <label for="planProjectTypeId" class="form-label">{{l("ProjectType")}}</label>
                                 </div>
                             </div>
@@ -61,8 +61,10 @@
                         <div class="col-sm-12">
                             <div class="form-group form-float">
                                 <div class="form-line">
-                                    <input id="plannedCost" type="text" name="PlannedCost" [(ngModel)]="planProject.plannedCost" required class="validate form-control">
-                                    <label for="plannedCost" class="form-label">{{l("PlannedCost")}}</label>
+                                    <select id="unitType" name="UnitType" [(ngModel)]="planProject.unit" class="form-control">
+                                        <option *ngFor="let unitType of unitTypes" [value]=unitType.value>{{unitType.key}}</option>
+                                    </select>
+                                    <label for="unitType" class="form-label">{{l("UnitType")}}</label>
                                 </div>
                             </div>
                         </div>
@@ -71,10 +73,8 @@
                         <div class="col-sm-12">
                             <div class="form-group form-float">
                                 <div class="form-line">
-                                    <select id="unitType" name="UnitType" [(ngModel)]="planProject.unit" class="form-control">
-                    <option *ngFor="let unitType of unitTypes" [value]=unitType.value>{{unitType.key}}</option>
-                  </select>
-                                    <label for="unitType" class="form-label">{{l("ProjectType")}}</label>
+                                    <input id="plannedCost" type="text" name="PlannedCost" [(ngModel)]="planProject.plannedCost" required class="validate form-control">
+                                    <label for="plannedCost" class="form-label">{{l("PlannedCost")}}</label>
                                 </div>
                             </div>
                         </div>
@@ -92,11 +92,11 @@
                 </div>
                 <div class="modal-footer">
                     <button [disabled]="saving" type="button" class="btn btn-default waves-effect" (click)="close()">
-            {{l("Cancel")}}
-          </button>
+                        {{l("Cancel")}}
+                    </button>
                     <button [disabled]="!createPlanProjectForm.form.valid || saving" type="submit" class="btn btn-primary waves-effect">
-            {{l("Save")}}
-          </button>
+                        {{l("Save")}}
+                    </button>
                 </div>
             </form>
         </div>

@@ -6,8 +6,6 @@ namespace SPA.DocumentManager.PlanProjects.Dtos
 {
     public class GetPlanProjectsInput : PagedAndSortedInputDto, IShouldNormalize
     {
-        ////BCC/ BEGIN CUSTOM CODE SECTION
-        ////ECC/ END CUSTOM CODE SECTION
         /// <summary>
         /// 模糊搜索使用的关键字
         /// </summary>

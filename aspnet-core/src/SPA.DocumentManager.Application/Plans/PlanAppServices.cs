@@ -149,21 +149,38 @@ namespace SPA.DocumentManager.Plans
         }
 
         /// <summary>
-        /// 导出Plan为excel表
-        /// </summary>
-        /// <returns></returns>
-        //public async Task<FileDto> GetPlansToExcel(){
-        //var users = await UserManager.Users.ToListAsync();
-        //var userListDtos = ObjectMapper.Map<List<UserListDto>>(users);
-        //await FillRoleNames(userListDtos);
-        //return _userListExcelExporter.ExportToFile(userListDtos);
-        //}
-        /// <summary>
-        /// MPA版本才会用到的方法
+        /// 获取Plans的数量
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        public async Task<GetPlanForEditOutput> GetPlanForEdit(NullableIdDto<int> input)
+        public async Task<int> GetPlansCount(GetPlansCountInput input)
+        {
+
+            var query = _planRepository.GetAll();
+
+            query = query.WhereIf(!string.IsNullOrEmpty(input.Filter), t => t.PlanName.Contains(input.Filter)
+             || t.MainContent.Contains(input.Filter) || t.FileNo.Contains(input.Filter));
+
+            var planCount = await query.CountAsync();
+
+            return planCount;
+        }
+            /// <summary>
+            /// 导出Plan为excel表
+            /// </summary>
+            /// <returns></returns>
+            //public async Task<FileDto> GetPlansToExcel(){
+            //var users = await UserManager.Users.ToListAsync();
+            //var userListDtos = ObjectMapper.Map<List<UserListDto>>(users);
+            //await FillRoleNames(userListDtos);
+            //return _userListExcelExporter.ExportToFile(userListDtos);
+            //}
+            /// <summary>
+            /// MPA版本才会用到的方法
+            /// </summary>
+            /// <param name="input"></param>
+            /// <returns></returns>
+            public async Task<GetPlanForEditOutput> GetPlanForEdit(NullableIdDto<int> input)
         {
             var output = new GetPlanForEditOutput();
             PlanEditDto planEditDto;

@@ -100,7 +100,27 @@ namespace SPA.DocumentManager.TaskBooks
 		    return entity.MapTo<TaskBookListDto>();
 		}
 
-        public async Task<TaskBookListDto> GetTaskBookDetailByIdAsync(EntityDto<int> input)
+        public async Task<int> GetTaskBooksCount(GetTaskBookCountInput input)
+        {
+
+            var query = _taskbookRepository.GetAll().Include(a => a.SpecialPlanType).Include(a => a.UndertakingUnitGroup)
+                .WhereIf(!input.Filter.IsNullOrWhiteSpace(),
+                t => t.TaskName.Contains(input.Filter)
+                || t.TaskContent.Contains(input.Filter)
+                || t.TaskBookNo.Contains(input.Filter)
+                || t.Description.Contains(input.Filter));
+            query = query.WhereIf(input.FilterSpecialPlanTypeId > 0, t => t.SpecialPlanTypeId == input.FilterSpecialPlanTypeId);
+
+            query = query.WhereIf(input.FilterUnitGroupId > 0, t => t.UndertakingUnitGroupId == input.FilterUnitGroupId);
+
+            query = query.WhereIf(!input.FilterYear.IsNullOrWhiteSpace(), t => t.Year.ToString("yyyy").Equals(input.FilterYear));
+
+            var taskbookCount = await query.CountAsync();
+
+            return taskbookCount;
+        }
+
+            public async Task<TaskBookListDto> GetTaskBookDetailByIdAsync(EntityDto<int> input)
         {
             var entity = await _taskbookRepository.GetAsync(input.Id);
             entity.UndertakingUnitGroup = await _unitGroupRepository.GetAll().SingleAsync(t => t.Id == entity.UndertakingUnitGroupId);

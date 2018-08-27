@@ -76,6 +76,7 @@ namespace SPA.DocumentManager.PlanProjects
             //var planprojectListDtos = planprojects.MapTo<List<PlanProjectListDto>>();
 
 
+            
             return new PagedResultDto<PlanProjectListDto>(
                 planprojectCount,
                 planprojectListDtos
@@ -91,6 +92,56 @@ namespace SPA.DocumentManager.PlanProjects
             var entity = await _planprojectRepository.GetAsync(input.Id);
 
             return entity.MapTo<PlanProjectListDto>();
+        }
+
+
+        public async Task<int> GetPlanProjectsCount(GetPlanProjectsCountInput input)
+        {
+
+            var query = _planprojectRepository.GetAll().Include(a => a.PlanProjectType).Include(t => t.Plan)
+                .WhereIf(!input.Filter.IsNullOrWhiteSpace(),
+                    t => t.Plan.PlanName.Contains(input.Filter)
+                     || t.SubProjectName.Contains(input.Filter)
+                     || t.Description.Contains(input.Filter)
+                     || t.PlanProjectType.PlanProjectTypeName.Contains(input.Filter));
+
+            var planprojectCount = await query.CountAsync();
+
+            return planprojectCount;
+        }
+
+
+        public async Task<ListResultDto<PlanProjectCostStatistic>> GetStatisticCost()
+        {
+            var query = await _planprojectRepository.GetAll().Include(t => t.Plan).Include(t=>t.PlanProjectType)
+                .OrderBy(t=>t.Plan.PlanYear)
+                .GroupBy(t => t.Plan.PlanYear).ToListAsync();
+
+            List<PlanProjectCostStatistic> listResultDto = new List<PlanProjectCostStatistic>();
+            PlanProjectCostStatistic planProjectCostStatistic = null;
+            IGrouping<string, PlanProject> groups = null;
+            for (int j = 0; j < query.Count; j++)
+            {
+                groups = query[j];
+                planProjectCostStatistic = new PlanProjectCostStatistic();
+                planProjectCostStatistic.Year = groups.Key;
+                planProjectCostStatistic.TotalCost = groups.Sum(t => t.PlannedCost);
+
+                var list = groups.ToList().GroupBy(t => t.PlanProjectTypeId).Select(pp => new PlanProjectAndCost
+                {
+                    PlanProjectTypeId = pp.First().PlanProjectTypeId,
+                    PlanProjectTypeName = pp.First().PlanProjectType.PlanProjectTypeName,
+                    TotalCost = pp.Sum(p => p.PlannedCost),
+                    Count = pp.Count(),
+                    Percent = pp.Sum(p => p.PlannedCost)/ planProjectCostStatistic.TotalCost
+                }).ToList();
+
+                planProjectCostStatistic.items = list;
+
+                listResultDto.Add(planProjectCostStatistic);
+            }
+
+            return new ListResultDto<PlanProjectCostStatistic>(listResultDto);
         }
 
         /// <summary>

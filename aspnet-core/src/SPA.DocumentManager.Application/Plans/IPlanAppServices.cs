@@ -25,10 +25,18 @@ namespace SPA.DocumentManager.Plans
         Task<PagedResultDto<PlanListDto>> GetPagedPlans(GetPlansInput input);
 
         Task<PagedResultDto<PlanListWithProjectDto>> GetPagedPlansWithProject(GetPlansInput input);
+        
         /// <summary>
         /// 通过指定id获取PlanListDto信息
         /// </summary>
         Task<PlanListDto> GetPlanByIdAsync(EntityDto<int> input);
+
+        /// <summary>
+        /// 获取Plans的数量
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        Task<int> GetPlansCount(GetPlansCountInput input);
 
         /// <summary>
         /// 导出Plan为excel表

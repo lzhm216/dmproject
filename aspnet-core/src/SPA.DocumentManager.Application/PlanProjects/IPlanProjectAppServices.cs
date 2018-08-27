@@ -26,6 +26,18 @@ namespace SPA.DocumentManager.PlanProjects
         Task<PlanProjectListDto> GetPlanProjectByIdAsync(EntityDto<int> input);
 
         /// <summary>
+        /// 获取PlanProjects的数量
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        Task<int> GetPlanProjectsCount(GetPlanProjectsCountInput input);
+
+        /// <summary>
+        /// 获取PlanProjects的年度项目成本统计数据
+        /// </summary>
+        /// <returns></returns>
+        Task<ListResultDto<PlanProjectCostStatistic>> GetStatisticCost();
+        /// <summary>
         /// 导出PlanProject为excel表
         /// </summary>
         /// <returns></returns>

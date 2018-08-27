@@ -87,8 +87,8 @@
     //菜单
     <text name="Users" value="用户" />
     <text name="Roles" value="角色" />
-    <text name="Plan" value="规划与计划管理" />
-    <text name="PlanProject" value="测绘计划管理" />
+    <text name="Plan" value="测绘计划管理" />
+    <text name="PlanProject" value="测绘项目管理" />
     <text name="SpecialPlan" value="专项计划管理" />
     <text name="TaskBook" value="测绘计划任务书" />
         <text name="UnitGroup" value="承担单位管理" />

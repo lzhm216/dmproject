@@ -31,12 +31,18 @@ namespace SPA.DocumentManager.TaskBooks
         /// </summary>
         Task<TaskBookListDto> GetTaskBookByIdAsync(EntityDto<int> input);
 
+        /// <summary>
+        /// 获取TaskBook的数量
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        Task<int> GetTaskBooksCount(GetTaskBookCountInput input);
 
         /// <summary>
         /// 导出TaskBook为excel表
         /// </summary>
         /// <returns></returns>
-		//Task<FileDto> GetTaskBooksToExcel();
+        //Task<FileDto> GetTaskBooksToExcel();
 
         /// <summary>
         /// MPA版本才会用到的方法

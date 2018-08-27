@@ -16,7 +16,6 @@ import * as ApiServiceProxies from './service-proxies';
         ApiServiceProxies.PlanServiceProxy,
         ApiServiceProxies.PlanProjectServiceProxy,
         ApiServiceProxies.SpecialPlanServiceProxy,
-        ApiServiceProxies.SubSpecialPlanServiceProxy,
         ApiServiceProxies.PlanProjectTypeServiceProxy,
         ApiServiceProxies.EnumServiceProxy,
         ApiServiceProxies.AttachmentServiceProxy,
